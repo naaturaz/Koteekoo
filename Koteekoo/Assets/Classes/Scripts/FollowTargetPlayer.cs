@@ -9,9 +9,15 @@ public class FollowTargetPlayer : General
     public bool IsToFollowPlayer;
     public float Speed = 0.1f;
 
+    public bool ContraintY;
+
+    Vector3 _initPos;
 
     private void Start()
     {
+        _initPos = transform.position;
+
+
         if (IsToFollowPlayer)
         {
             target = GameObject.Find("Player").transform;
@@ -19,5 +25,17 @@ public class FollowTargetPlayer : General
 
     }
 
+    private void LateUpdate()
+    {
+
+        transform.position = Vector3.MoveTowards(transform.position, target.position + offset, Speed);
+
+        if (ContraintY)
+        {
+            transform.position = new Vector3(transform.position.x, _initPos.y, transform.position.z);
+
+        }
+
+    }
 
 }

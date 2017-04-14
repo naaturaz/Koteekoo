@@ -8,11 +8,24 @@ public class TerrainManager
 {
     List<Cell> _allCells = new List<Cell>();
 
+    public List<Cell> AllCells
+    {
+        get
+        {
+            return _allCells;
+        }
+
+        set
+        {
+            _allCells = value;
+        }
+    }
+
     public TerrainManager()
     {
 
 
- 
+
     }
 
     public void Start()
@@ -23,16 +36,25 @@ public class TerrainManager
         initCell.CreateAllSiblings();
     }
 
+    internal void StartLoadedTerrain()
+    {
+        for (int i = 0; i < _allCells.Count; i++)
+        {
+            _allCells[i].SpawnMe();
+        }
+    }
 
     public void AddCell(Cell cell)
     {
-        _allCells.Add(cell);
+        AllCells.Add(cell);
     }
 
     public bool ExistCell(Vector2 nominalPos)
     {
-        var found = _allCells.Find(a => a.NominalPos == nominalPos);
+        var found = AllCells.Find(a => a.NominalPos == nominalPos);
         return found != null;
     }
+
+
 }
 

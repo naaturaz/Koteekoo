@@ -427,8 +427,17 @@ public class UMath : MonoBehaviour {
         return currentVal;
     }
 
-    
 
+
+    static List<int> _sign = new List<int>() { -1, 1 };
+    /// <summary>
+    /// Will return randomly -1 or 1
+    /// </summary>
+    /// <returns></returns>
+    public static int RandomSign()
+    {
+        return _sign[GiveRandom(0, _sign.Count)];
+    }
 
 
 

@@ -15,19 +15,6 @@ public class Cell
 
     CellGO _cellGO;
 
-    public Cell() { }
-
-    public Cell(Vector2 nominalPos)
-    {
-        _root = "Prefab/Terrain/Cell" + UMath.GiveRandom(1,4);
-
-        _nominalPos = nominalPos;
-        _position = new Vector3(_nominalPos.x * 40, 0, _nominalPos.y * 40);
-
-        _cellGO = CellGO.Create(_root, _position, _root, Program.GameScene.Container.transform, this);
-    }
-
-
     public Vector2 NominalPos
     {
         get
@@ -40,6 +27,39 @@ public class Cell
             _nominalPos = value;
         }
     }
+
+    public string Root
+    {
+        get
+        {
+            return _root;
+        }
+
+        set
+        {
+            _root = value;
+        }
+    }
+
+    public Cell() { }
+
+    public Cell(Vector2 nominalPos)
+    {
+        Root = "Prefab/Terrain/Cell" + UMath.GiveRandom(1,2);
+
+        _nominalPos = nominalPos;
+        _position = new Vector3(_nominalPos.x * 40, 0, _nominalPos.y * 40);
+
+        _cellGO = CellGO.Create(Root, _position, Root, Program.GameScene.Container.transform, this);
+    }
+
+    public void SpawnMe()
+    {
+        _position = new Vector3(_nominalPos.x * 40, 0, _nominalPos.y * 40);
+        _cellGO = CellGO.Create(Root, _position, Root, Program.GameScene.Container.transform, this);
+    }
+
+
 
     public void CreateAllSiblings()
     {

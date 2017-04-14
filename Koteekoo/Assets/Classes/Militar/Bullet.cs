@@ -1,12 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
-public class Bullet : MonoBehaviour
+public class Bullet : General
 {
-    private float Speed = 18.0f;
-    private float Range = 1f;
+    private float Force = 0;
+    private float Range = 1.5f;
     public AudioClip ShootSound = null;
-    private bool canMove = true;
+    private bool canMove;
+    private Rigidbody _rigidBody;
+
+    private void Start()
+    {
+        _rigidBody = GetComponent<Rigidbody>();
+    }
 
     void Update()
     {
@@ -17,20 +24,30 @@ public class Bullet : MonoBehaviour
     {
         if (canMove)
         {
-            transform.Translate(Speed * Time.deltaTime, 0, 0);
-            Destroy(gameObject, Range);
+            _rigidBody.AddForce(transform.forward * Force, ForceMode.Acceleration);
+            canMove = false;
         }
+
+        Destroy(gameObject, Range);
+
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.name == "Bullet" || other.name!="MachineGun")
-        {
-            canMove = false;
-            GetComponent<Renderer>().enabled = false;
-            GetComponent<Collider>().enabled = false;
+        //Destroy(gameObject);
+        return;
+
+
 
             //Destroy(gameObject, ShootSound.length);
-        }
+        
+    }
+
+    internal void Fire(float bulletForce, bool isGood)
+    {
+        IsGood = isGood;
+        Force = bulletForce;
+        canMove = true;
+
     }
 }

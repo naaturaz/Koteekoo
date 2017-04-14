@@ -25,6 +25,8 @@ public class GameScene
     TerrainManager _terrainManager;
     GameObject _container;
     BuildingManager _buildingManager;
+    EnemyManager _enemyManager;
+    UnitsManager _unitsManager;
 
     public GameScene()
     {
@@ -56,13 +58,63 @@ public class GameScene
         }
     }
 
+    public BuildingManager BuildingManager
+    {
+        get
+        {
+            return _buildingManager;
+        }
+
+        set
+        {
+            _buildingManager = value;
+        }
+    }
+
+    public EnemyManager EnemyManager
+    {
+        get
+        {
+            return _enemyManager;
+        }
+
+        set
+        {
+            _enemyManager = value;
+        }
+    }
+
+    public UnitsManager UnitsManager
+    {
+        get
+        {
+            return _unitsManager;
+        }
+
+        set
+        {
+            _unitsManager = value;
+        }
+    }
+
     public void Start()
     {
-        Player = GameObject. FindObjectOfType<Player>();
+        Player = GameObject.FindObjectOfType<Player>();
+        BuildingManager = GameObject.FindObjectOfType<BuildingManager>();
+        EnemyManager = GameObject.FindObjectOfType<EnemyManager>();
+        UnitsManager = GameObject.FindObjectOfType<UnitsManager>();
+
+        if (LoadSave.ThereIsALoad())
+        {
+            LoadSave.LoadNow();
+        }
+        else
+        {
+            _terrainManager = new TerrainManager();
+            _terrainManager.Start();
+        }
 
 
-        _terrainManager = new TerrainManager();
-        _terrainManager.Start();
 
 
     }

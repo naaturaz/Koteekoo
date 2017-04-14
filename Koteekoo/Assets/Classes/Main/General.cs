@@ -6,6 +6,41 @@ using UnityEngine;
 public class General : MonoBehaviour {
 
 
+    bool _isGood;
+    int _power = 100;
+
+    /// <summary>
+    /// Everything is good or bad, people and bullets
+    /// </summary>
+    public bool IsGood
+    {
+        get
+        {
+            return _isGood;
+        }
+
+        set
+        {
+            _isGood = value;
+        }
+    }
+
+    /// <summary>
+    /// Everyone has power, units, buildings 
+    /// </summary>
+    public int Power
+    {
+        get
+        {
+            return _power;
+        }
+
+        set
+        {
+            _power = value;
+        }
+    }
+
     static public General Create(string root, Vector3 origen, string name, Transform container = null)
     {
         General obj = null;
@@ -18,12 +53,27 @@ public class General : MonoBehaviour {
     }
 
     // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    protected void Start () {
+        StartCoroutine("OneSecUpdate");
+    }
+
+
+    private IEnumerator OneSecUpdate()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(3); // wait
+
+            if (Power > 0)
+            {
+                Power--;
+            }
+
+        }
+    }
+
+    // Update is called once per frame
+    void Update () {
 		
 	}
 
@@ -45,8 +95,30 @@ public class General : MonoBehaviour {
         return null;
     }
 
-    internal static EnemyGO Create(object p, Vector3 vector3, string v)
+
+    /// <summary>
+    /// Get the grand child obj called "" in this Transform
+    /// </summary>
+    /// <returns></returns>
+    protected GameObject GetGrandChildCalled(string grandName)
     {
-        throw new NotImplementedException();
+        for (int i = 0; i < gameObject.transform.childCount; i++)
+        {
+            var child = gameObject.transform.GetChild(i);
+            for (int j = 0; j < child.transform.childCount; j++)
+            {
+
+                var grandChild = child.transform.GetChild(j).gameObject;
+                if (grandChild.name == grandName)
+                {
+                    return grandChild;
+                }
+
+            }
+
+        }
+        //print("Obj doesnt have a child called: " + childName );
+        return null;
     }
+
 }

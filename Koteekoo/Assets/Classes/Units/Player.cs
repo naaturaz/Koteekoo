@@ -10,6 +10,7 @@ public class Player : Shooter {
     Rigidbody _rigidBody;
     bool _isFalling;
 
+
     public bool IsMouseOnTerrain { get; private set; }
 
     public RaycastHit HitMouseOnTerrain
@@ -26,15 +27,23 @@ public class Player : Shooter {
     }
 
 
+
     // Use this for initialization
     void Start () {
         _rigidBody = GetComponent<Rigidbody>();
         base.Start();
-        _health = 10;
+        Health = 10;
+        IsGood = true;
     }
 
     // Update is called once per frame
-    void Update () {
+    void Update ()
+    {
+        if (Power <= 0)
+        {
+            Debug.Log("Game Over");
+            return;
+        }
 
         UpdateHitMouseOnTerrain();
         Movement();
@@ -60,6 +69,8 @@ public class Player : Shooter {
 
     void OnCollisionStay(Collision collisionInfo)
     {
+
+
         //we are on something
         _isFalling = false;
     }
@@ -95,9 +106,7 @@ public class Player : Shooter {
             IsMouseOnTerrain = false;
         }
 
-        Debug.Log(HitMouseOnTerrain.collider.gameObject.name);
-
-        
+        //Debug.Log(HitMouseOnTerrain.collider.gameObject.name);
     }
 
 
@@ -105,4 +114,20 @@ public class Player : Shooter {
     {
         base.OnTriggerEnter(other);
     }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.name.Contains("Enemy"))
+        {
+            var enemy = collision.gameObject.GetComponent<EnemyGO>();
+            if (enemy.IsDeath())
+            {
+                collision.gameObject.transform.parent = BulletSpawn.transform;
+                collision.gameObject.transform.position = BulletSpawn.transform.position;
+
+            }
+        }
+    }
+
+
 }

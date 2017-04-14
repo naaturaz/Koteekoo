@@ -21,6 +21,10 @@ public class CellGO : General
         }
     }
 
+    bool _wasAdded;
+    float _startTime;
+
+
     static public CellGO Create(string root, Vector3 origen, string name, Transform container, Cell cell)
     {
         CellGO obj = null;
@@ -46,12 +50,22 @@ public class CellGO : General
     {
         _claimed = GetChildCalled("Claimed");
         _claimed.SetActive(false);
+        _startTime = Time.time;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!_wasAdded && Time.time > _startTime + 1)
+        {
+            var aa = gameObject.GetComponent<NavMeshSourceTag>();
+            aa.enabled = true;
 
+            var aaa = gameObject.GetComponent<LocalNavMeshBuilder>();
+            aaa.enabled = true;
+
+            _wasAdded = true;
+        }
     }
 
     internal void PlayerEnter()
