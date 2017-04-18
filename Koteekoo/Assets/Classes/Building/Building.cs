@@ -54,6 +54,13 @@ public class Building : Shooter {
         if (name.Contains("Own_Tower"))
         {
             var cellDroppedIn = Program.GameScene.Player.HitMouseOnTerrain.collider.gameObject.GetComponent<CellGO>();
+
+            //building second tower on same cell 
+            if (cellDroppedIn == null)
+            {
+                return;
+            }
+
             cellDroppedIn.ClaimedTerritory();
         }
     }

@@ -26,7 +26,8 @@ public class EnemyManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Time.time > _nextWaveAt)
+        //player should not be on air other wise nav weird message 
+        if (Time.time > _nextWaveAt && !Program.GameScene.Player.IsFalling)
         {
             SetNextWave();
             _nextWaveEnemies = UMath.GiveRandom(1, 3);// + Program.GameScene.UnitsManager.Units.Count);
@@ -59,7 +60,7 @@ public class EnemyManager : MonoBehaviour
         }
 
         var pos = Program.GameScene.Player.transform.position + 
-            new Vector3(UMath.RandomSign() * 10, 0, UMath.RandomSign() * 10);
+            new Vector3(UMath.RandomSign() * 12, 0, UMath.RandomSign() * 12);
 
         var ene = (EnemyGO)General.Create("Prefab/Enemy/"+ _enemyType + "/" + 1, pos, _enemyType + ".Enemy");
 

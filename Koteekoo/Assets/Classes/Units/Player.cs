@@ -26,6 +26,19 @@ public class Player : Shooter {
         }
     }
 
+    public bool IsFalling
+    {
+        get
+        {
+            return _isFalling;
+        }
+
+        set
+        {
+            _isFalling = value;
+        }
+    }
+
 
 
     // Use this for initialization
@@ -59,12 +72,12 @@ public class Player : Shooter {
 
     private void Jump()
     {
-        if (Input.GetKeyDown("space")  && !_isFalling)
+        if (Input.GetKeyDown("space")  && !IsFalling)
         {
             _rigidBody.AddForce(new Vector3(0, 9, 0), ForceMode.Impulse);
         }
 
-        _isFalling = true;
+        IsFalling = true;
     }
 
     void OnCollisionStay(Collision collisionInfo)
@@ -72,7 +85,7 @@ public class Player : Shooter {
 
 
         //we are on something
-        _isFalling = false;
+        IsFalling = false;
     }
 
 
