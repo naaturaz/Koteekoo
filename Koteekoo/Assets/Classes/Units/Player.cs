@@ -3,13 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : Shooter {
+public class Player : Shooter
+{
 
     float _speed = .1f;
     RaycastHit _hitMouseOnTerrain;
     Rigidbody _rigidBody;
     bool _isFalling;
-
+    bool _hasHandOccupied;
+    General _onHands;
 
     public bool IsMouseOnTerrain { get; private set; }
 
@@ -42,15 +44,17 @@ public class Player : Shooter {
 
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         _rigidBody = GetComponent<Rigidbody>();
         base.Start();
         Health = 10;
         IsGood = true;
+        Ammo = 200;
     }
 
     // Update is called once per frame
-    void Update ()
+    void Update()
     {
         if (Power <= 0)
         {
@@ -72,7 +76,7 @@ public class Player : Shooter {
 
     private void Jump()
     {
-        if (Input.GetKeyDown("space")  && !IsFalling)
+        if (Input.GetKeyDown("space") && !IsFalling)
         {
             _rigidBody.AddForce(new Vector3(0, 9, 0), ForceMode.Impulse);
         }
@@ -128,7 +132,81 @@ public class Player : Shooter {
         base.OnTriggerEnter(other);
     }
 
+
+
+    #region Pick Up
+
     void OnCollisionEnter(Collision collision)
+    {
+        if (_hasHandOccupied)
+        {
+            HandleTouchInputBuilding(collision);
+            return;
+        }
+
+        HandleTouchEnemy(collision);
+        HandleTouchProdBuilding(collision);
+        HandleTouchUnit(collision);
+    }
+
+    private void HandleTouchUnit(Collision collision)
+    {
+        //if (Unit.IsAnUnit(collision.gameObject.name))
+        //{
+        //    if (Ammo > 200)
+        //    {
+
+        //    }
+        //}
+    }
+
+    private void HandleTouchInputBuilding(Collision collision)
+    {
+        if (Building.IsAInputBuilding(collision.gameObject.name) ||
+            (_onHands != null && _onHands.name.Contains("Solar_Panel_Crate")))
+        {
+            var build = collision.gameObject.GetComponent<Building>();
+            if (build == null)
+            {
+                return;
+            }
+
+            if (build.IsThisInputYouNeed(_onHands))
+            {
+                build.AddInput(_onHands);
+                Destroy(_onHands.gameObject);
+                _hasHandOccupied = false;
+            }
+        }
+    }
+
+    private void HandleTouchProdBuilding(Collision collision)
+    {
+        if (Building.IsAProductionBuilding(collision.gameObject.name))
+        {
+            var build = collision.gameObject.GetComponent<Building>();
+            if (build.HasProductionOnStock())
+            {
+                if (build.Crate.name.Contains("Bullet"))
+                {
+                    Destroy(build.Crate.gameObject);
+                    build.ClearBuildProd();
+                    Ammo += 100;
+                    return;
+                }
+
+                build.Crate.transform.parent = BulletSpawn.transform;
+                build.Crate.transform.position = BulletSpawn.transform.position;
+                _hasHandOccupied = true;
+                _onHands = build.Crate;
+                build.ClearBuildProd();
+            }
+        }
+
+
+    }
+
+    void HandleTouchEnemy(Collision collision)
     {
         if (collision.gameObject.name.Contains("Enemy"))
         {
@@ -137,10 +215,18 @@ public class Player : Shooter {
             {
                 collision.gameObject.transform.parent = BulletSpawn.transform;
                 collision.gameObject.transform.position = BulletSpawn.transform.position;
-
+                _hasHandOccupied = true;
             }
         }
     }
+
+    internal void EmptyHands()
+    {
+        _hasHandOccupied = false;
+    }
+
+
+    #endregion
 
 
 }

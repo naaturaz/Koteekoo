@@ -13,17 +13,17 @@ public class Shooter : General
     private int _health = 5;
     float _bulletForce = 1500;
 
-    int _bulletsAmt = 200;
-    public int BulletsAmt
+    int _ammo;
+    public int Ammo
     {
         get
         {
-            return _bulletsAmt;
+            return _ammo;
         }
 
         set
         {
-            _bulletsAmt = value;
+            _ammo = value;
         }
     }
 
@@ -102,7 +102,7 @@ public class Shooter : General
 
     void SpawnBullet()
     {
-        if (_bulletsAmt < 1)
+        if (_ammo < 1)
         {
             return;
         }
@@ -111,18 +111,27 @@ public class Shooter : General
         bullet.name = "Bullet";
         _fireTime = Time.time + _fireRate;
         bullet.GetComponent<Bullet>().Fire(BulletForce, IsGood);
-        _bulletsAmt--;
+        _ammo--;
     }
 
     protected void OnTriggerEnter(Collider other)
     {
+        if (other.name == "Player" && Unit.IsAnUnit(name))
+        {
+            if (Program.GameScene.Player.Ammo > 200)
+            {
+                Ammo += 100;
+                Program.GameScene.Player.Ammo -= 100;
+                Debug.Log("100 added to: " + name);
+            }
+        }
+
         if (other.name != "Bullet")
         {
             return;
         }
 
         var bulletComponent = other.gameObject.GetComponent<Bullet>();
-
         //so friendly fire doesnt affect units  
         if (IsGood == bulletComponent.IsGood)
         {
@@ -130,12 +139,13 @@ public class Shooter : General
         }
 
 
+
+
         if (Health > 1)
         {
             Health--;
             //GetComponent<ParticleSystem>().Play();
             //GetComponent<AudioSource>().PlayOneShot(bloodSplat, 0.1f);
-
         }
         else
         {
@@ -154,6 +164,8 @@ public class Shooter : General
     {
         return _health == 0;
     }
+
+
 }
 
 

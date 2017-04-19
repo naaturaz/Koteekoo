@@ -57,6 +57,11 @@ public class BuildingManager : General
 
         return c;
     }
+
+    internal void RemoveBuilding(Building build)
+    {
+        _allBuildings.Remove(build);
+    }
 }
 
 

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.Utility;
@@ -7,6 +8,9 @@ public class Unit : Shooter
 {
     protected Transform _enemy;
     AutoMoveAndRotate _rotScript;
+
+    protected Building _building;
+
 
     public string Root { get; private set; }
 
@@ -20,6 +24,12 @@ public class Unit : Shooter
 	// Update is called once per frame
 	protected void Update () {
         _enemy = Program.GameScene.EnemyManager.GiveMeClosestEnemy(transform.position);
+
+
+        if (_building != null && !_building.HasEnergy())
+        {
+            return;
+        }
 
         if (_enemy != null)
         {
@@ -48,7 +58,17 @@ public class Unit : Shooter
         if (IsDeath())
         {
             Destroy(gameObject, 2);
+
+            if (_building != null)
+            {
+                Program.GameScene.BuildingManager.RemoveBuilding(_building);
+            }
+
         }
     }
 
+    internal static bool IsAnUnit(string name)
+    {
+        return name.Contains("Defend");
+    }
 }

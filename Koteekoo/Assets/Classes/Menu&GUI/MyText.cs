@@ -26,7 +26,7 @@ public class MyText : MonoBehaviour {
     {
         if (name == "Bullets")
         {
-            _text.text = Program.GameScene.Player.BulletsAmt+"";
+            _text.text = Program.GameScene.Player.Ammo+"";
         }
         else if (name == "Life")
         {

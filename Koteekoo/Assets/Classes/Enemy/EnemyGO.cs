@@ -20,6 +20,7 @@ public class EnemyGO : Shooter
         base.Start();
         _stump = GetChildCalled("Stump");
         _stump.SetActive(false);
+        Ammo = 200;
     }
 
     // Update is called once per frame

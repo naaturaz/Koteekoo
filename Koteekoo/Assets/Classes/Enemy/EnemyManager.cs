@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
-    float _nextWaveAt = 3;
+    float _nextWaveAt = 30;
     int _nextWaveEnemies;
     string _enemyType;
 
@@ -27,7 +27,7 @@ public class EnemyManager : MonoBehaviour
     void Update()
     {
         //player should not be on air other wise nav weird message 
-        if (Time.time > _nextWaveAt && !Program.GameScene.Player.IsFalling)
+        if (Time.time > _nextWaveAt)
         {
             SetNextWave();
             _nextWaveEnemies = UMath.GiveRandom(1, 3);// + Program.GameScene.UnitsManager.Units.Count);

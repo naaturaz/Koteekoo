@@ -36,11 +36,12 @@ public class Bullet : General
     {
         //Destroy(gameObject);
         return;
+    }
 
+    void OnCollisionEnter(Collision collision)
+    {
+        //Destroy(gameObject);
 
-
-            //Destroy(gameObject, ShootSound.length);
-        
     }
 
     internal void Fire(float bulletForce, bool isGood)
