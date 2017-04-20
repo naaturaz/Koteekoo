@@ -6,7 +6,7 @@ using UnityEngine;
 public class Player : Shooter
 {
 
-    float _speed = .1f;
+    float _speed = .05f;//.1
     RaycastHit _hitMouseOnTerrain;
     Rigidbody _rigidBody;
     bool _isFalling;
@@ -56,9 +56,12 @@ public class Player : Shooter
     // Update is called once per frame
     void Update()
     {
-        if (Power <= 0)
+        if (Power <= 0 || IsDeath())
         {
             Debug.Log("Game Over");
+            Application.LoadLevel("MainMenu");
+            PlayerPrefs.SetString("State", "GameOver");//Clear current game 
+
             return;
         }
 

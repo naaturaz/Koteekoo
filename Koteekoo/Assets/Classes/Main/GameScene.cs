@@ -5,9 +5,14 @@ using System.Text;
 using UnityEngine;
 
 
-public class GameScene 
+public class GameScene
 {
+    int _timeLeft;
     Player _player;
+    int _level;
+
+
+    
 
     public Player Player
     {
@@ -27,6 +32,7 @@ public class GameScene
     BuildingManager _buildingManager;
     EnemyManager _enemyManager;
     UnitsManager _unitsManager;
+    CameraK _cameraK;
 
     public GameScene()
     {
@@ -57,6 +63,8 @@ public class GameScene
             _container = value;
         }
     }
+
+
 
     public BuildingManager BuildingManager
     {
@@ -97,12 +105,51 @@ public class GameScene
         }
     }
 
+    public int Level
+    {
+        get
+        {
+            return _level;
+        }
+
+        set
+        {
+            _level = value;
+        }
+    }
+
+    public CameraK CameraK
+    {
+        get
+        {
+            return _cameraK;
+        }
+
+        set
+        {
+            _cameraK = value;
+        }
+    }
+
+    void LoadLevel()
+    {
+        Level = PlayerPrefs.GetInt("Current");
+        
+        if (Level == 0)
+        {
+            Level = 1;
+        }
+    }
+
     public void Start()
     {
+        LoadLevel();
+
         Player = GameObject.FindObjectOfType<Player>();
         BuildingManager = GameObject.FindObjectOfType<BuildingManager>();
         EnemyManager = GameObject.FindObjectOfType<EnemyManager>();
         UnitsManager = GameObject.FindObjectOfType<UnitsManager>();
+        CameraK = GameObject.FindObjectOfType<CameraK>();
 
         if (LoadSave.ThereIsALoad())
         {
@@ -114,14 +161,43 @@ public class GameScene
             _terrainManager.Start();
         }
 
-
-
-
+        DefineGameTimeLeft();
     }
 
-    void Update()
+    private void DefineGameTimeLeft()
     {
-        
+        _timeLeft = 10 + Level;
     }
+
+    public void Update()
+    {
+
+    }
+
+    internal void OneSecUpdate()
+    {
+        if (_timeLeft > 1)
+        {
+            _timeLeft--;
+        }
+        else
+        {
+            //player passed the level 
+            Level++;
+            PlayerPrefs.SetInt("Current", Level);//so from Scene to scene remembers aaaa
+            PlayerPrefs.SetString("State", "Pass");//so from Scene to scene remembers aaaa
+
+            Debug.Log("Level pass");
+            Application.LoadLevel("MainMenu");
+        }
+    }
+
+    public string TimeLeft()
+    {
+        TimeSpan span = new TimeSpan(0, 0, _timeLeft);
+        return string.Format("{0}:{1}", span.Minutes, span.Seconds);
+    }
+
+
 }
 

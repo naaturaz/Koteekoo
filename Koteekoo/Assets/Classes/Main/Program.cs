@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Program : MonoBehaviour {
+public class Program : General
+{
 
     static GameScene _gameScene;
+
 
     public static GameScene GameScene
     {
@@ -22,10 +24,11 @@ public class Program : MonoBehaviour {
 
 
 
-    // Use this for initialization
-    void Start ()
-    {
 
+
+    // Use this for initialization
+    void Start()
+    {
         _gameScene = new GameScene();
 
         var empty = (GameObject)Resources.Load("Main/EmptyGO");
@@ -33,10 +36,37 @@ public class Program : MonoBehaviour {
         _gameScene.Container.name = "GameScene";
 
         _gameScene.Start();
-    }
-	
-	// Update is called once per frame
-	void Update () {
 
+        StartCoroutine("OneSecUpdate");
+
+    }
+
+
+
+    private IEnumerator OneSecUpdate()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(1); // wait
+            GameScene.OneSecUpdate();
+        }
+    }
+
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (GameScene != null)
+        {
+            GameScene.Update();
+        }
+    }
+
+    /// <summary>
+    /// Clears current
+    /// </summary>
+    private void OnApplicationQuit()
+    {
+        base.OnApplicationQuit();
     }
 }

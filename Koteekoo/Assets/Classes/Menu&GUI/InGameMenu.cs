@@ -16,11 +16,15 @@ public class InGameMenu : MonoBehaviour {
 
     public void SaveSlot(string numb)
     {
-        LoadSave.Save(numb);
+        PlayerPrefs.SetInt(numb, Program.GameScene.Level);
+        //LoadSave.Save(numb);
     }
 
     public void GoToMainMenu()
     {
+        PlayerPrefs.SetInt("Current", 0);//Clear current game 
         Application.LoadLevel("MainMenu");
+        PlayerPrefs.SetString("State", "New");
+
     }
 }

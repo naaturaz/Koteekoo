@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
-    float _nextWaveAt = 30;
+    float _nextWaveAt;
     int _nextWaveEnemies;
     string _enemyType;
 
@@ -15,6 +15,7 @@ public class EnemyManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        _nextWaveAt = Time.time + 3;
         if (LoadSave.ThereIsALoad())
         {
             SetNextWave();
@@ -30,14 +31,21 @@ public class EnemyManager : MonoBehaviour
         if (Time.time > _nextWaveAt)
         {
             SetNextWave();
-            _nextWaveEnemies = UMath.GiveRandom(1, 3);// + Program.GameScene.UnitsManager.Units.Count);
+            _nextWaveEnemies = UMath.GiveRandom(1 + Program.GameScene.Level, 4 + Program.GameScene.Level);
             SpawnEnemies();
+            Program.GameScene.CameraK.Attack();
         }
     }
 
     void SetNextWave()
     {
-        _nextWaveAt = Time.time + UMath.GiveRandom(20, 60);
+        var randCap = 60 - Program.GameScene.Level;
+        if (randCap < 22)
+        {
+            randCap = 22;
+        }
+
+        _nextWaveAt = Time.time + UMath.GiveRandom(20, randCap);
         _enemyType = _posEnemies[UMath.GiveRandom(0, _posEnemies.Count)];
     }
 
@@ -86,6 +94,10 @@ public class EnemyManager : MonoBehaviour
         _enemies.RemoveAt(index);
         _enemiesTransform.RemoveAt(index);
 
+        if (_enemies.Count == 0)
+        {
+            Program.GameScene.CameraK.Peace();
+        }
     }
 
     Transform GetClosestEnemy(List<Transform> enemies, Vector3 from)

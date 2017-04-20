@@ -72,6 +72,13 @@ public class General : MonoBehaviour {
         }
     }
 
+    internal void OnApplicationQuit()
+    {
+        PlayerPrefs.SetInt("Current", 0);
+        PlayerPrefs.SetString("State", "New");
+
+    }
+
     // Update is called once per frame
     void Update () {
 		
