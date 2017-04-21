@@ -15,13 +15,20 @@ public class EnemyManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        _nextWaveAt = Time.time + 3;
+        var currLevel = PlayerPrefs.GetInt("Current");
+
+        _nextWaveAt = Time.time + 20 + currLevel;
         if (LoadSave.ThereIsALoad())
         {
             SetNextWave();
             //load enemies
 
         }
+    }
+
+    internal bool ThereIsAnAttackNow()
+    {
+        return _enemies.Count > 0;
     }
 
     // Update is called once per frame
@@ -39,13 +46,14 @@ public class EnemyManager : MonoBehaviour
 
     void SetNextWave()
     {
-        var randCap = 60 - Program.GameScene.Level;
-        if (randCap < 22)
-        {
-            randCap = 22;
-        }
+        //var randCap = 60 - Program.GameScene.Level;
+        //if (randCap < 22)
+        //{
+        //    randCap = 22;
+        //}
+        //_nextWaveAt = Time.time + UMath.GiveRandom(20, randCap);
 
-        _nextWaveAt = Time.time + UMath.GiveRandom(20, randCap);
+        _nextWaveAt = Time.time + 30 + Program.GameScene.Level;
         _enemyType = _posEnemies[UMath.GiveRandom(0, _posEnemies.Count)];
     }
 
@@ -115,4 +123,25 @@ public class EnemyManager : MonoBehaviour
         }
         return tMin;
     }
+
+    public string NextWaveAt()
+    {
+        var sec = _nextWaveAt - Time.time;
+
+        
+
+        return GameScene.TimeFormat((int)sec);
+    }
+
+    public bool ToNextLevelIsReady()
+    {
+        var sec = _nextWaveAt - Time.time;
+        //there is more time to the next wave than final time of level
+        if (sec > Program.GameScene.TimeLeft1 && !ThereIsAnAttackNow())
+        {
+            return true;
+        }
+        return false;
+    }
+
 }

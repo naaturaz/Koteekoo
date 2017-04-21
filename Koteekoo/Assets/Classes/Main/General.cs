@@ -66,9 +66,8 @@ public class General : MonoBehaviour {
 
             if (Power > 0)
             {
-                Power--;
+                //Power--;
             }
-
         }
     }
 

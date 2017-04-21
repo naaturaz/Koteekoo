@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.Utility;
 
-public class CameraK : MonoBehaviour {
+public class CameraK : MonoBehaviour
+{
 
     GameObject _cam_Point_50_Degrees;
     GameObject _cam_Point_90_Degrees;
@@ -12,7 +13,7 @@ public class CameraK : MonoBehaviour {
     float _speed = .5f;
 
     // Use this for initialization
-    void Start ()
+    void Start()
     {
         _cam_Point_50_Degrees = GameObject.Find("Cam_Point_50_Degrees");
         _cam_Point_90_Degrees = GameObject.Find("Cam_Point_90_Degrees");
@@ -22,7 +23,7 @@ public class CameraK : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update ()
+    void Update()
     {
         transform.position = Vector3.MoveTowards(transform.position, _target.transform.position, _speed);
         transform.LookAt(Program.GameScene.Player.transform.position);
@@ -31,7 +32,7 @@ public class CameraK : MonoBehaviour {
         //{
         //    //_speed = 0.01f;
         //}
-	}
+    }
 
     public void Attack()
     {

@@ -8,16 +8,19 @@ public class Bot : Unit {
 
     NavMeshAgent _agent;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         base.Start();
         _agent = gameObject.GetComponent<NavMeshAgent>();
         IsGood = true;
-	}
+
+
+    }
 	
 	// Update is called once per frame
 	void Update ()
     {
+
         base.Update();
 
         if (_enemy != null)
@@ -32,6 +35,7 @@ public class Bot : Unit {
             //stand by
             _agent.enabled = false;
         }
+
     }
 
     private void OnTriggerEnter(Collider other)

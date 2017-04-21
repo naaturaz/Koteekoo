@@ -39,11 +39,30 @@ public class MyText : MonoBehaviour
         {
             _text.text = Program.GameScene.Player.Power + "";
         }
-        //
         else if (name == "Time_Left")
         {
             _text.text = Program.GameScene.TimeLeft();
         }
+
+        else if (name == "Next_Wave_Time_Left")
+        {
+            if (Program.GameScene.EnemyManager.ToNextLevelIsReady())
+            {
+                _text.text = "";
+                return;
+            }
+
+            _text.text = Program.GameScene.EnemyManager.NextWaveAt();
+        }//
+        else if (name == "Next_Wave_Title")
+        {
+            if (Program.GameScene.EnemyManager.ToNextLevelIsReady())
+            {
+                _text.text = "";
+                return;
+            }
+        }
+
         else if (name == "Level")
         {
             _text.text = "Level " + Program.GameScene.Level;

@@ -27,4 +27,17 @@ public class InGameMenu : MonoBehaviour {
         PlayerPrefs.SetString("State", "New");
 
     }
+
+    public void ToNextLevelReady()
+    {
+
+
+        Program.GameScene.PassLevel();
+
+    }
+
+    public void Restart()
+    {
+        Application.LoadLevel("Scn01");
+    }
 }

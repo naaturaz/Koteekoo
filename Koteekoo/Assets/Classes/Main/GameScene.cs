@@ -131,6 +131,19 @@ public class GameScene
         }
     }
 
+    public int TimeLeft1
+    {
+        get
+        {
+            return _timeLeft;
+        }
+
+        set
+        {
+            _timeLeft = value;
+        }
+    }
+
     void LoadLevel()
     {
         Level = PlayerPrefs.GetInt("Current");
@@ -162,11 +175,18 @@ public class GameScene
         }
 
         DefineGameTimeLeft();
+        DefinePowerAndInitValForLevel();
+    }
+
+    private void DefinePowerAndInitValForLevel()
+    {
+        Program.GameScene.Player.Power += (90 * Level);
+
     }
 
     private void DefineGameTimeLeft()
     {
-        _timeLeft = 10 + Level;
+        _timeLeft = 60 + (10*Level);
     }
 
     public void Update()
@@ -182,22 +202,30 @@ public class GameScene
         }
         else
         {
-            //player passed the level 
-            Level++;
-            PlayerPrefs.SetInt("Current", Level);//so from Scene to scene remembers aaaa
-            PlayerPrefs.SetString("State", "Pass");//so from Scene to scene remembers aaaa
-
-            Debug.Log("Level pass");
-            Application.LoadLevel("MainMenu");
+            PassLevel();
         }
+    }
+
+    public void PassLevel()
+    {
+        //player passed the level 
+        Level++;
+        PlayerPrefs.SetInt("Current", Level);//so from Scene to scene remembers aaaa
+        PlayerPrefs.SetString("State", "Pass");//so from Scene to scene remembers aaaa
+
+        Debug.Log("Level pass");
+        Application.LoadLevel("MainMenu");
     }
 
     public string TimeLeft()
     {
-        TimeSpan span = new TimeSpan(0, 0, _timeLeft);
-        return string.Format("{0}:{1}", span.Minutes, span.Seconds);
+        return TimeFormat(_timeLeft);
     }
 
-
+    public static string TimeFormat(int sec)
+    {
+        TimeSpan span = new TimeSpan(0, 0, sec);
+        return string.Format("{0}:{1}", span.Minutes, span.Seconds);
+    }
 }
 

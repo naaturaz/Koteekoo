@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MyBtnText : MonoBehaviour {
+public class Placeable : General {
 
-	// Use this for initialization
-	void Start () {
+    bool _wasFixed;
+
+
+    // Use this for initialization
+    void Start () {
 		
 	}
 	

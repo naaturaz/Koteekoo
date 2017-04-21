@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.AI;
+using System;
+using UnityStandardAssets.Utility;
 
 public class EnemyGO : Shooter
 {
@@ -9,11 +11,15 @@ public class EnemyGO : Shooter
     NavMeshAgent _agent;
 
     public bool DebugWalk;
+    int _leftRewards;
+    AutoMoveAndRotate _rotScript;
 
     // Use this for initialization
     void Start()
     {
         _agent = GetComponent<NavMeshAgent>();
+        _rotScript = GetComponent<AutoMoveAndRotate>();
+        _rotScript.enabled = false; 
 
         BulletForce = 1000;
 
@@ -26,6 +32,8 @@ public class EnemyGO : Shooter
     // Update is called once per frame
     void Update()
     {
+        CheckOnReward();
+
         if (Health == 0)
         {
             return;
@@ -41,6 +49,25 @@ public class EnemyGO : Shooter
         //{
             _agent.destination = Program.GameScene.Player.transform.position;
         //}
+
+        
+    }
+
+    int count;
+    private void CheckOnReward()
+    {
+        if (_leftRewards == 0)
+        {
+            return;
+        }
+
+        if (count > 160)
+        {
+            Reward();
+            _leftRewards--;
+            count = 0;
+        }
+        count++;
     }
 
     void OnTriggerEnter(Collider other)
@@ -51,6 +78,9 @@ public class EnemyGO : Shooter
             _stump.SetActive(true);
             _agent.enabled = false;
             Program.GameScene.EnemyManager.RemoveMeFromEnemiesList(this);
+            _rotScript.enabled = true;
+
+            _leftRewards = 2;
         }
 
         if (!IsDeath() || transform.parent == null)
@@ -73,5 +103,9 @@ public class EnemyGO : Shooter
         building.AddPerson(this);
     }
 
-
+    private void Reward()
+    {
+        var root = "Prefab/Crate/Solar_Panel_Crate";
+        var Crate = General.Create(root, transform.position, root);
+    }
 }

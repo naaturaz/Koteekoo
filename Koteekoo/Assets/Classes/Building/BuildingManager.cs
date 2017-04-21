@@ -16,7 +16,7 @@ public class BuildingManager : General
 	
 	// Update is called once per frame
 	void Update () {
-		
+
 	}
 
     public void Create(string buildingPath)
@@ -29,6 +29,7 @@ public class BuildingManager : General
     public void AddToAll(Building build)
     {
         _allBuildings.Add(build);
+        current = null;
     }
 
     internal List<BuildingData> GetAllBuilds()
@@ -61,6 +62,11 @@ public class BuildingManager : General
     internal void RemoveBuilding(Building build)
     {
         _allBuildings.Remove(build);
+    }
+
+    public bool IsBuildingNow()
+    {
+        return current != null;
     }
 }
 

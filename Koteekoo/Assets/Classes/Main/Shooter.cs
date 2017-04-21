@@ -13,7 +13,7 @@ public class Shooter : General
     private int _health = 5;
     float _bulletForce = 1500;
 
-    int _ammo;
+    int _ammo = 200;
     public int Ammo
     {
         get
@@ -111,20 +111,20 @@ public class Shooter : General
         bullet.name = "Bullet";
         _fireTime = Time.time + _fireRate;
         bullet.GetComponent<Bullet>().Fire(BulletForce, IsGood);
-        _ammo--;
+        //_ammo--;
     }
 
     protected void OnTriggerEnter(Collider other)
     {
-        if (other.name == "Player" && Unit.IsAnUnit(name))
-        {
-            if (Program.GameScene.Player.Ammo > 200)
-            {
-                Ammo += 100;
-                Program.GameScene.Player.Ammo -= 100;
-                Debug.Log("100 added to: " + name);
-            }
-        }
+        //if (other.name == "Player" && Unit.IsAnUnit(name))
+        //{
+        //    if (Program.GameScene.Player.Ammo > 200)
+        //    {
+        //        Ammo += 100;
+        //        Program.GameScene.Player.Ammo -= 100;
+        //        Debug.Log("100 added to: " + name);
+        //    }
+        //}
 
         if (other.name != "Bullet")
         {

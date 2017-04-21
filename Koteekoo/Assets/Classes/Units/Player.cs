@@ -50,18 +50,18 @@ public class Player : Shooter
         base.Start();
         Health = 10;
         IsGood = true;
-        Ammo = 200;
+        Ammo = 2000;
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Power <= 0 || IsDeath())
+        if (IsDeath())
         {
             Debug.Log("Game Over");
             Application.LoadLevel("MainMenu");
             PlayerPrefs.SetString("State", "GameOver");//Clear current game 
-
             return;
         }
 
@@ -71,11 +71,23 @@ public class Player : Shooter
 
         Shoot();
         Jump();
+
+        UnableRigidIfBuilding();
     }
 
+    private void UnableRigidIfBuilding()
+    {
+        if (Program.GameScene.BuildingManager.IsBuildingNow())
+        {
+            _rigidBody.isKinematic = true;
+        }
+        else
+        {
 
+            _rigidBody.isKinematic = false;
 
-
+        }
+    }
 
     private void Jump()
     {
@@ -143,13 +155,13 @@ public class Player : Shooter
     {
         if (_hasHandOccupied)
         {
-            HandleTouchInputBuilding(collision);
+            //HandleTouchInputBuilding(collision);
             return;
         }
 
-        HandleTouchEnemy(collision);
-        HandleTouchProdBuilding(collision);
-        HandleTouchUnit(collision);
+        //HandleTouchEnemy(collision);
+        //HandleTouchProdBuilding(collision);
+        //HandleTouchUnit(collision);
     }
 
     private void HandleTouchUnit(Collision collision)

@@ -6,7 +6,6 @@ using UnityStandardAssets.Utility;
 
 public class Building : Shooter
 {
-
     bool _wasFixed;
     string _root;
     string _name;
@@ -18,7 +17,7 @@ public class Building : Shooter
     string _inputCrate;
     bool _hasInput;
 
-    bool _hasEnergy;
+    bool _hasEnergy = true;
     float _energyLast = 30f;
     float _energyStart;
 
@@ -26,6 +25,31 @@ public class Building : Shooter
     //Rotating childs
     public AutoMoveAndRotate _rotator1;
     public AutoMoveAndRotate _rotator2;
+
+    static Dictionary<string, int> _indexer = new Dictionary<string, int>()
+    {
+        { "Defend_Tower", 0 },
+        { "Solar_Panel", 1 },
+        { "Small_Wall", 2 },
+        { "Med_Wall", 3 },
+        { "Tall_Wall", 4 },
+        { "Hi_Defend_Tower", 5 },
+        { "Wall", 6 },
+
+    };
+
+    static List<BuildStat> _builds = new List<BuildStat>()
+    {
+        new BuildStat("Defend_Tower", 100, 12),
+        new BuildStat("Solar_Panel", 35, 10),
+        new BuildStat("Small_Wall", 10, 20),
+        new BuildStat("Med_Wall", 20, 25),
+        new BuildStat("Tall_Wall", 30, 30),
+        new BuildStat("Hi_Defend_Tower", 250, 18),
+        new BuildStat("Wall", 40, 55),
+
+    };
+
 
 
     public string Root
@@ -84,6 +108,12 @@ public class Building : Shooter
         }
 
         ChangeRotatorsToState(_hasEnergy);
+        IsGood = true;
+
+        var index = _indexer[_name];
+        Health = _builds[index].Health;
+
+
     }
 
     // Update is called once per frame
@@ -99,22 +129,35 @@ public class Building : Shooter
             _wasFixed = true;
             Program.GameScene.BuildingManager.AddToAll(this);
             OwnTower();
+            RemoveCost();
+
+            if (Input.GetKey(KeyCode.LeftShift) && DoWeHavePowerToBuildThis(_name) &&
+                !Program.GameScene.EnemyManager.ThereIsAnAttackNow())
+            {
+                Program.GameScene.BuildingManager.Create(name);
+            }
         }
 
   
-        if (Time.time > _energyStart + _energyLast && _hasEnergy)
-        {
-            _hasEnergy = false;
-            ChangeRotatorsToState(false);
-        }
+        //if (Time.time > _energyStart + _energyLast && _hasEnergy)
+        //{
+        //    _hasEnergy = false;
+        //    ChangeRotatorsToState(false);
+        //}
 
-        if (name.Contains("Solar_Panel"))
-        {
-            _hasEnergy = true;
-        }
+        //if (name.Contains("Solar_Panel"))
+        //{
+        //    _hasEnergy = true;
+        //}
 
 
         Production();
+    }
+
+    private void RemoveCost()
+    {
+        var index = _indexer[_name];
+        Program.GameScene.Player.Power -= _builds[index].Cost;
     }
 
     void ChangeRotatorsToState(bool isOn)
@@ -278,9 +321,73 @@ public class Building : Shooter
     {
         Crate = null;
     }
+
+
+
+
+    public static bool DoWeHavePowerToBuildThis(string build)
+    {
+        var index = _indexer[build];
+        var cost = _builds[index].Cost;
+
+        return Program.GameScene.Player.Power > cost;
+    }
+
+
+
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.name != "Bullet")
+        {
+            return;
+        }
+
+        var bulletComponent = collision.gameObject.GetComponent<Bullet>();
+        //so friendly fire doesnt affect units  
+        if (IsGood == bulletComponent.IsGood)
+        {
+            return;
+        }
+
+        if (Health > 1)
+        {
+            Health--;
+        }
+        else
+        {
+            if (Health == 1)
+            {
+                Health = 0;
+                Destroy(gameObject);
+                //spawn explosion 
+                var exp = General.Create("Prefab/Particles/Explosion", transform.position, "Explo");
+            }
+        }
+    }
+
 }
 
 
+public class BuildStat
+{
+    public string Key;
+    public int Cost;
+    public int Health;
+
+    public BuildStat(string key, int cost, int health)
+    {
+        Key = key;
+        Cost = cost;
+        Health = health;
+    }
+
+}
+
+
+/// <summary>
+/// For SaveLoad XML
+/// </summary>
 public class BuildingData
 {
     public Vector3 Position;
