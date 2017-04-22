@@ -19,6 +19,8 @@ public class Crate : MonoBehaviour {
     {
         if (other.gameObject.name == "Player")
         {
+            Program.GameScene.BuildingManager.AddToGen(20);
+
             Program.GameScene.Player.Power += 20;
             Destroy(gameObject);
         }

@@ -37,6 +37,7 @@ public class CameraK : MonoBehaviour
     public void Attack()
     {
         _target = _cam_Point_90_Degrees;
+        Program.GameScene.SoundManager.PlaySound(5);
     }
 
     public void Peace()

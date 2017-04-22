@@ -34,7 +34,6 @@ public class Building : Shooter
         { "Med_Wall", 3 },
         { "Tall_Wall", 4 },
         { "Hi_Defend_Tower", 5 },
-        { "Wall", 6 },
 
     };
 
@@ -46,7 +45,6 @@ public class Building : Shooter
         new BuildStat("Med_Wall", 20, 25),
         new BuildStat("Tall_Wall", 30, 30),
         new BuildStat("Hi_Defend_Tower", 250, 18),
-        new BuildStat("Wall", 40, 55),
 
     };
 
@@ -130,6 +128,8 @@ public class Building : Shooter
             Program.GameScene.BuildingManager.AddToAll(this);
             OwnTower();
             RemoveCost();
+            Program.GameScene.SoundManager.PlaySound(3);
+
 
             if (Input.GetKey(KeyCode.LeftShift) && DoWeHavePowerToBuildThis(_name) &&
                 !Program.GameScene.EnemyManager.ThereIsAnAttackNow())
@@ -158,6 +158,7 @@ public class Building : Shooter
     {
         var index = _indexer[_name];
         Program.GameScene.Player.Power -= _builds[index].Cost;
+        Program.GameScene.BuildingManager.AddToSpent(_builds[index].Cost);
     }
 
     void ChangeRotatorsToState(bool isOn)
@@ -333,7 +334,17 @@ public class Building : Shooter
         return Program.GameScene.Player.Power > cost;
     }
 
+    public static BuildStat ReturnBuildStat(string build)
+    {
+        var index = _indexer[build];
+        return _builds[index];
 
+    }
+
+    public static int ReturnBuildIndex(string build)
+    {
+        return _indexer[build];
+    }
 
 
     private void OnCollisionEnter(Collision collision)
@@ -358,6 +369,8 @@ public class Building : Shooter
         {
             if (Health == 1)
             {
+                Program.GameScene.SoundManager.PlaySound(2);
+
                 Health = 0;
                 Destroy(gameObject);
                 //spawn explosion 

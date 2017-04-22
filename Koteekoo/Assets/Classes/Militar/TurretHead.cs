@@ -22,8 +22,9 @@ public class TurretHead : Unit
     // Use this for initialization
     void Start()
     {
-        base.Start();
         IsGood = true;
+
+        base.Start();
         Health = 100;
 
         _building = transform.parent.gameObject.GetComponent<Building>();

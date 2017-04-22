@@ -3,26 +3,46 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityStandardAssets.Utility;
 
-public class MyBtn : MonoBehaviour {
+public class MyBtn : MonoBehaviour
+{
 
     Button _btn;
     Vector3 _iniPos;
+    Btn_Card _card;
 
-	// Use this for initialization
-	void Start () {
+    AutoMoveAndRotate _rot;
+
+    // Use this for initialization
+    void Start()
+    {
         _btn = GetComponent<Button>();
         _iniPos = transform.position;
-	}
-	
-	// Update is called once per frame
-	void Update () {
+
+        _card = FindObjectOfType<Btn_Card>();
+        _rot = GetComponent<AutoMoveAndRotate>();
+
+        if (_rot == null)
+        {
+            return;
+        }
+
+        _rot.enabled = false;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
 
         if (name == "Btn_To_Next_Level")
         {
             if (Program.GameScene.EnemyManager.ToNextLevelIsReady())
             {
                 Show();
+                Program.GameScene.SoundManager.PlaySound(6);
+                _rot.enabled = true;
+
             }
             else
             {
@@ -45,7 +65,7 @@ public class MyBtn : MonoBehaviour {
 
         }
 
-        
+
     }
 
     private void Hide()
@@ -57,4 +77,18 @@ public class MyBtn : MonoBehaviour {
     {
         transform.position = _iniPos;
     }
+
+    public void ShowCard()
+    {
+        _card.Show(name);
+    }
+
+    public void HideCard()
+    {
+        _card.Hide();
+    }
+
+
+
+
 }

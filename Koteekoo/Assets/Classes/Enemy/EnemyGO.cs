@@ -14,6 +14,8 @@ public class EnemyGO : Shooter
     int _leftRewards;
     AutoMoveAndRotate _rotScript;
 
+    GameObject _marker;
+
     // Use this for initialization
     void Start()
     {
@@ -25,8 +27,16 @@ public class EnemyGO : Shooter
 
         base.Start();
         _stump = GetChildCalled("Stump");
+        _marker = GetChildCalled("Marker");
+
         _stump.SetActive(false);
         Ammo = 200;
+
+        if (name.Contains("2"))
+        {
+            Health = 20;
+            FireRate = 20;
+        }
     }
 
     // Update is called once per frame
@@ -36,6 +46,7 @@ public class EnemyGO : Shooter
 
         if (Health == 0)
         {
+            Destroy(gameObject, 10);
             return;
         }
 
@@ -76,11 +87,14 @@ public class EnemyGO : Shooter
         if (Health == 0 && _agent.enabled)
         {
             _stump.SetActive(true);
+            _marker.SetActive(false);
             _agent.enabled = false;
             Program.GameScene.EnemyManager.RemoveMeFromEnemiesList(this);
             _rotScript.enabled = true;
 
             _leftRewards = 2;
+            Program.GameScene.SoundManager.PlaySound(4);
+
         }
 
         if (!IsDeath() || transform.parent == null)

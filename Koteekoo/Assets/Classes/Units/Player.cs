@@ -46,10 +46,11 @@ public class Player : Shooter
     // Use this for initialization
     void Start()
     {
+        IsGood = true;
+
         _rigidBody = GetComponent<Rigidbody>();
         base.Start();
         Health = 10;
-        IsGood = true;
         Ammo = 2000;
 
     }
@@ -220,6 +221,13 @@ public class Player : Shooter
 
 
     }
+
+    internal int EnergyGenerated()
+    {
+        throw new NotImplementedException();
+    }
+
+
 
     void HandleTouchEnemy(Collision collision)
     {

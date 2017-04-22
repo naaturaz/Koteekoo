@@ -82,5 +82,46 @@ public class MyText : MonoBehaviour
 
             }
         }
+
+
+
+
+        //    private void SaveLevelStats()
+        //{
+        //    PlayerPrefs.SetInt("Enemy", EnemyManager.Kills());
+        //    PlayerPrefs.SetInt("Generated", BuildingManager.EnergyGenerated());
+        //    PlayerPrefs.SetInt("Spent", BuildingManager.EnergySpent());
+        //    PlayerPrefs.SetFloat("Time", EnemyManager.TtlTimeOfCurrentGame());
+        //    PlayerPrefs.SetInt("Health", Player.Health);
+
+        //}
+        else if (name == "Health")
+        {
+            _text.text = PlayerPrefs.GetInt("Health")+"";
+        }
+        else if (name == "GameTime")
+        {
+            var f = PlayerPrefs.GetFloat("Time");
+
+            _text.text = GameScene.TimeFormat((int)f);
+
+        }
+        else if (name == "E_Spent")
+        {
+            _text.text = PlayerPrefs.GetInt("Spent") + "";
+
+        }
+        else if (name == "E_Gen")
+        {
+            _text.text = PlayerPrefs.GetInt("Generated") + "";
+
+
+        }
+        else if (name == "Kills")
+        {
+            _text.text = PlayerPrefs.GetInt("Enemy") + "";
+
+        }
+
     }
 }

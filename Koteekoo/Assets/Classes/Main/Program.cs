@@ -38,6 +38,13 @@ public class Program : General
 
         _gameScene.Start();
 
+
+
+        if (Application.loadedLevelName == "MainMenu")
+        {
+            return;
+        }
+
         StartCoroutine("OneSecUpdate");
 
 
@@ -45,7 +52,6 @@ public class Program : General
         var Crate = General.Create(root, transform.position, root);
         var img = AssetPreview.GetMiniThumbnail(Crate);
 
-        var a = 1;
     }
 
 

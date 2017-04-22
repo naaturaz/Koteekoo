@@ -12,18 +12,31 @@ public class EnemyManager : MonoBehaviour
     List<EnemyGO> _enemies = new List<EnemyGO>();
     List<Transform> _enemiesTransform = new List<Transform>();
 
+    Vector3 _spawnPos;
+    int _xSing;
+    int _zSign;
+
+    int _waveNumb = 1;
+    int _kills;
+
+    float _thisGameStartedAt;
+
     // Use this for initialization
     void Start()
     {
+        _thisGameStartedAt = Time.time;
+        _xSing = UMath.RandomSign();
+        _zSign = UMath.RandomSign();
+
         var currLevel = PlayerPrefs.GetInt("Current");
 
         _nextWaveAt = Time.time + 20 + currLevel;
-        if (LoadSave.ThereIsALoad())
-        {
-            SetNextWave();
-            //load enemies
+        //if (LoadSave.ThereIsALoad())
+        //{
+        //    SetNextWave();
+        //    //load enemies
 
-        }
+        //}
     }
 
     internal bool ThereIsAnAttackNow()
@@ -37,10 +50,15 @@ public class EnemyManager : MonoBehaviour
         //player should not be on air other wise nav weird message 
         if (Time.time > _nextWaveAt)
         {
+
+
             SetNextWave();
-            _nextWaveEnemies = UMath.GiveRandom(1 + Program.GameScene.Level, 4 + Program.GameScene.Level);
+            _nextWaveEnemies = _waveNumb * (UMath.GiveRandom(1 + Program.GameScene.Level, 4 + Program.GameScene.Level));
             SpawnEnemies();
             Program.GameScene.CameraK.Attack();
+
+            _waveNumb++;
+
         }
     }
 
@@ -60,6 +78,8 @@ public class EnemyManager : MonoBehaviour
 
     void SpawnEnemies()
     {
+
+
         for (int i = 0; i < _nextWaveEnemies; i++)
         {
             SpawnEnemy();
@@ -75,10 +95,12 @@ public class EnemyManager : MonoBehaviour
             return;
         }
 
-        var pos = Program.GameScene.Player.transform.position + 
-            new Vector3(UMath.RandomSign() * 12, 0, UMath.RandomSign() * 12);
 
-        var ene = (EnemyGO)General.Create("Prefab/Enemy/"+ _enemyType + "/" + 1, pos, _enemyType + ".Enemy");
+        var _spawnPos = Program.GameScene.Player.transform.position +
+            new Vector3(_xSing * 16, 0, _zSign * 16);
+
+        var enemyNumb = UMath.GiveRandom(1, 3);
+        var ene = (EnemyGO)General.Create("Prefab/Enemy/" + _enemyType + "/" + enemyNumb, _spawnPos, _enemyType + ".Enemy."+ enemyNumb);
 
         _enemies.Add(ene);
         _enemiesTransform.Add(ene.transform);
@@ -97,10 +119,12 @@ public class EnemyManager : MonoBehaviour
 
     internal void RemoveMeFromEnemiesList(EnemyGO enemyGO)
     {
-        var index = _enemies.FindIndex(a=>a==enemyGO);
+        var index = _enemies.FindIndex(a => a == enemyGO);
 
         _enemies.RemoveAt(index);
         _enemiesTransform.RemoveAt(index);
+
+        _kills++;
 
         if (_enemies.Count == 0)
         {
@@ -128,7 +152,7 @@ public class EnemyManager : MonoBehaviour
     {
         var sec = _nextWaveAt - Time.time;
 
-        
+
 
         return GameScene.TimeFormat((int)sec);
     }
@@ -144,4 +168,13 @@ public class EnemyManager : MonoBehaviour
         return false;
     }
 
+    internal float TtlTimeOfCurrentGame()
+    {
+        return Time.time - _thisGameStartedAt;
+    }
+
+    internal int Kills()
+    {
+        return _kills;
+    }
 }

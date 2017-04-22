@@ -9,6 +9,9 @@ public class BuildingManager : General
 
     List<Building> _allBuildings = new List<Building>();
 
+    int _energyGen;
+    int _energySpent;
+
     // Use this for initialization
     void Start () {
 		
@@ -67,6 +70,26 @@ public class BuildingManager : General
     public bool IsBuildingNow()
     {
         return current != null;
+    }
+
+    internal int EnergySpent()
+    {
+        return _energySpent;
+    }
+
+    internal int EnergyGenerated()
+    {
+        return _energyGen;
+    }
+
+    public void AddToSpent(int pls)
+    {
+        _energySpent += pls;
+    }
+
+    public void AddToGen(int pls)
+    {
+        _energyGen += pls;
     }
 }
 

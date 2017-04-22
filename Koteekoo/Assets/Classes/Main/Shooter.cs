@@ -66,6 +66,19 @@ public class Shooter : General
         }
     }
 
+    public float FireRate
+    {
+        get
+        {
+            return _fireRate;
+        }
+
+        set
+        {
+            _fireRate = value;
+        }
+    }
+
     protected void Start()
     {
         base.Start();
@@ -81,7 +94,17 @@ public class Shooter : General
             }
         }
 
-        _bullet = (GameObject)Resources.Load("Militar/Bullet");
+        if (IsGood)
+        {
+            _bullet = (GameObject)Resources.Load("Militar/Bullet");
+
+        }
+        else
+        {
+            _bullet = (GameObject)Resources.Load("Militar/Bullet_Bad");
+
+        }
+
     }
 
     protected void Shoot()
@@ -109,8 +132,11 @@ public class Shooter : General
 
         GameObject bullet = Instantiate(_bullet, BulletSpawn.transform.position, BulletSpawn.transform.rotation);
         bullet.name = "Bullet";
-        _fireTime = Time.time + _fireRate;
+        _fireTime = Time.time + FireRate;
         bullet.GetComponent<Bullet>().Fire(BulletForce, IsGood);
+
+        Program.GameScene.SoundManager.PlaySound(0);
+
         //_ammo--;
     }
 

@@ -33,6 +33,7 @@ public class GameScene
     EnemyManager _enemyManager;
     UnitsManager _unitsManager;
     CameraK _cameraK;
+    SoundManager _soundManager;
 
     public GameScene()
     {
@@ -144,6 +145,19 @@ public class GameScene
         }
     }
 
+    public SoundManager SoundManager
+    {
+        get
+        {
+            return _soundManager;
+        }
+
+        set
+        {
+            _soundManager = value;
+        }
+    }
+
     void LoadLevel()
     {
         Level = PlayerPrefs.GetInt("Current");
@@ -163,6 +177,15 @@ public class GameScene
         EnemyManager = GameObject.FindObjectOfType<EnemyManager>();
         UnitsManager = GameObject.FindObjectOfType<UnitsManager>();
         CameraK = GameObject.FindObjectOfType<CameraK>();
+        SoundManager = GameObject.FindObjectOfType<SoundManager>();
+
+
+        if (Application.loadedLevelName == "MainMenu")
+        {
+            Program.GameScene.SoundManager.PlayMusic(0);
+            return;
+        }
+
 
         if (LoadSave.ThereIsALoad())
         {
@@ -176,6 +199,12 @@ public class GameScene
 
         DefineGameTimeLeft();
         DefinePowerAndInitValForLevel();
+
+        if (Application.loadedLevelName == "Scn01")
+        {
+            Program.GameScene.SoundManager.PlayMusic(1);
+        }
+       
     }
 
     private void DefinePowerAndInitValForLevel()
@@ -208,6 +237,9 @@ public class GameScene
 
     public void PassLevel()
     {
+        SaveLevelStats();
+
+
         //player passed the level 
         Level++;
         PlayerPrefs.SetInt("Current", Level);//so from Scene to scene remembers aaaa
@@ -215,6 +247,17 @@ public class GameScene
 
         Debug.Log("Level pass");
         Application.LoadLevel("MainMenu");
+
+    }
+
+    private void SaveLevelStats()
+    {
+        PlayerPrefs.SetInt("Enemy", EnemyManager.Kills());
+        PlayerPrefs.SetInt("Generated", BuildingManager.EnergyGenerated());
+        PlayerPrefs.SetInt("Spent", BuildingManager.EnergySpent());
+        PlayerPrefs.SetFloat("Time", EnemyManager.TtlTimeOfCurrentGame());
+        PlayerPrefs.SetInt("Health", Player.Health);
+
     }
 
     public string TimeLeft()
