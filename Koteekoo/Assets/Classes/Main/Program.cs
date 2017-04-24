@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 public class Program : General
@@ -50,7 +49,6 @@ public class Program : General
 
         var root = "Prefab/Crate/Solar_Panel_Crate";
         var Crate = General.Create(root, transform.position, root);
-        var img = AssetPreview.GetMiniThumbnail(Crate);
 
     }
 

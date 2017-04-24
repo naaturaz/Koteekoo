@@ -41,11 +41,13 @@ public class Btn_Card : General {
 
         AssignThumb(key);
 
+
         transform.position = _iniPos;
     }
 
     void AssignThumb(string key)
     {
+
         var editHold = FindObjectOfType<EditorPrefabHolder>();
         var index = Building.ReturnBuildIndex(key);
         var obj = editHold.Prefabs[index];

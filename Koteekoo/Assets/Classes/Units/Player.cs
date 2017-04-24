@@ -60,9 +60,7 @@ public class Player : Shooter
     {
         if (IsDeath())
         {
-            Debug.Log("Game Over");
-            Application.LoadLevel("MainMenu");
-            PlayerPrefs.SetString("State", "GameOver");//Clear current game 
+            GameOver("Player was killed");
             return;
         }
 
@@ -74,6 +72,15 @@ public class Player : Shooter
         Jump();
 
         UnableRigidIfBuilding();
+    }
+
+    public void GameOver(string reason)
+    {
+        Debug.Log("Game Over");
+        Application.LoadLevel("MainMenu");
+        PlayerPrefs.SetString("State", "GameOver");//Clear current game 
+        PlayerPrefs.SetString("Reason", reason); 
+
     }
 
     private void UnableRigidIfBuilding()

@@ -50,16 +50,18 @@ public class EnemyManager : MonoBehaviour
         //player should not be on air other wise nav weird message 
         if (Time.time > _nextWaveAt)
         {
-
+            count = 0;
+            var levlDif = Program.GameScene.Level * 2;
 
             SetNextWave();
-            _nextWaveEnemies = _waveNumb * (UMath.GiveRandom(1 + Program.GameScene.Level, 4 + Program.GameScene.Level));
-            SpawnEnemies();
+            _nextWaveEnemies = _waveNumb  * (UMath.GiveRandom(1 + levlDif, 6 + levlDif));
             Program.GameScene.CameraK.Attack();
 
             _waveNumb++;
 
         }
+        SpawnEnemies();
+
     }
 
     void SetNextWave()
@@ -71,18 +73,22 @@ public class EnemyManager : MonoBehaviour
         //}
         //_nextWaveAt = Time.time + UMath.GiveRandom(20, randCap);
 
-        _nextWaveAt = Time.time + 30 + Program.GameScene.Level;
+        _nextWaveAt = Time.time + 35 + Program.GameScene.Level;
         _enemyType = _posEnemies[UMath.GiveRandom(0, _posEnemies.Count)];
     }
 
 
+    int count = -1;
     void SpawnEnemies()
     {
-
-
-        for (int i = 0; i < _nextWaveEnemies; i++)
+        if (count > -1 && count < _nextWaveEnemies)
         {
             SpawnEnemy();
+            count++;
+        }
+        else if(count >= _nextWaveEnemies)
+        {
+            count = -1;
         }
     }
 

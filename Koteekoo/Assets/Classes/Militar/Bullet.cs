@@ -26,6 +26,8 @@ public class Bullet : General
         {
             _rigidBody.AddForce(transform.forward * Force, ForceMode.Acceleration);
             canMove = false;
+
+            //transform.position = Vector3.MoveTowards(transform.position, transform.forward, 1);   
         }
 
         Destroy(gameObject, Range);

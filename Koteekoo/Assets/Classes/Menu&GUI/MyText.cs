@@ -74,12 +74,11 @@ public class MyText : MonoBehaviour
 
             if (st == "GameOver")
             {
-                _text.text = "Game Over";
+                _text.text = "Game Over: " + PlayerPrefs.GetString("Reason");
             }
             else if (st == "Pass")
             {
                 _text.text = "Level " + (PlayerPrefs.GetInt("Current") - 1) + " completed";
-
             }
         }
 

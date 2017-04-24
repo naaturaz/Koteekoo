@@ -7,6 +7,8 @@ public class ObjectBuilderEditor : Editor
 {
     public override void OnInspectorGUI()
     {
+#if UNITY_EDITOR
+
         DrawDefaultInspector();
 
         ObjectBuilderScript myScript = (ObjectBuilderScript)target;
@@ -18,5 +20,7 @@ public class ObjectBuilderEditor : Editor
         {
             myScript.SaveTexture();
         }
+#endif
+
     }
 }

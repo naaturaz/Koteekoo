@@ -215,7 +215,7 @@ public class GameScene
 
     private void DefineGameTimeLeft()
     {
-        _timeLeft = 60 + (10*Level);
+        _timeLeft = 60 + (20*Level);
     }
 
     public void Update()
@@ -268,7 +268,19 @@ public class GameScene
     public static string TimeFormat(int sec)
     {
         TimeSpan span = new TimeSpan(0, 0, sec);
-        return string.Format("{0}:{1}", span.Minutes, span.Seconds);
+
+        var secSt = "";
+        if (span.Seconds < 10)
+        {
+            secSt = "0" + span.Seconds;
+        }
+        else
+        {
+            secSt = span.Seconds + "";
+        }
+
+
+        return string.Format("{0}:{1}", span.Minutes, secSt);
     }
 }
 

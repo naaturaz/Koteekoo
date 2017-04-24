@@ -27,6 +27,8 @@ public class Shooter : General
         }
     }
 
+    static float _lastShoot;
+
     public int Health
     {
         get
@@ -109,7 +111,7 @@ public class Shooter : General
 
     protected void Shoot()
     {
-        if (Input.GetButton("Fire1") && Time.time > _fireTime)
+        if ((Input.GetButton("Fire1") || Program.GameScene.EnemyManager.ThereIsAnAttackNow()) && Time.time > _fireTime)
         {
             SpawnBullet();
         }
@@ -135,9 +137,19 @@ public class Shooter : General
         _fireTime = Time.time + FireRate;
         bullet.GetComponent<Bullet>().Fire(BulletForce, IsGood);
 
-        Program.GameScene.SoundManager.PlaySound(0);
+        if (!IsGood)
+        {
+            return;
+        }
 
-        //_ammo--;
+        if (Time.time > _lastShoot + 0.5f)
+        {
+            Program.GameScene.SoundManager.PlaySound(0);
+            _lastShoot = Time.time;
+        }
+        
+
+
     }
 
     protected void OnTriggerEnter(Collider other)

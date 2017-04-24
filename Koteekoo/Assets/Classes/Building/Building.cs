@@ -39,12 +39,12 @@ public class Building : Shooter
 
     static List<BuildStat> _builds = new List<BuildStat>()
     {
-        new BuildStat("Defend_Tower", 100, 12),
-        new BuildStat("Solar_Panel", 35, 10),
-        new BuildStat("Small_Wall", 10, 20),
-        new BuildStat("Med_Wall", 20, 25),
-        new BuildStat("Tall_Wall", 30, 30),
-        new BuildStat("Hi_Defend_Tower", 250, 18),
+        new BuildStat("Defend_Tower", 150, 12),
+        new BuildStat("Solar_Panel", 50, 10),
+        new BuildStat("Small_Wall", 5, 20),
+        new BuildStat("Med_Wall", 10, 25),
+        new BuildStat("Tall_Wall", 15, 30),
+        new BuildStat("Hi_Defend_Tower", 300, 18),
 
     };
 
@@ -97,6 +97,16 @@ public class Building : Shooter
     {
         base.Start();
 
+        IsGood = true;
+
+
+        if (name == "Rocket")
+        {
+            _wasFixed = true;
+            Health = 50;
+            return;
+        }
+
         var arr = _root.Split('/');
         Name = arr[arr.Length - 1];
 
@@ -106,10 +116,10 @@ public class Building : Shooter
         }
 
         ChangeRotatorsToState(_hasEnergy);
-        IsGood = true;
 
         var index = _indexer[_name];
         Health = _builds[index].Health;
+
 
 
     }
@@ -369,6 +379,12 @@ public class Building : Shooter
         {
             if (Health == 1)
             {
+                if (name == "Rocket")
+                {
+                    Program.GameScene.Player.GameOver("Rocket booom!");
+                    return;
+                }
+
                 Program.GameScene.SoundManager.PlaySound(2);
 
                 Health = 0;

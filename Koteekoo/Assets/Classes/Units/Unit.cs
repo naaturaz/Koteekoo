@@ -7,6 +7,8 @@ using UnityStandardAssets.Utility;
 public class Unit : Shooter
 {
     protected Transform _enemy;
+    float _enemyDist = 100;
+
     AutoMoveAndRotate _rotScript;
 
     protected Building _building;
@@ -19,11 +21,31 @@ public class Unit : Shooter
         base.Start();
         _rotScript = GetComponent<AutoMoveAndRotate>();
 
+
+        StartCoroutine("RandomSecUpdate");
+
     }
-	
-	// Update is called once per frame
-	protected void Update () {
-        _enemy = Program.GameScene.EnemyManager.GiveMeClosestEnemy(transform.position);
+
+    float nextRand= 2;
+    private IEnumerator RandomSecUpdate()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(nextRand); // wait
+            _enemy = Program.GameScene.EnemyManager.GiveMeClosestEnemy(transform.position);
+            nextRand = UMath.GiveRandom(2, 3);
+
+            if (_enemy!=null)
+            {
+
+            _enemyDist = Vector3.Distance(transform.position, _enemy.position);
+            }
+
+        }
+    }
+
+    // Update is called once per frame
+    protected void Update () {
 
 
         if (_building != null && !_building.HasEnergy())
@@ -31,7 +53,7 @@ public class Unit : Shooter
             return;
         }
 
-        if (_enemy != null)
+        if (_enemy != null && _enemyDist < 12)
         {
             ShootEnemy();
             _rotScript.enabled = false;

@@ -61,6 +61,9 @@ public class MenusManager : General {
 
     public void ShowMainMenu()
     {
+         PlayerPrefs.SetString("State", "");
+
+
         HideAll();
         _mainMenu.SetActive(true);
     }

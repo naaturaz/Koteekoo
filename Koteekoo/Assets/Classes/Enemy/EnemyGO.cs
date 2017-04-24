@@ -16,12 +16,21 @@ public class EnemyGO : Shooter
 
     GameObject _marker;
 
+
+    GameObject _rocket;
+    bool _didTargetRocket;
+    Vector3 _targetPos;
+
     // Use this for initialization
     void Start()
     {
+        StartCoroutine("OneSecUpdate");
+
+        _rocket = GameObject.Find("Rocket");
+
         _agent = GetComponent<NavMeshAgent>();
         _rotScript = GetComponent<AutoMoveAndRotate>();
-        _rotScript.enabled = false; 
+        _rotScript.enabled = false;
 
         BulletForce = 1000;
 
@@ -32,11 +41,14 @@ public class EnemyGO : Shooter
         _stump.SetActive(false);
         Ammo = 200;
 
+        //Health = 6;
         if (name.Contains("2"))
         {
             Health = 20;
-            FireRate = 20;
+            FireRate = 3;
         }
+
+        StartTargetAdquired();
     }
 
     // Update is called once per frame
@@ -46,22 +58,68 @@ public class EnemyGO : Shooter
 
         if (Health == 0)
         {
-            Destroy(gameObject, 10);
+            Destroy(gameObject, 15);
             return;
         }
 
-        transform.LookAt(Program.GameScene.Player.transform);
-
+        transform.LookAt(_targetPos);
         ShootEnemy();
 
-        //transform.position = Vector3.MoveTowards(transform.position, Program.GameScene.Player.transform.position, _speed);
 
-        //if (DebugWalk)
-        //{
-            _agent.destination = Program.GameScene.Player.transform.position;
-        //}
+        _agent.destination = _targetPos;
 
-        
+    }
+
+    private IEnumerator OneSecUpdate()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(1); // wait
+            CheckOnAgentAndTarget();
+        }
+    }
+
+    private void CheckOnAgentAndTarget()
+    {
+        if (Health == 0)
+        {
+            return;
+        }
+
+        if (_didTargetRocket )
+        {
+            return;
+        }
+
+        var dist = Vector3.Distance(transform.position, _rocket.transform.position);
+        if (dist > 40)
+        {
+            TargetRocket();
+            return;
+        }
+
+        _targetPos = Program.GameScene.Player.transform.position;
+    }
+
+    /// <summary>
+    /// 5 % of them will get rocket as Target
+    /// </summary>
+    void StartTargetAdquired()
+    {
+        if (UMath.GiveRandom(1, 101) > 50)//or 20 % of the time 
+        {
+            TargetRocket();
+        }
+    }
+
+    void TargetRocket()
+    {
+        _didTargetRocket = true;
+        _targetPos = _rocket.transform.position;
+        _agent.destination = _targetPos;
+
+        Debug.Log("Target Rocket");
+        return;
     }
 
     int count;
@@ -92,7 +150,7 @@ public class EnemyGO : Shooter
             Program.GameScene.EnemyManager.RemoveMeFromEnemiesList(this);
             _rotScript.enabled = true;
 
-            _leftRewards = 2;
+            _leftRewards = 1;
             Program.GameScene.SoundManager.PlaySound(4);
 
         }
