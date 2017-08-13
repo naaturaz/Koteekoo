@@ -48,6 +48,7 @@ public class Building : Shooter
 
     };
 
+    JoyStickManager _joyStickManager;
 
 
     public string Root
@@ -97,6 +98,8 @@ public class Building : Shooter
     {
         base.Start();
 
+        _joyStickManager = FindObjectOfType<JoyStickManager>();
+
         IsGood = true;
 
 
@@ -127,12 +130,19 @@ public class Building : Shooter
     // Update is called once per frame
     void Update()
     {
-        if (!_wasFixed)
+        if (!_wasFixed )
         {
-            transform.position = Program.GameScene.Player.HitMouseOnTerrain.point;
+            if (!_joyStickManager.JoyStickController)
+            {
+                transform.position = Program.GameScene.Player.HitMouseOnTerrain.point;
+            }
+            else
+            {
+                transform.position = Program.GameScene.Player.transform.position + new Vector3(0, 0, 5);
+            }
         }
 
-        if (!_wasFixed && Input.GetMouseButtonUp(0))
+        if (!_wasFixed && (Input.GetMouseButtonUp(0) || _joyStickManager.ActionButtonNow()))
         {
             _wasFixed = true;
             Program.GameScene.BuildingManager.AddToAll(this);
