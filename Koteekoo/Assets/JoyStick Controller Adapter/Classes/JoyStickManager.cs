@@ -4,8 +4,8 @@
  * 1- This class should be always present in each Scene
  * 2- All btns needed to interact with the Controller need to add the class JoyStickBtn
  *      a- In those button if want a Hover effect when selected add a EventTrigger with Select and Unselect events 
- * 
- * 
+ * 3- Add JoyStickPlayerController to the player GO and adjust as necessary
+ * 4- Set leftStick axis if needed in Input
  */
 
 using System;
@@ -24,11 +24,20 @@ public class JoyStickManager : MonoBehaviour
     List<JoyStickBtn> _btnsOrderVertical = new List<JoyStickBtn>();
     ////ordered by X val
 
-    List<JoyStickBtn> _btnsOrderHorizontal = new List<JoyStickBtn>();
+    //List<JoyStickBtn> _btnsOrderHorizontal = new List<JoyStickBtn>();
 
     private float _axisUsedAt;
     private static int _selectedNow = -100;
     private bool _joyStickController;
+
+
+    //
+    public GameObject _buildingBtns;
+    public GameObject _inGameMenuBtns;
+
+
+    private bool _resetBtnsNow;
+
 
     public bool JoyStickController
     {
@@ -43,15 +52,39 @@ public class JoyStickManager : MonoBehaviour
         }
     }
 
+    public bool IsBuilding
+    {
+        get
+        {
+            return _isBuilding;
+        }
+
+        set
+        {
+            _isBuilding = value;
+        }
+    }
+
     // Use this for initialization
     void Start()
     {
-        _btnsOrderVertical = FindObjectsOfType<JoyStickBtn>().ToList();
-        _btnsOrderVertical = _btnsOrderVertical.OrderBy(a => a.transform.position.x).ThenByDescending(a => a.transform.position.y).ToList();
-
-        Debug.Log("Btns:" + _btnsOrderVertical.Count);
+        _buildingBtns = GameObject.Find("BuildingBtns");
+        _inGameMenuBtns = GameObject.Find("InGameMenu");
 
         InitJoy();
+
+        HideInGameBtns();
+
+    }
+
+    void HideInGameBtns()
+    {
+        //hide them
+        if (_buildingBtns != null)
+        {
+            _buildingBtns.SetActive(false);
+            _inGameMenuBtns.SetActive(false);
+        }
     }
 
     private void ResetThis()
@@ -64,8 +97,11 @@ public class JoyStickManager : MonoBehaviour
 
     void InitJoy()
     {
-        var joys = Input.GetJoystickNames();
+        _btnsOrderVertical = FindObjectsOfType<JoyStickBtn>().ToList();
+        _btnsOrderVertical = _btnsOrderVertical.OrderBy(a => a.transform.position.x).ThenByDescending(a => a.transform.position.y).ToList();
+        Debug.Log("Btns:" + _btnsOrderVertical.Count);
 
+        var joys = Input.GetJoystickNames();
         for (int i = 0; i < joys.Length; i++)
         {
             if (Input.IsJoystickPreconfigured(joys[i]) && joys[i].Contains("Xbox 360"))
@@ -76,14 +112,104 @@ public class JoyStickManager : MonoBehaviour
             Debug.Log(joys[i] + " is preconfig " + Input.IsJoystickPreconfigured(joys[i]));
         }
 
+        //SelectFirstItem();
     }
 
     // Update is called once per frame
     void Update()
     {
-        InputJoy();
+        //will reset if amt of btns is changed at any time, and at least had 1btns on the list 
+        //or _resetBtnsNow is true
         CheckIfButtonsChanged();
+        InputJoy();
+
+        CheckIfStartPressed();
+
+        if (_isPaused)
+        {
+            return;
+        }
+
+        CheckIfBuildingMode();
     }
+
+    #region Start Btn - Pause
+
+    bool _isPaused;
+    private void CheckIfStartPressed()
+    {
+        if (Input.GetKeyUp(KeyCode.Joystick1Button7) && Application.loadedLevelName != "MainMenu")
+        {
+            _isPaused = !_isPaused;
+
+            if (_isPaused)
+            {
+                _resetBtnsNow = true;
+                _inGameMenuBtns.SetActive(true);
+                _buildingBtns.SetActive(false);
+                _isBuilding = false;
+            }
+            else
+            {
+                _inGameMenuBtns.SetActive(false);
+            }
+        }
+    }
+
+
+
+    #endregion
+
+    #region Buildling Mode
+
+    bool _isBuilding;
+    /// <summary>
+    /// While on game will check ifbuilding mode
+    /// </summary>
+    private void CheckIfBuildingMode()
+    {
+        if (Application.loadedLevelName == "MainMenu")
+        {
+            IsBuilding = true;
+            return;
+        }
+
+        //can cancel build with B
+        var bBtn = IsBuilding && Input.GetKeyUp(KeyCode.Joystick1Button1);
+        if ((Input.GetKeyUp(KeyCode.Joystick1Button4) || bBtn) && Application.loadedLevelName != "MainMenu")
+        {
+            IsBuilding = !IsBuilding;
+            Debug.Log("_isBuilding:" + IsBuilding);
+
+            if (IsBuilding)
+            {
+                AllowBuildNow();
+            }
+            else
+            {
+                ForbideBuildNow();
+            }
+        }
+    }
+
+    void AllowBuildNow()
+    {
+        _buildingBtns.SetActive(true);
+        _resetBtnsNow = true;
+    }
+
+    void ForbideBuildNow()
+    {
+        _buildingBtns.SetActive(false);
+    }
+
+    void SelectFirstItem()
+    {
+        _selectedNow = 0;
+        _btnsOrderVertical[_selectedNow].Activate();
+    }
+
+    #endregion
 
     /// <summary>
     /// if for some reason buttons just changed we need to reInit
@@ -94,18 +220,17 @@ public class JoyStickManager : MonoBehaviour
     {
         if (_btnsOrderVertical.Count > 0 && !_btnsOrderVertical[0].transform.parent.gameObject.activeSelf ||
             //happens when from Game to main menu 
-            _selectedNow > _btnsOrderVertical.Count)
+            _selectedNow > _btnsOrderVertical.Count || _resetBtnsNow)
         {
+            _resetBtnsNow = false;
             ResetThis();
-            Start();
+            InitJoy();
         }
     }
 
 
 
     float coolDown = 0.15f;
-
-
 
     private void InputJoy()
     {
@@ -117,6 +242,12 @@ public class JoyStickManager : MonoBehaviour
         //{
         //    ToTheLeft();
         //}
+
+        if (_btnsOrderVertical.Count == 0)
+        {
+            return;
+        }
+
         if (Input.GetAxis("Vertical") < 0 && Time.time > _axisUsedAt + coolDown)
         {
             ToTheBottom();
@@ -195,6 +326,11 @@ public class JoyStickManager : MonoBehaviour
 
     void ChangeSelectionBy(int by)
     {
+        if (!IsBuilding && !_isPaused)
+        {
+            return;
+        }
+
         _selectedNow += by;
 
         if (_selectedNow < 0)
@@ -205,5 +341,10 @@ public class JoyStickManager : MonoBehaviour
         {
             _selectedNow = 0;
         }
+    }
+
+    public bool ShouldPauseTime()
+    {
+        return IsBuilding || _isPaused;
     }
 }

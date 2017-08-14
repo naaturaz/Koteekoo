@@ -35,6 +35,8 @@ public class GameScene
     CameraK _cameraK;
     SoundManager _soundManager;
 
+    JoyStickManager _joyStickManager;
+
     public GameScene()
     {
     }
@@ -178,6 +180,7 @@ public class GameScene
         UnitsManager = GameObject.FindObjectOfType<UnitsManager>();
         CameraK = GameObject.FindObjectOfType<CameraK>();
         SoundManager = GameObject.FindObjectOfType<SoundManager>();
+        _joyStickManager = GameObject.FindObjectOfType<JoyStickManager>();
 
 
         if (Application.loadedLevelName == "MainMenu")
@@ -225,6 +228,11 @@ public class GameScene
 
     internal void OneSecUpdate()
     {
+        if (_joyStickManager.ShouldPauseTime())
+        {
+            return;
+        }
+
         if (_timeLeft > 1)
         {
             _timeLeft--;

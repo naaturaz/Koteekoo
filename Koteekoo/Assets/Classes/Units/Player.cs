@@ -13,6 +13,8 @@ public class Player : Shooter
     bool _hasHandOccupied;
     General _onHands;
 
+    JoyStickManager _joyStickManager;
+
     public bool IsMouseOnTerrain { get; private set; }
 
     public RaycastHit HitMouseOnTerrain
@@ -53,6 +55,7 @@ public class Player : Shooter
         Health = 10;
         Ammo = 2000;
 
+        _joyStickManager = FindObjectOfType<JoyStickManager>();
     }
 
     // Update is called once per frame
@@ -69,7 +72,7 @@ public class Player : Shooter
         LookAtMousePos();
 
         Shoot();
-        Jump();
+        //Jump();
 
         UnableRigidIfBuilding();
     }
@@ -99,9 +102,9 @@ public class Player : Shooter
 
     private void Jump()
     {
-        if (Input.GetKeyDown("space") && !IsFalling)
+        if ((Input.GetKeyDown("space") ||  Input.GetAxis("Jump") != 0) && !IsFalling)
         {
-            _rigidBody.AddForce(new Vector3(0, 9, 0), ForceMode.Impulse);
+            _rigidBody.AddForce(new Vector3(0, 4, 0), ForceMode.Impulse);
         }
 
         IsFalling = true;
@@ -118,6 +121,11 @@ public class Player : Shooter
 
     void Movement()
     {
+        if (_joyStickManager.ShouldPauseTime())
+        {
+            return;
+        }
+
         float v = Input.GetAxis("Vertical") * _speed;
         float h = Input.GetAxis("Horizontal") * _speed;
         transform.position += new Vector3(h, 0, v);
@@ -125,6 +133,11 @@ public class Player : Shooter
 
     private void LookAtMousePos()
     {
+        if (_joyStickManager.JoyStickController)
+        {
+            return;
+        }
+
         transform.LookAt(HitMouseOnTerrain.point);
         transform.rotation = new Quaternion(0, transform.rotation.y, 0, transform.rotation.w);
     }

@@ -26,6 +26,8 @@ public class Building : Shooter
     public AutoMoveAndRotate _rotator1;
     public AutoMoveAndRotate _rotator2;
 
+    float _startTime;
+
     static Dictionary<string, int> _indexer = new Dictionary<string, int>()
     {
         { "Defend_Tower", 0 },
@@ -97,7 +99,7 @@ public class Building : Shooter
     void Start()
     {
         base.Start();
-
+        _startTime = Time.time;
         _joyStickManager = FindObjectOfType<JoyStickManager>();
 
         IsGood = true;
@@ -142,14 +144,14 @@ public class Building : Shooter
             }
         }
 
-        if (!_wasFixed && (Input.GetMouseButtonUp(0) || _joyStickManager.ActionButtonNow()))
+        if (!_wasFixed && Time.time > _startTime + 0.3f &&
+            (Input.GetMouseButtonUp(0) || _joyStickManager.ActionButtonNow()))
         {
             _wasFixed = true;
             Program.GameScene.BuildingManager.AddToAll(this);
             OwnTower();
             RemoveCost();
             Program.GameScene.SoundManager.PlaySound(3);
-
 
             if (Input.GetKey(KeyCode.LeftShift) && DoWeHavePowerToBuildThis(_name) &&
                 !Program.GameScene.EnemyManager.ThereIsAnAttackNow())

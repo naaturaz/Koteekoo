@@ -7,7 +7,8 @@ public class EnemyManager : MonoBehaviour
 {
     float _nextWaveAt;
     int _nextWaveEnemies;
-    string _enemyType;
+
+
 
     List<EnemyGO> _enemies = new List<EnemyGO>();
     List<Transform> _enemiesTransform = new List<Transform>();
@@ -48,7 +49,7 @@ public class EnemyManager : MonoBehaviour
     void Update()
     {
         //player should not be on air other wise nav weird message 
-        if (Time.time > _nextWaveAt)
+        if (Program.GameScene.TimeLeft1 - _waveDiff <= 0)
         {
             count = 0;
             var levlDif = Program.GameScene.Level * 2;
@@ -64,6 +65,8 @@ public class EnemyManager : MonoBehaviour
 
     }
 
+    //This is the difference of the next wave respect to TimeLeft on GameScene
+    int _waveDiff = 40;
     void SetNextWave()
     {
         //var randCap = 60 - Program.GameScene.Level;
@@ -73,8 +76,12 @@ public class EnemyManager : MonoBehaviour
         //}
         //_nextWaveAt = Time.time + UMath.GiveRandom(20, randCap);
 
-        _nextWaveAt = Time.time + 35 + Program.GameScene.Level;
-        _enemyType = _posEnemies[UMath.GiveRandom(0, _posEnemies.Count)];
+        _nextWaveAt = Program.GameScene.TimeLeft1 - _waveDiff;
+
+        if (_nextWaveAt <= 0)
+        {
+            _nextWaveAt = 20;
+        }
     }
 
 
@@ -92,7 +99,7 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    List<string> _posEnemies = new List<string>() { "Person", //"Robot"
+    List<string> _enemiesList = new List<string>() { "Person", //"Robot"
     };
     void SpawnEnemy()
     {
@@ -101,12 +108,13 @@ public class EnemyManager : MonoBehaviour
             return;
         }
 
+        var enemyType = _enemiesList[UMath.GiveRandom(0, _enemiesList.Count)];
 
         var _spawnPos = Program.GameScene.Player.transform.position +
             new Vector3(_xSing * 16, 0, _zSign * 16);
 
         var enemyNumb = UMath.GiveRandom(1, 3);
-        var ene = (EnemyGO)General.Create("Prefab/Enemy/" + _enemyType + "/" + enemyNumb, _spawnPos, _enemyType + ".Enemy."+ enemyNumb);
+        var ene = (EnemyGO)General.Create("Prefab/Enemy/" + enemyType + "/" + enemyNumb, _spawnPos, enemyType + ".Enemy."+ enemyNumb);
 
         _enemies.Add(ene);
         _enemiesTransform.Add(ene.transform);
@@ -156,7 +164,7 @@ public class EnemyManager : MonoBehaviour
 
     public string NextWaveAt()
     {
-        var sec = _nextWaveAt - Time.time;
+        var sec = Program.GameScene.TimeLeft1 - _waveDiff;
 
 
 
@@ -165,12 +173,12 @@ public class EnemyManager : MonoBehaviour
 
     public bool ToNextLevelIsReady()
     {
-        var sec = _nextWaveAt - Time.time;
-        //there is more time to the next wave than final time of level
-        if (sec > Program.GameScene.TimeLeft1 && !ThereIsAnAttackNow())
-        {
-            return true;
-        }
+        //var sec = _nextWaveAt - Time.time;
+        ////there is more time to the next wave than final time of level
+        //if (sec > Program.GameScene.TimeLeft1 && !ThereIsAnAttackNow())
+        //{
+        //    return true;
+        //}
         return false;
     }
 
