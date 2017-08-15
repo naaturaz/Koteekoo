@@ -8,6 +8,8 @@ using UnityEngine;
 public class GameScene
 {
     int _timeLeft;
+    int _timePass;
+
     Player _player;
     int _level;
 
@@ -36,6 +38,9 @@ public class GameScene
     SoundManager _soundManager;
 
     JoyStickManager _joyStickManager;
+
+    TutoWindow _tutoWindow;
+
 
     public GameScene()
     {
@@ -160,6 +165,45 @@ public class GameScene
         }
     }
 
+    internal TutoWindow TutoWindow
+    {
+        get
+        {
+            return _tutoWindow;
+        }
+
+        set
+        {
+            _tutoWindow = value;
+        }
+    }
+
+    public JoyStickManager JoyStickManager
+    {
+        get
+        {
+            return _joyStickManager;
+        }
+
+        set
+        {
+            _joyStickManager = value;
+        }
+    }
+
+    public int TimePass
+    {
+        get
+        {
+            return _timePass;
+        }
+
+        set
+        {
+            _timePass = value;
+        }
+    }
+
     void LoadLevel()
     {
         Level = PlayerPrefs.GetInt("Current");
@@ -180,7 +224,8 @@ public class GameScene
         UnitsManager = GameObject.FindObjectOfType<UnitsManager>();
         CameraK = GameObject.FindObjectOfType<CameraK>();
         SoundManager = GameObject.FindObjectOfType<SoundManager>();
-        _joyStickManager = GameObject.FindObjectOfType<JoyStickManager>();
+        JoyStickManager = GameObject.FindObjectOfType<JoyStickManager>();
+        TutoWindow = GameObject.FindObjectOfType<TutoWindow>();
 
 
         if (Application.loadedLevelName == "MainMenu")
@@ -228,7 +273,7 @@ public class GameScene
 
     internal void OneSecUpdate()
     {
-        if (_joyStickManager.ShouldPauseTime())
+        if (JoyStickManager.ShouldPauseTime())
         {
             return;
         }
@@ -236,6 +281,7 @@ public class GameScene
         if (_timeLeft > 1)
         {
             _timeLeft--;
+            _timePass++;
         }
         else
         {

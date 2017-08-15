@@ -10,20 +10,36 @@ public class Languages
 
     static Dictionary<string, string> _english = new Dictionary<string, string>()
     {
+        {"Tuto.Objective","The objective of the game is to subsist as many enemy waves you can and advance in level. Each level gets easier and easier ;)" },
+        {"Tuto.Move","The player moves using the 'Left Stick'. Now go to the green circle with the player" },
+        {"Tuto.Rotate","The player rotates using the 'Right Stick'" },
+        {"Tuto.Shoot","The player shoots with 'A' button. While on Defend mode the player will shoot automatically" },
+
+        {"Tuto.Build","Pressing 'LB' you can bring up the building menu" },
+        {"Tuto.Solar","Now in the building menu with the 'Left Stick' select a 'Solar panel'. Highlight the button and then press 'A'. This building will provide you with power over time" },
+
+        {"Tuto.Place","Now to place the building move the player and place the building in the green circle" },
+        {"Tuto.SetBuild","Set building with 'A'" },
+
+        {"Tuto.CancelSolar","That solar building was set. You can move around a see that a new one was spawn. Please cancel this one, to cancel: 'B'" },
+
+        { "Tuto.Power","You need the power to build the buildings" },
+        { "Tuto.Health","This is your health" },
+
+        { "Tuto.Enemy","The enemies will try to kill you and destroy your rocket. If the rocket gets destroy is Game Over" },
 
 
-        {"Tuto.Objective","The objective of the game is to subsist as many enemy waves you can and advance in level. Each level gets harder" },
-        {"Tuto.Build","You can build Pressing 'LB'" },
-        {"Tuto.Power","You need the power to build any building" },
-
-        {"Tuto.Solar","Solar panels will provide you with more power over time" },
-
-        {"Tuto.Turret","The turret will actively protect you and shoot against enemies" },
-        {"Tuto.Wall","You can create anything you want with those. They protect" },
-        {"Tuto.WallArdRocket","Try and create a wall around the whole rocket" },
-        {"Tuto.CreatePath","Try and create a path so you ambush the enemies" },
+        {"Tuto.Turret","Turrets will actively protect you and shoot against enemies" },
+        {"Tuto.Wall","Walls: you can place them for protecting your rocket" },
+        {"Tuto.WallArdRocket","Try to create a wall around the rocket. Use only Small Wall units. Put 10 of them around the rocket. Press 'LB' to show the building menu" },
+        {"Tuto.Cancel.SmallWall","Cancel the Small Wall unit with 'B'" },
 
 
+        { "Tuto.CreatePath","Try and create a path so you ambush the enemies" },
+
+        {"Tuto.NextWave","This is the remaining time until next wave. Outside of the tutorial the time won't pass if you are in building mode" },
+        {"Tuto.Time","This is the remaining time until you pass this level"},
+        {"Tuto.Tuto","Be creative to defend the rocket. Place turrets behinds walls. Have fun!!"},
 
     };
 
@@ -76,8 +92,8 @@ public class Languages
     static Dictionary<string, string> _spanish = new Dictionary<string, string>()
     {
 
-  
- 
+
+
     };
 
     public static string ReturnString(string key)

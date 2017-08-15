@@ -24,19 +24,16 @@ public class Bullet : General
     {
         if (canMove)
         {
-            _rigidBody.AddForce(transform.forward * Force, ForceMode.Acceleration);
             canMove = false;
-
-            //transform.position = Vector3.MoveTowards(transform.position, transform.forward, 1);   
+            Destroy(_rigidBody);
         }
-
+        transform.position += transform.forward * 4.5f * Time.deltaTime;
         Destroy(gameObject, Range);
-
     }
 
     void OnTriggerEnter(Collider other)
     {
-        //Destroy(gameObject);
+        Destroy(gameObject);
         return;
     }
 
@@ -46,11 +43,13 @@ public class Bullet : General
 
     }
 
-    internal void Fire(float bulletForce, bool isGood)
+    internal void Fire(float bulletForce, bool isGood, Quaternion rotation)
     {
         IsGood = isGood;
         Force = bulletForce;
         canMove = true;
+
+        transform.rotation = rotation;
 
     }
 }

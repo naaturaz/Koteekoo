@@ -135,7 +135,7 @@ public class Shooter : General
         GameObject bullet = Instantiate(_bullet, BulletSpawn.transform.position, BulletSpawn.transform.rotation);
         bullet.name = "Bullet";
         _fireTime = Time.time + FireRate;
-        bullet.GetComponent<Bullet>().Fire(BulletForce, IsGood);
+        bullet.GetComponent<Bullet>().Fire(BulletForce, IsGood, BulletSpawn.transform.rotation);
 
         if (!IsGood)
         {

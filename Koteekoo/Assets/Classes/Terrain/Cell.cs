@@ -45,7 +45,14 @@ public class Cell
 
     public Cell(Vector2 nominalPos)
     {
-        Root = "Prefab/Terrain/Cell" + UMath.GiveRandom(1,10);
+        if (PlayerPrefs.GetString("Tuto") == "" && Program.GameScene.Level == 1)
+        {
+            Root = "Prefab/Terrain/Cell1";
+        }
+        else
+        {
+            Root = "Prefab/Terrain/Cell" + UMath.GiveRandom(1, 10);
+        }
 
         _nominalPos = nominalPos;
         _position = new Vector3(_nominalPos.x * 40, 0, _nominalPos.y * 40);

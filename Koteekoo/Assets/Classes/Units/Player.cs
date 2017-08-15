@@ -121,7 +121,7 @@ public class Player : Shooter
 
     void Movement()
     {
-        if (_joyStickManager.ShouldPauseTime())
+        if (_joyStickManager.ShouldStopPlayerMovement())
         {
             return;
         }

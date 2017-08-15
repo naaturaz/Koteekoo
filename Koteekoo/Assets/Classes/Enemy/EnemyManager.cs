@@ -26,8 +26,20 @@ public class EnemyManager : MonoBehaviour
     void Start()
     {
         _thisGameStartedAt = Time.time;
-        _xSing = UMath.RandomSign();
-        _zSign = UMath.RandomSign();
+
+        if (PlayerPrefs.GetString("Tuto") == "" && Program.GameScene.Level == 1)
+        {
+
+            _xSing = 1;
+            _zSign = 1;
+        }
+        else
+        {
+
+            _xSing = UMath.RandomSign();
+            _zSign = UMath.RandomSign();
+        }
+
 
         var currLevel = PlayerPrefs.GetInt("Current");
 
@@ -49,7 +61,7 @@ public class EnemyManager : MonoBehaviour
     void Update()
     {
         //player should not be on air other wise nav weird message 
-        if (Program.GameScene.TimeLeft1 - _waveDiff <= 0)
+        if (Program.GameScene.TimePass > _nextWaveAt)
         {
             count = 0;
             var levlDif = Program.GameScene.Level * 2;
@@ -65,8 +77,6 @@ public class EnemyManager : MonoBehaviour
 
     }
 
-    //This is the difference of the next wave respect to TimeLeft on GameScene
-    int _waveDiff = 40;
     void SetNextWave()
     {
         //var randCap = 60 - Program.GameScene.Level;
@@ -76,7 +86,7 @@ public class EnemyManager : MonoBehaviour
         //}
         //_nextWaveAt = Time.time + UMath.GiveRandom(20, randCap);
 
-        _nextWaveAt = Program.GameScene.TimeLeft1 - _waveDiff;
+        _nextWaveAt = Program.GameScene.TimePass + 30;
 
         if (_nextWaveAt <= 0)
         {
@@ -164,10 +174,7 @@ public class EnemyManager : MonoBehaviour
 
     public string NextWaveAt()
     {
-        var sec = Program.GameScene.TimeLeft1 - _waveDiff;
-
-
-
+        var sec = _nextWaveAt - Program.GameScene.TimePass;
         return GameScene.TimeFormat((int)sec);
     }
 

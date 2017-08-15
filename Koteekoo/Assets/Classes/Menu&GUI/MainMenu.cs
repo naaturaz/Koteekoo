@@ -21,6 +21,13 @@ public class MainMenu : General {
 
     }
 
+    public void Tutorial()
+    {
+        PlayerPrefs.SetString("Tuto", "");
+        Application.LoadLevel("Scn01");
+        PlayerPrefs.SetInt("Current", 0);
+    }
+
     public void Load(string slot)
     {
         Application.LoadLevel("Scn01");

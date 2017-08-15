@@ -38,6 +38,11 @@ public class JoyStickBtn : MonoBehaviour
 
     void SelectOrNot(bool selectNow)
     {
+        if (_btn == null)
+        {
+            return;
+        }
+
         if (selectNow)
         {
             EventSystem.current.SetSelectedGameObject(_btn.gameObject, null);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class BuildingManager : General
@@ -11,19 +12,26 @@ public class BuildingManager : General
 
     int _energyGen;
     int _energySpent;
+    private Btn_Card _card;
 
     // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    void Start()
+    {
+        _card = FindObjectOfType<Btn_Card>();
 
-	}
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
 
     public void Create(string buildingPath)
     {
+        _card.Hide();
+        Program.GameScene.JoyStickManager.SetAsPlacingNow();
+
         current = Building.CreateB("Prefab/Building/" + buildingPath, Program.GameScene.Player.HitMouseOnTerrain.point, buildingPath, transform);
 
         //add to cell
@@ -31,8 +39,21 @@ public class BuildingManager : General
 
     public void AddToAll(Building build)
     {
+        CheckTuto(build);
         _allBuildings.Add(build);
         current = null;
+    }
+
+    private void CheckTuto(Building build)
+    {
+        if (Program.GameScene.TutoWindow.IsCurrentStep("Tuto.WallArdRocket"))
+        {
+            var howMany = _allBuildings.Where(a => a.name.Contains("Small_Wall")).Count();
+            if (howMany >= 10)
+            {
+                Program.GameScene.TutoWindow.Next("Tuto.WallArdRocket");
+            }
+        }
     }
 
     internal List<BuildingData> GetAllBuilds()

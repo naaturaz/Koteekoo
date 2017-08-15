@@ -104,6 +104,12 @@ public class Building : Shooter
 
         IsGood = true;
 
+        if (name.Contains("Solar"))
+        {
+            Program.GameScene.TutoWindow.Next("Tuto.Solar");
+        }
+
+
 
         if (name == "Rocket")
         {
@@ -147,20 +153,43 @@ public class Building : Shooter
         if (!_wasFixed && Time.time > _startTime + 0.3f &&
             (Input.GetMouseButtonUp(0) || _joyStickManager.ActionButtonNow()))
         {
+            _joyStickManager.DonePlacing();
+            if (name.Contains("Solar"))
+            {
+                Program.GameScene.TutoWindow.Next("Tuto.SetBuild");
+            }
+
             _wasFixed = true;
             Program.GameScene.BuildingManager.AddToAll(this);
             OwnTower();
             RemoveCost();
             Program.GameScene.SoundManager.PlaySound(3);
 
-            if (Input.GetKey(KeyCode.LeftShift) && DoWeHavePowerToBuildThis(_name) &&
+            if ((Input.GetKey(KeyCode.LeftShift) || Program.GameScene.JoyStickManager.JoyStickController)
+                && DoWeHavePowerToBuildThis(_name) &&
                 !Program.GameScene.EnemyManager.ThereIsAnAttackNow())
             {
                 Program.GameScene.BuildingManager.Create(name);
             }
         }
 
-  
+        if (!_wasFixed && Program.GameScene.JoyStickManager.JoyStickController && Input.GetKeyUp(KeyCode.Joystick1Button1))
+        {
+            if (name.Contains("Solar"))
+            {
+                Program.GameScene.TutoWindow.Next("Tuto.CancelSolar");
+            }
+            if (name.Contains("Small_Wall"))
+            {
+                Program.GameScene.TutoWindow.Next("Tuto.Cancel.SmallWall");
+            }
+
+            Program.GameScene.SoundManager.PlaySound(3);
+            Program.GameScene.JoyStickManager.DonePlacing();
+            Destroy(gameObject);
+        }
+
+
         //if (Time.time > _energyStart + _energyLast && _hasEnergy)
         //{
         //    _hasEnergy = false;

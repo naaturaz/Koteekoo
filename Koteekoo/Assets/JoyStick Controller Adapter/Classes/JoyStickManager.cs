@@ -65,6 +65,7 @@ public class JoyStickManager : MonoBehaviour
         }
     }
 
+
     // Use this for initialization
     void Start()
     {
@@ -76,6 +77,8 @@ public class JoyStickManager : MonoBehaviour
         HideInGameBtns();
 
     }
+
+
 
     void HideInGameBtns()
     {
@@ -93,6 +96,8 @@ public class JoyStickManager : MonoBehaviour
         _axisUsedAt = 0;
         _selectedNow = -100;
         Debug.Log("Reset This");
+        _manualStart = false;
+        _resetAt = Time.time;
     }
 
     void InitJoy()
@@ -111,13 +116,13 @@ public class JoyStickManager : MonoBehaviour
 
             Debug.Log(joys[i] + " is preconfig " + Input.IsJoystickPreconfigured(joys[i]));
         }
-
-        //SelectFirstItem();
     }
 
     // Update is called once per frame
     void Update()
     {
+        InitAfterStart();
+
         //will reset if amt of btns is changed at any time, and at least had 1btns on the list 
         //or _resetBtnsNow is true
         CheckIfButtonsChanged();
@@ -131,6 +136,18 @@ public class JoyStickManager : MonoBehaviour
         }
 
         CheckIfBuildingMode();
+
+        
+    }
+
+    bool _manualStart;
+    private void InitAfterStart()
+    {
+        if (!_manualStart && Time.time > _resetAt + 0.2f)
+        {
+            _manualStart = true;
+            SelectFirstItem();
+        }
     }
 
     #region Start Btn - Pause
@@ -159,6 +176,14 @@ public class JoyStickManager : MonoBehaviour
 
 
     #endregion
+
+    /// <summary>
+    /// Will reset the btns
+    /// </summary>
+    public void SetResetBtnsNowToTrue()
+    {
+        _resetBtnsNow = true;
+    }
 
     #region Buildling Mode
 
@@ -196,17 +221,56 @@ public class JoyStickManager : MonoBehaviour
     {
         _buildingBtns.SetActive(true);
         _resetBtnsNow = true;
+        Program.GameScene.TutoWindow.Next("Tuto.Build");
     }
 
     void ForbideBuildNow()
     {
         _buildingBtns.SetActive(false);
+        _isBuilding = false;
     }
 
     void SelectFirstItem()
     {
+        if (_btnsOrderVertical.Count == 0)
+        {
+            return;
+        }
+
         _selectedNow = 0;
         _btnsOrderVertical[_selectedNow].Activate();
+    }
+
+    #endregion
+
+
+    #region Placing Mode
+
+
+    bool _isPlacingNow;
+
+    public bool IsPlacingNow
+    {
+        get
+        {
+            return _isPlacingNow;
+        }
+
+        set
+        {
+            _isPlacingNow = value;
+        }
+    }
+
+    public void SetAsPlacingNow()
+    {
+        ForbideBuildNow();
+        _isPlacingNow = true;
+    }
+
+    public void DonePlacing()
+    {
+        _isPlacingNow = false;
     }
 
     #endregion
@@ -231,6 +295,7 @@ public class JoyStickManager : MonoBehaviour
 
 
     float coolDown = 0.15f;
+    private float _resetAt;
 
     private void InputJoy()
     {
@@ -344,6 +409,11 @@ public class JoyStickManager : MonoBehaviour
     }
 
     public bool ShouldPauseTime()
+    {
+        return IsBuilding || _isPaused || IsPlacingNow || Program.GameScene.TutoWindow.IsShownNow();
+    }
+
+    public bool ShouldStopPlayerMovement()
     {
         return IsBuilding || _isPaused;
     }
