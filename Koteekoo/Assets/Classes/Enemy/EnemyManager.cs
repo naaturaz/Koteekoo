@@ -8,7 +8,7 @@ public class EnemyManager : MonoBehaviour
     float _nextWaveAt;
     int _nextWaveEnemies;
 
-
+    GameObject _rocket;
 
     List<EnemyGO> _enemies = new List<EnemyGO>();
     List<Transform> _enemiesTransform = new List<Transform>();
@@ -27,29 +27,21 @@ public class EnemyManager : MonoBehaviour
     {
         _thisGameStartedAt = Time.time;
 
+        _rocket = GameObject.Find("Rocket");
+
         if (PlayerPrefs.GetString("Tuto") == "" && Program.GameScene.Level == 1)
         {
-
             _xSing = 1;
             _zSign = 1;
         }
         else
         {
-
             _xSing = UMath.RandomSign();
             _zSign = UMath.RandomSign();
         }
 
-
         var currLevel = PlayerPrefs.GetInt("Current");
-
-        _nextWaveAt = Time.time + 20 + currLevel;
-        //if (LoadSave.ThereIsALoad())
-        //{
-        //    SetNextWave();
-        //    //load enemies
-
-        //}
+        _nextWaveAt = Program.GameScene.TimePass + 10 + currLevel;
     }
 
     internal bool ThereIsAnAttackNow()
@@ -63,35 +55,27 @@ public class EnemyManager : MonoBehaviour
         //player should not be on air other wise nav weird message 
         if (Program.GameScene.TimePass > _nextWaveAt)
         {
-            count = 0;
-            var levlDif = Program.GameScene.Level * 2;
+            var levlDif = Program.GameScene.Level;
 
             SetNextWave();
-            _nextWaveEnemies = _waveNumb  * (UMath.GiveRandom(1 + levlDif, 6 + levlDif));
-            Program.GameScene.CameraK.Attack();
-
             _waveNumb++;
 
+            //will skip a wave if there is still an attack now 
+            if (ThereIsAnAttackNow())
+            {
+                return;
+            }
+
+            count = 0;//triggers the start of spawning 
+            _nextWaveEnemies = _waveNumb + (UMath.GiveRandom(levlDif, 1 + levlDif));
+            Program.GameScene.CameraK.Attack();
         }
         SpawnEnemies();
-
     }
 
     void SetNextWave()
     {
-        //var randCap = 60 - Program.GameScene.Level;
-        //if (randCap < 22)
-        //{
-        //    randCap = 22;
-        //}
-        //_nextWaveAt = Time.time + UMath.GiveRandom(20, randCap);
-
-        _nextWaveAt = Program.GameScene.TimePass + 30;
-
-        if (_nextWaveAt <= 0)
-        {
-            _nextWaveAt = 20;
-        }
+        _nextWaveAt = Program.GameScene.TimePass + 20;
     }
 
 
@@ -120,7 +104,7 @@ public class EnemyManager : MonoBehaviour
 
         var enemyType = _enemiesList[UMath.GiveRandom(0, _enemiesList.Count)];
 
-        var _spawnPos = Program.GameScene.Player.transform.position +
+        var _spawnPos = _rocket.transform.position +
             new Vector3(_xSing * 16, 0, _zSign * 16);
 
         var enemyNumb = UMath.GiveRandom(1, 3);

@@ -12,6 +12,7 @@ public class Btn_Card : General {
     Text _power;
     Text _life;
     Vector3 _iniPos;
+    Text _info;
 
     // Use this for initialization
     void Start () {
@@ -19,6 +20,8 @@ public class Btn_Card : General {
         _title = GetChildCalled("Title").GetComponent<Text>();
         _power = GetChildCalled("Power").GetComponent<Text>();
         _life = GetChildCalled("Life").GetComponent<Text>();
+        _info = GetChildCalled("Info").GetComponent<Text>();
+
 
         _iniPos = transform.position;
         Hide();
@@ -35,12 +38,23 @@ public class Btn_Card : General {
 
         var stat = Building.ReturnBuildStat(key);
 
-        _title.text = key;
+        var enable = Building.DoWeHavePowerToBuildThis(key);
+
+        if (!enable)
+        {
+            _title.text = "No Power";
+            _info.text = "More power is needed to build this";
+        }
+        else
+        {
+            _title.text = key;
+            _info.text = Languages.ReturnString(key);
+        }
+
         _power.text = stat.Cost+"";
         _life.text = stat.Health + "";
 
         AssignThumb(key);
-
 
         transform.position = _iniPos;
     }

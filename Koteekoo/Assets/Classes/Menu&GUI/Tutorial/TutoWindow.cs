@@ -43,6 +43,8 @@ class TutoWindow : GUIElement
         { "Tuto.CreatePath",0 },
         {"Tuto.NextWave",0 },
         {"Tuto.Time",0},
+        {"Tuto.Jump",0},
+
         {"Tuto.Tuto",0},
 
     };
@@ -71,10 +73,7 @@ class TutoWindow : GUIElement
 
         _rectTransform = transform.GetComponent<RectTransform>();
 
-        if (!string.IsNullOrEmpty(PlayerPrefs.GetString("Tuto")))
-        {
-            SkipTuto();
-        }
+
 
         for (int i = 0; i < StepsGO.Length; i++)
         {
@@ -82,6 +81,13 @@ class TutoWindow : GUIElement
             {
                 StepsGO[i].SetActive(false);
             }
+        }
+
+
+        if (!string.IsNullOrEmpty(PlayerPrefs.GetString("Tuto")))
+        {
+            SkipTuto();
+            gameObject.SetActive(false);
         }
     }
 
@@ -100,7 +106,7 @@ class TutoWindow : GUIElement
 
     private void CheckIfSkipped()
     {
-        if (Program.GameScene.JoyStickManager.JoyStickController && Input.GetKeyUp(KeyCode.Joystick1Button2))
+        if (Program.GameScene.JoyStickManager.JoyStickController && Input.GetKeyUp(KeyCode.Joystick1Button3))//Y
         {
             SkipTuto();
         }

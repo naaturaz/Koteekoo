@@ -7,8 +7,11 @@ using UnityStandardAssets.Utility;
 public class EnemyGO : Shooter
 {
     float _speed = 0.04f;
+
     GameObject _stump;
+
     NavMeshAgent _agent;
+    float _agentIniSpeed;
 
     public bool DebugWalk;
     int _leftRewards;
@@ -29,6 +32,8 @@ public class EnemyGO : Shooter
         _rocket = GameObject.Find("Rocket");
 
         _agent = GetComponent<NavMeshAgent>();
+        _agentIniSpeed = _agent.speed;
+
         _rotScript = GetComponent<AutoMoveAndRotate>();
         _rotScript.enabled = false;
 
@@ -68,6 +73,20 @@ public class EnemyGO : Shooter
 
         _agent.destination = _targetPos;
 
+        CheckIfPaused();
+
+    }
+
+    private void CheckIfPaused()
+    {
+        if (Program.GameScene.JoyStickManager.ShouldStopPlayerMovement())
+        {
+            _agent.speed = 0;
+        }
+        else
+        {
+            _agent.speed = _agentIniSpeed;
+        }
     }
 
     private IEnumerator OneSecUpdate()

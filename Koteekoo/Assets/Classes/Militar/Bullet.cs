@@ -27,7 +27,7 @@ public class Bullet : General
             canMove = false;
             Destroy(_rigidBody);
         }
-        transform.position += transform.forward * 4.5f * Time.deltaTime;
+        transform.position += transform.forward * 6.5f * Time.deltaTime;
         Destroy(gameObject, Range);
     }
 

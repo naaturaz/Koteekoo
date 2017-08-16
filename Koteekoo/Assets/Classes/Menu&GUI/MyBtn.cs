@@ -53,17 +53,15 @@ public class MyBtn : MonoBehaviour
         }
 
 
-        var enable = Building.DoWeHavePowerToBuildThis(name) && !Program.GameScene.EnemyManager.ThereIsAnAttackNow();
+        //if (enable)
+        //{
+        //    _btn.interactable = true;
+        //}
+        //else
+        //{
+        //    _btn.interactable = false;
 
-        if (enable)
-        {
-            _btn.interactable = true;
-        }
-        else
-        {
-            _btn.interactable = false;
-
-        }
+        //}
 
 
     }

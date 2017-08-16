@@ -29,11 +29,18 @@ public class BuildingManager : General
 
     public void Create(string buildingPath)
     {
+        //buildling path ex: Militar/Small_Wall
+        var key = buildingPath.Split('/').ToArray()[1];
+        if (!Building.DoWeHavePowerToBuildThis(key))
+        {
+            //negation sound
+            Program.GameScene.SoundManager.PlaySound(7);
+            return;    
+        }
+
         _card.Hide();
         Program.GameScene.JoyStickManager.SetAsPlacingNow();
-
         current = Building.CreateB("Prefab/Building/" + buildingPath, Program.GameScene.Player.HitMouseOnTerrain.point, buildingPath, transform);
-
         //add to cell
     }
 
@@ -49,7 +56,7 @@ public class BuildingManager : General
         if (Program.GameScene.TutoWindow.IsCurrentStep("Tuto.WallArdRocket"))
         {
             var howMany = _allBuildings.Where(a => a.name.Contains("Small_Wall")).Count();
-            if (howMany >= 10)
+            if (howMany >= 9)
             {
                 Program.GameScene.TutoWindow.Next("Tuto.WallArdRocket");
             }
@@ -111,6 +118,14 @@ public class BuildingManager : General
     public void AddToGen(int pls)
     {
         _energyGen += pls;
+    }
+
+    public void DestroyCurrentIfNoFixed()
+    {
+        if (current!=null && !current.WasFixed())
+        {
+            Destroy(current.gameObject);
+        }
     }
 }
 

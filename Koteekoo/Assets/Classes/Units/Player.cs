@@ -72,9 +72,18 @@ public class Player : Shooter
         LookAtMousePos();
 
         Shoot();
-        //Jump();
+        Jump();
+        CheckCeiling();
 
         UnableRigidIfBuilding();
+    }
+
+    private void CheckCeiling()
+    {
+        if (transform.position.y > 5f)
+        {
+            _rigidBody.AddForce(new Vector3(0, -1f, 0), ForceMode.VelocityChange);
+        }
     }
 
     public void GameOver(string reason)
@@ -83,7 +92,6 @@ public class Player : Shooter
         Application.LoadLevel("MainMenu");
         PlayerPrefs.SetString("State", "GameOver");//Clear current game 
         PlayerPrefs.SetString("Reason", reason); 
-
     }
 
     private void UnableRigidIfBuilding()
@@ -94,19 +102,18 @@ public class Player : Shooter
         }
         else
         {
-
             _rigidBody.isKinematic = false;
-
         }
     }
 
     private void Jump()
     {
-        if ((Input.GetKeyDown("space") ||  Input.GetAxis("Jump") != 0) && !IsFalling)
+        if ((Input.GetKeyDown("space") ||  Input.GetAxis("Jump") != 0)
+            || (_joyStickManager.JoyStickController && Input.GetKeyUp(KeyCode.Joystick1Button2))
+            && !IsFalling)
         {
-            _rigidBody.AddForce(new Vector3(0, 4, 0), ForceMode.Impulse);
+            _rigidBody.AddForce(new Vector3(0, 6, 0), ForceMode.VelocityChange);
         }
-
         IsFalling = true;
     }
 

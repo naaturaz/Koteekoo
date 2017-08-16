@@ -37,7 +37,8 @@ public class JoyStickManager : MonoBehaviour
 
 
     private bool _resetBtnsNow;
-
+    private float _resetAt;
+    private Btn_Card _btnCard;
 
     public bool JoyStickController
     {
@@ -71,7 +72,7 @@ public class JoyStickManager : MonoBehaviour
     {
         _buildingBtns = GameObject.Find("BuildingBtns");
         _inGameMenuBtns = GameObject.Find("InGameMenu");
-
+        _btnCard = FindObjectOfType<Btn_Card>();
         InitJoy();
 
         HideInGameBtns();
@@ -165,6 +166,7 @@ public class JoyStickManager : MonoBehaviour
                 _inGameMenuBtns.SetActive(true);
                 _buildingBtns.SetActive(false);
                 _isBuilding = false;
+                _btnCard.Hide();
             }
             else
             {
@@ -203,9 +205,12 @@ public class JoyStickManager : MonoBehaviour
         var bBtn = IsBuilding && Input.GetKeyUp(KeyCode.Joystick1Button1);
         if ((Input.GetKeyUp(KeyCode.Joystick1Button4) || bBtn) && Application.loadedLevelName != "MainMenu")
         {
-            IsBuilding = !IsBuilding;
-            Debug.Log("_isBuilding:" + IsBuilding);
+            if (Program.GameScene.EnemyManager.ThereIsAnAttackNow())
+            {
+                return;
+            }
 
+            IsBuilding = !IsBuilding;
             if (IsBuilding)
             {
                 AllowBuildNow();
@@ -219,6 +224,9 @@ public class JoyStickManager : MonoBehaviour
 
     void AllowBuildNow()
     {
+        //to avoid bug where 2 builds where spawned
+        Program.GameScene.BuildingManager.DestroyCurrentIfNoFixed();
+
         _buildingBtns.SetActive(true);
         _resetBtnsNow = true;
         Program.GameScene.TutoWindow.Next("Tuto.Build");
@@ -226,6 +234,7 @@ public class JoyStickManager : MonoBehaviour
 
     void ForbideBuildNow()
     {
+        _btnCard.Hide();
         _buildingBtns.SetActive(false);
         _isBuilding = false;
     }
@@ -270,8 +279,11 @@ public class JoyStickManager : MonoBehaviour
 
     public void DonePlacing()
     {
+        _btnCard.Hide();
         _isPlacingNow = false;
     }
+
+
 
     #endregion
 
@@ -295,7 +307,7 @@ public class JoyStickManager : MonoBehaviour
 
 
     float coolDown = 0.15f;
-    private float _resetAt;
+
 
     private void InputJoy()
     {
@@ -416,5 +428,14 @@ public class JoyStickManager : MonoBehaviour
     public bool ShouldStopPlayerMovement()
     {
         return IsBuilding || _isPaused;
+    }
+
+    /// <summary>
+    /// Meant to tell production building not to produce anything if is time is paused, however while Tutorial is OK
+    /// </summary>
+    /// <returns></returns>
+    internal bool IsTimePausedAndNotTutorial()
+    {
+        return (IsBuilding || _isPaused || IsPlacingNow) && !Program.GameScene.TutoWindow.IsShownNow();
     }
 }

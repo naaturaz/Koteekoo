@@ -127,7 +127,7 @@ public class Shooter : General
 
     void SpawnBullet()
     {
-        if (_ammo < 1)
+        if (Program.GameScene.JoyStickManager.ShouldStopPlayerMovement() || _ammo < 1)
         {
             return;
         }

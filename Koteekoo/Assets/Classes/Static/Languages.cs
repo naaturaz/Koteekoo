@@ -10,13 +10,14 @@ public class Languages
 
     static Dictionary<string, string> _english = new Dictionary<string, string>()
     {
+        //tutorial
         {"Tuto.Objective","The objective of the game is to subsist as many enemy waves you can and advance in level. Each level gets easier and easier ;)" },
         {"Tuto.Move","The player moves using the 'Left Stick'. Now go to the green circle with the player" },
         {"Tuto.Rotate","The player rotates using the 'Right Stick'" },
         {"Tuto.Shoot","The player shoots with 'A' button. While on Defend mode the player will shoot automatically" },
 
         {"Tuto.Build","Pressing 'LB' you can bring up the building menu" },
-        {"Tuto.Solar","Now in the building menu with the 'Left Stick' select a 'Solar panel'. Highlight the button and then press 'A'. This building will provide you with power over time" },
+        {"Tuto.Solar","Now in the building menu with the 'Left Stick' select a 'Solar panel'. Highlight the button and then press 'A'. This building will provide you with power over time. Notice the cost and health of each unit" },
 
         {"Tuto.Place","Now to place the building move the player and place the building in the green circle" },
         {"Tuto.SetBuild","Set building with 'A'" },
@@ -29,17 +30,31 @@ public class Languages
         { "Tuto.Enemy","The enemies will try to kill you and destroy your rocket. If the rocket gets destroy is Game Over" },
 
 
-        {"Tuto.Turret","Turrets will actively protect you and shoot against enemies" },
+        {"Tuto.Turret","Turrets will actively protect you and shoot against enemies. They can't shoot trhough walls" },
         {"Tuto.Wall","Walls: you can place them for protecting your rocket" },
-        {"Tuto.WallArdRocket","Try to create a wall around the rocket. Use only Small Wall units. Put 10 of them around the rocket. Press 'LB' to show the building menu" },
+        {"Tuto.WallArdRocket","Try to create a wall around the rocket. Use only Small Wall units. Put 10 of them around the rocket. Press 'LB' to show the building menu. Use the ones on screen for reference" },
         {"Tuto.Cancel.SmallWall","Cancel the Small Wall unit with 'B'" },
 
 
-        { "Tuto.CreatePath","Try and create a path so you ambush the enemies" },
+        { "Tuto.CreatePath","You can build paths with turrets and use it to ambush enemies. The one shown on screen is one of infinite possiblilites" },
 
         {"Tuto.NextWave","This is the remaining time until next wave. Outside of the tutorial the time won't pass if you are in building mode" },
         {"Tuto.Time","This is the remaining time until you pass this level"},
-        {"Tuto.Tuto","Be creative to defend the rocket. Place turrets behinds walls. Have fun!!"},
+        {"Tuto.Jump","To jump press 'X' button"},
+
+
+        { "Tuto.Tuto","Be creative to defend the rocket. Place turrets behinds walls. Have fun!!"},
+
+
+
+
+        //units description
+        { "Defend_Tower","Shoots enemies"},
+        { "Hi_Defend_Tower","Shoots enemies from higher point"},
+        { "Solar_Panel","Produces power over time"},
+        { "Small_Wall","Protects a bit"},
+        { "Med_Wall","Protects some"},
+        { "Tall_Wall","Protects, a lot"},
 
     };
 

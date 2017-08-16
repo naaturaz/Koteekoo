@@ -173,6 +173,7 @@ public class Building : Shooter
             }
         }
 
+        //Cancelling 'B' btn
         if (!_wasFixed && Program.GameScene.JoyStickManager.JoyStickController && Input.GetKeyUp(KeyCode.Joystick1Button1))
         {
             if (name.Contains("Solar"))
@@ -203,6 +204,11 @@ public class Building : Shooter
 
 
         Production();
+    }
+
+    public bool WasFixed()
+    {
+        return _wasFixed;
     }
 
     private void RemoveCost()
@@ -263,6 +269,13 @@ public class Building : Shooter
 
     private void Produce()
     {
+        //if time paused wont produce ,,, in Tutorial will
+        if (Program.GameScene.JoyStickManager.IsTimePausedAndNotTutorial())
+        {
+            _lastProd = Time.time;
+            return;
+        }
+
         var root = "Prefab/Crate/" + Name + "_Crate";
         _lastProd = Time.time;
         _hasInput = false;
@@ -382,7 +395,7 @@ public class Building : Shooter
         var index = _indexer[build];
         var cost = _builds[index].Cost;
 
-        return Program.GameScene.Player.Power > cost;
+        return Program.GameScene.Player.Power >= cost;
     }
 
     public static BuildStat ReturnBuildStat(string build)
@@ -398,14 +411,24 @@ public class Building : Shooter
     }
 
 
+    private void OnTriggerEnter(Collider other)
+    {
+        BeingHit(other.gameObject);
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.name != "Bullet")
+        
+    }
+
+    void BeingHit(GameObject go)
+    {
+        if (go.name != "Bullet")
         {
             return;
         }
 
-        var bulletComponent = collision.gameObject.GetComponent<Bullet>();
+        var bulletComponent = go.GetComponent<Bullet>();
         //so friendly fire doesnt affect units  
         if (IsGood == bulletComponent.IsGood)
         {
