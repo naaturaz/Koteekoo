@@ -29,7 +29,13 @@ public class SoundManager : MonoBehaviour {
     /// </summary>
     /// <param name="index"></param>
     public void PlaySound(int index)
-    {
+    {    
+        //debug
+        if (Sounds.Length == 0)
+        {
+            return;
+        }
+
         if (!_isOn)
         {
             return;
@@ -46,12 +52,20 @@ public class SoundManager : MonoBehaviour {
 
     public void PlayMusic(int index)
     {
+        //debug
+        if (Music.Length == 0)
+        {
+            return;
+        }
+
         if (!_isOn)
         {
             return;
         }
 
         var audioSource = Instantiate(_musicSourceTemplate);
+
+   
 
         var clip = Music[index];
         audioSource.clip = clip;

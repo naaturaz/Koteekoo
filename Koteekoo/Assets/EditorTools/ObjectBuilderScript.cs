@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEditor;
+//using UnityEditor;
 
 public class ObjectBuilderScript : MonoBehaviour
 {
@@ -17,7 +17,7 @@ public class ObjectBuilderScript : MonoBehaviour
     {
 #if UNITY_EDITOR
 
-        var texture = AssetPreview.GetAssetPreview(obj);
+        //var texture = AssetPreview.GetAssetPreview(obj);
 #endif
         var a = 1;
     }

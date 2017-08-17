@@ -6,7 +6,7 @@ using UnityEngine;
 public class Player : Shooter
 {
 
-    float _speed = .05f;//.1
+    float _speed = 5;//.05    .1
     RaycastHit _hitMouseOnTerrain;
     Rigidbody _rigidBody;
     bool _isFalling;
@@ -133,8 +133,8 @@ public class Player : Shooter
             return;
         }
 
-        float v = Input.GetAxis("Vertical") * _speed;
-        float h = Input.GetAxis("Horizontal") * _speed;
+        float v = Input.GetAxis("Vertical") * _speed * Time.deltaTime;
+        float h = Input.GetAxis("Horizontal") * _speed * Time.deltaTime;
         transform.position += new Vector3(h, 0, v);
     }
 

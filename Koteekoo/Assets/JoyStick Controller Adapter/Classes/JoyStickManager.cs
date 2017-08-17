@@ -110,12 +110,12 @@ public class JoyStickManager : MonoBehaviour
         var joys = Input.GetJoystickNames();
         for (int i = 0; i < joys.Length; i++)
         {
-            if (Input.IsJoystickPreconfigured(joys[i]) && joys[i].Contains("Xbox 360"))
-            {
+            //if (Input.IsJoystickPreconfigured(joys[i]) && joys[i].Contains("Xbox 360"))
+            //{
                 JoyStickController = true;
-            }
+            //}
 
-            Debug.Log(joys[i] + " is preconfig " + Input.IsJoystickPreconfigured(joys[i]));
+           // Debug.Log(joys[i] + " is preconfig " + Input.IsJoystickPreconfigured(joys[i]));
         }
     }
 

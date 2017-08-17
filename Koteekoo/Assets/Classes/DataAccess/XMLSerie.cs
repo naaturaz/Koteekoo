@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System;
-using System.Security.Permissions;
 
 //to be able to serializea an obj cant inherit from monobeaviour
 
@@ -22,8 +21,8 @@ public class XMLSerie
 
     private static void DefinePath()
     {
-        dataPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData) + @"\Koteekoo";
-        Debug.Log(dataPath);
+        //dataPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData) + @"\Koteekoo";
+        //Debug.Log(dataPath);
     }
 
     private static void CheckIfSugarMillFolderExists()

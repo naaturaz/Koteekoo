@@ -29,6 +29,8 @@ public class Program : General
     // Use this for initialization
     void Start()
     {
+        Application.targetFrameRate = 60;
+
         _gameScene = new GameScene();
 
         var empty = (GameObject)Resources.Load("Main/EmptyGO");
@@ -37,7 +39,7 @@ public class Program : General
 
         _gameScene.Start();
 
-
+        
 
         if (Application.loadedLevelName == "MainMenu")
         {

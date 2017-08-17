@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -54,7 +53,7 @@ public class Btn_Card : General {
         _power.text = stat.Cost+"";
         _life.text = stat.Health + "";
 
-        AssignThumb(key);
+        //AssignThumb(key);
 
         transform.position = _iniPos;
     }
@@ -62,25 +61,25 @@ public class Btn_Card : General {
     void AssignThumb(string key)
     {
 
-        var editHold = FindObjectOfType<EditorPrefabHolder>();
-        var index = Building.ReturnBuildIndex(key);
-        var obj = editHold.Prefabs[index];
+       // var editHold = FindObjectOfType<EditorPrefabHolder>();
+       // var index = Building.ReturnBuildIndex(key);
+       // var obj = editHold.Prefabs[index];
 
-        var texture = AssetPreview.GetAssetPreview(obj);
+       //// var texture = AssetPreview.GetAssetPreview(obj);
 
-        if (texture == null)
-        {
-            return;
-        }
+       // if (texture == null)
+       // {
+       //     return;
+       // }
 
-        var rect = new Rect(0, 0, texture.width, texture.height);
+       // var rect = new Rect(0, 0, texture.width, texture.height);
 
 
-        texture.alphaIsTransparency = true;
+       // texture.alphaIsTransparency = true;
 
-        Sprite newSp = Sprite.Create(texture, rect, new Vector2(0.5f, 0.5f));
-        var objImg = _thumb.GetComponent<Image>();
-        objImg.sprite = newSp;
+       // Sprite newSp = Sprite.Create(texture, rect, new Vector2(0.5f, 0.5f));
+       // var objImg = _thumb.GetComponent<Image>();
+       // objImg.sprite = newSp;
     }
 
     internal void Hide()
