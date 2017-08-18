@@ -104,12 +104,10 @@ public class Building : Shooter
 
         IsGood = true;
 
-        if (name.Contains("Solar"))
+        if (name.Contains("Solar") && Program.GameScene.TutoWindow != null)
         {
             Program.GameScene.TutoWindow.Next("Tuto.Solar");
         }
-
-
 
         if (name == "Rocket")
         {
@@ -130,15 +128,12 @@ public class Building : Shooter
 
         var index = _indexer[_name];
         Health = _builds[index].Health;
-
-
-
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!_wasFixed )
+        if (!_wasFixed)
         {
             if (!_joyStickManager.JoyStickController)
             {
@@ -146,7 +141,7 @@ public class Building : Shooter
             }
             else
             {
-                transform.position = Program.GameScene.Player.transform.position + new Vector3(0, 0, 5);
+                transform.position = Program.GameScene.Player.transform.position + new Vector3(0, 0, 2);
             }
         }
 
@@ -154,7 +149,7 @@ public class Building : Shooter
             (Input.GetMouseButtonUp(0) || _joyStickManager.ActionButtonNow()))
         {
             _joyStickManager.DonePlacing();
-            if (name.Contains("Solar"))
+            if (name.Contains("Solar") && Program.GameScene.TutoWindow != null)
             {
                 Program.GameScene.TutoWindow.Next("Tuto.SetBuild");
             }
@@ -176,14 +171,19 @@ public class Building : Shooter
         //Cancelling 'B' btn
         if (!_wasFixed && Program.GameScene.JoyStickManager.JoyStickController && Input.GetKeyUp(KeyCode.Joystick1Button1))
         {
-            if (name.Contains("Solar"))
+            if (Program.GameScene.TutoWindow != null)
             {
-                Program.GameScene.TutoWindow.Next("Tuto.CancelSolar");
+                if (name.Contains("Solar"))
+                {
+                    Program.GameScene.TutoWindow.Next("Tuto.CancelSolar");
+                }
+                if (name.Contains("Small_Wall"))
+                {
+                    Program.GameScene.TutoWindow.Next("Tuto.Cancel.SmallWall");
+                }
             }
-            if (name.Contains("Small_Wall"))
-            {
-                Program.GameScene.TutoWindow.Next("Tuto.Cancel.SmallWall");
-            }
+
+
 
             Program.GameScene.SoundManager.PlaySound(3);
             Program.GameScene.JoyStickManager.DonePlacing();
@@ -220,7 +220,7 @@ public class Building : Shooter
 
     void ChangeRotatorsToState(bool isOn)
     {
-        if (_rotator1!=null)
+        if (_rotator1 != null)
         {
             _rotator1.enabled = isOn;
         }
@@ -233,6 +233,11 @@ public class Building : Shooter
 
     private void Production()
     {
+        if (name.Contains("Solar"))
+        {
+            var a = 1;
+        }
+
         if (!_hasEnergy)
         {
             return;
@@ -240,7 +245,7 @@ public class Building : Shooter
 
         var goodInput = _hasInput || !IsAInputBuilding(name);
 
-        if (!_wasFixed || Time.time < _lastProd + _prodRate || Crate != null || !goodInput)
+        if (!_wasFixed || Time.time < _lastProd + _prodRate || !goodInput)
         {
             return;
         }
@@ -279,7 +284,11 @@ public class Building : Shooter
         var root = "Prefab/Crate/" + Name + "_Crate";
         _lastProd = Time.time;
         _hasInput = false;
-        Crate = General.Create(root, transform.position + new Vector3(0, 4, 0f), root);
+        //Crate = General.Create(root, transform.position + new Vector3(0, 4, 0f), root);
+
+        Crate = Program.GameScene.SpawnPool.ReturnGeneral("Solar_Panel_Crate");
+        Crate.transform.position = transform.position + new Vector3(0, 4, 0);
+
     }
 
     internal static Building CreateB(string root, Vector3 point, string buildingPath, Transform transform)
@@ -418,12 +427,12 @@ public class Building : Shooter
 
     private void OnCollisionEnter(Collision collision)
     {
-        
+
     }
 
     void BeingHit(GameObject go)
     {
-        if (go.name != "Bullet")
+        if (!go.name.Contains("Bullet"))
         {
             return;
         }

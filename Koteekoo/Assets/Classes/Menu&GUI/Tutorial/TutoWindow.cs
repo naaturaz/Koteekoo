@@ -61,6 +61,18 @@ class TutoWindow : GUIElement
     private RectTransform _rectTransform;
     private Vector3 _iniPos;
 
+    void HideStepsGO()
+    {
+
+        for (int i = 0; i < StepsGO.Length; i++)
+        {
+            if (StepsGO[i] != null)
+            {
+                StepsGO[i].SetActive(false);
+            }
+        }
+    }
+
     void Start()
     {
         _btnGotIt = transform.Find("Got it").gameObject;
@@ -74,20 +86,12 @@ class TutoWindow : GUIElement
         _rectTransform = transform.GetComponent<RectTransform>();
 
 
-
-        for (int i = 0; i < StepsGO.Length; i++)
-        {
-            if (StepsGO[i] != null)
-            {
-                StepsGO[i].SetActive(false);
-            }
-        }
+        HideStepsGO();
 
 
         if (!string.IsNullOrEmpty(PlayerPrefs.GetString("Tuto")))
         {
             SkipTuto();
-            gameObject.SetActive(false);
         }
     }
 
@@ -208,12 +212,11 @@ class TutoWindow : GUIElement
     /// </summary>
     public void SkipTuto()
     {
+        HideStepsGO();
         Program.GameScene.SoundManager.PlaySound(1);
-
-        //_currentIndex = -1;
         Hide();
-
         PlayerPrefs.SetString("Tuto", "Skip");
+        gameObject.SetActive(false);
     }
 
 

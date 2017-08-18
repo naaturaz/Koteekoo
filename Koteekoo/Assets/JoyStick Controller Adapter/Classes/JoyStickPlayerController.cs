@@ -9,7 +9,22 @@ public class JoyStickPlayerController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        StartCoroutine("WaitAlmostASec");
 
+    }
+
+    private IEnumerator WaitAlmostASec()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(.9f);
+            //to correct if hit a trees and rigid body wants to fall
+            if (transform.rotation.x != 0)
+            {
+                transform.rotation = new Quaternion(0, transform.rotation.y, 0, transform.rotation.w);
+            }
+
+        }
     }
 
     // Update is called once per frame
@@ -23,11 +38,6 @@ public class JoyStickPlayerController : MonoBehaviour
             //Debug.Log("V:" + Input.GetAxis("VerticalTurn"));
         }
 
-        //to correct if hit a trees and rigid body wants to fall
-        if (transform.rotation.x != 0)
-        {
-            transform.rotation = new Quaternion(0, transform.rotation.y, 0, transform.rotation.w);
-        }
 
 
     }

@@ -4,15 +4,12 @@ using System;
 
 public class Bullet : General
 {
-    private float Force = 0;
     private float Range = 1.5f;
     public AudioClip ShootSound = null;
-    private bool canMove;
-    private Rigidbody _rigidBody;
+    private float _wasFiredAt = -1;
 
     private void Start()
     {
-        _rigidBody = GetComponent<Rigidbody>();
     }
 
     void Update()
@@ -22,18 +19,27 @@ public class Bullet : General
 
     void Move()
     {
-        if (canMove)
+        if (_wasFiredAt < 0)
         {
-            canMove = false;
-            Destroy(_rigidBody);
+            return;
         }
+
         transform.position += transform.forward * 6.5f * Time.deltaTime;
-        Destroy(gameObject, Range);
+        if (Time.time > _wasFiredAt + Range)
+        {
+            _wasFiredAt = -1;
+
+            Program.GameScene.SpawnPool.AddToPool<Bullet>(this);
+        }
     }
 
     void OnTriggerEnter(Collider other)
     {
-        Destroy(gameObject);
+        _wasFiredAt = -1;
+
+        Program.GameScene.SpawnPool.AddToPool<Bullet>(this);
+
+        //Destroy(gameObject);
         return;
     }
 
@@ -46,10 +52,7 @@ public class Bullet : General
     internal void Fire(float bulletForce, bool isGood, Quaternion rotation)
     {
         IsGood = isGood;
-        Force = bulletForce;
-        canMove = true;
-
         transform.rotation = rotation;
-
+        _wasFiredAt = Time.time;
     }
 }

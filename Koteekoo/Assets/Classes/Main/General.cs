@@ -127,4 +127,15 @@ public class General : MonoBehaviour {
         return null;
     }
 
+    public static List<GameObject> GetAllChilds(GameObject gO)
+    {
+        List<GameObject> res = new List<GameObject>();
+        for (int i = 0; i < gO.transform.childCount; i++)
+        {
+
+            res.Add(gO.transform.GetChild(i).gameObject);
+
+        }
+        return res;
+    }
 }

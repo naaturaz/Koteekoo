@@ -42,6 +42,17 @@ public class EnemyManager : MonoBehaviour
 
         var currLevel = PlayerPrefs.GetInt("Current");
         _nextWaveAt = Program.GameScene.TimePass + 10 + currLevel;
+
+        StartCoroutine("Wait2Sec");
+    }
+
+    private IEnumerator Wait2Sec()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(1.5f);
+            SpawnEnemies();
+        }
     }
 
     internal bool ThereIsAnAttackNow()
@@ -70,7 +81,7 @@ public class EnemyManager : MonoBehaviour
             _nextWaveEnemies = _waveNumb + (UMath.GiveRandom(levlDif, 1 + levlDif));
             Program.GameScene.CameraK.Attack();
         }
-        SpawnEnemies();
+        //SpawnEnemies();
     }
 
     void SetNextWave()

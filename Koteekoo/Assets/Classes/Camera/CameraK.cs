@@ -28,6 +28,8 @@ public class CameraK : MonoBehaviour
         transform.position = Vector3.MoveTowards(transform.position, _target.transform.position, _speed);
         transform.LookAt(Program.GameScene.Player.transform.position);
 
+
+
         //if (UMath.nearEqualByDistance(transform.position, _cam_Point_90_Degrees.transform.position, 0.1f))
         //{
         //    //_speed = 0.01f;

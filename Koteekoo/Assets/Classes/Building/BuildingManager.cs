@@ -53,6 +53,11 @@ public class BuildingManager : General
 
     private void CheckTuto(Building build)
     {
+        if (Program.GameScene.TutoWindow == null)
+        {
+            return;
+        }
+
         if (Program.GameScene.TutoWindow.IsCurrentStep("Tuto.WallArdRocket"))
         {
             var howMany = _allBuildings.Where(a => a.name.Contains("Small_Wall")).Count();

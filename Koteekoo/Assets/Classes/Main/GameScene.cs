@@ -38,6 +38,7 @@ public class GameScene
     SoundManager _soundManager;
 
     JoyStickManager _joyStickManager;
+    SpawnPool _spawnPool;
 
     TutoWindow _tutoWindow;
 
@@ -204,6 +205,19 @@ public class GameScene
         }
     }
 
+    public SpawnPool SpawnPool
+    {
+        get
+        {
+            return _spawnPool;
+        }
+
+        set
+        {
+            _spawnPool = value;
+        }
+    }
+
     void LoadLevel()
     {
         Level = PlayerPrefs.GetInt("Current");
@@ -226,7 +240,7 @@ public class GameScene
         SoundManager = GameObject.FindObjectOfType<SoundManager>();
         JoyStickManager = GameObject.FindObjectOfType<JoyStickManager>();
         TutoWindow = GameObject.FindObjectOfType<TutoWindow>();
-
+        SpawnPool = GameObject.FindObjectOfType<SpawnPool>();
 
         if (Application.loadedLevelName == "MainMenu")
         {
@@ -257,7 +271,7 @@ public class GameScene
 
     private void DefinePowerAndInitValForLevel()
     {
-        Program.GameScene.Player.Power += (90 * Level);
+        Program.GameScene.Player.Power += (100 * Level);
 
     }
 

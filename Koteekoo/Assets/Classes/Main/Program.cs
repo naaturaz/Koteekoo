@@ -23,7 +23,10 @@ public class Program : General
 
 
 
+    private void Awake()
+    {
 
+    }
 
 
     // Use this for initialization
@@ -32,14 +35,12 @@ public class Program : General
         Application.targetFrameRate = 60;
 
         _gameScene = new GameScene();
-
         var empty = (GameObject)Resources.Load("Main/EmptyGO");
+
         _gameScene.Container = Instantiate(empty, empty.transform.position, empty.transform.rotation);
         _gameScene.Container.name = "GameScene";
 
         _gameScene.Start();
-
-        
 
         if (Application.loadedLevelName == "MainMenu")
         {
@@ -49,8 +50,8 @@ public class Program : General
         StartCoroutine("OneSecUpdate");
 
 
-        var root = "Prefab/Crate/Solar_Panel_Crate";
-        var Crate = General.Create(root, transform.position, root);
+        //var root = "Prefab/Crate/Solar_Panel_Crate";
+        //var Crate = General.Create(root, transform.position, root);
 
     }
 

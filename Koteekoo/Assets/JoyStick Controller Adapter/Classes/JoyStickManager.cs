@@ -112,10 +112,10 @@ public class JoyStickManager : MonoBehaviour
         {
             //if (Input.IsJoystickPreconfigured(joys[i]) && joys[i].Contains("Xbox 360"))
             //{
-                JoyStickController = true;
+            JoyStickController = true;
             //}
 
-           // Debug.Log(joys[i] + " is preconfig " + Input.IsJoystickPreconfigured(joys[i]));
+            // Debug.Log(joys[i] + " is preconfig " + Input.IsJoystickPreconfigured(joys[i]));
         }
     }
 
@@ -138,7 +138,7 @@ public class JoyStickManager : MonoBehaviour
 
         CheckIfBuildingMode();
 
-        
+
     }
 
     bool _manualStart;
@@ -229,7 +229,11 @@ public class JoyStickManager : MonoBehaviour
 
         _buildingBtns.SetActive(true);
         _resetBtnsNow = true;
-        Program.GameScene.TutoWindow.Next("Tuto.Build");
+
+        if (Program.GameScene.TutoWindow != null)
+        {
+            Program.GameScene.TutoWindow.Next("Tuto.Build");
+        }
     }
 
     void ForbideBuildNow()
@@ -422,7 +426,7 @@ public class JoyStickManager : MonoBehaviour
 
     public bool ShouldPauseTime()
     {
-        return IsBuilding || _isPaused || IsPlacingNow || Program.GameScene.TutoWindow.IsShownNow();
+        return IsBuilding || _isPaused || IsPlacingNow || IsTutorialShownNow();
     }
 
     public bool ShouldStopPlayerMovement()
@@ -436,6 +440,16 @@ public class JoyStickManager : MonoBehaviour
     /// <returns></returns>
     internal bool IsTimePausedAndNotTutorial()
     {
-        return (IsBuilding || _isPaused || IsPlacingNow) && !Program.GameScene.TutoWindow.IsShownNow();
+        return (IsBuilding || _isPaused || IsPlacingNow) && !IsTutorialShownNow();
+    }
+
+    bool IsTutorialShownNow()
+    {
+        var tutoShown = false;
+        if (Program.GameScene.TutoWindow != null)
+        {
+            tutoShown = Program.GameScene.TutoWindow.IsShownNow();
+        }
+        return tutoShown;
     }
 }

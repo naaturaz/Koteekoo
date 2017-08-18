@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class MyText : MonoBehaviour
 {
-
     Text _text;
 
     // Use this for initialization
@@ -14,19 +13,38 @@ public class MyText : MonoBehaviour
         _text = GetComponent<Text>();
 
         //ManualUpdate();
+        StartCoroutine("WaitAlmostASec");
+
+
+        Form();
     }
 
+    private IEnumerator WaitAlmostASec()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(.9f);
+            ManualUpdate();
+        }
+    }
+
+    int count;
     // Update is called once per frame
     void Update()
     {
-
-
-        ManualUpdate();
-
+        //count++;
+        ////updates every 25 frames. Performance 
+        //if (count > 25)
+        //{
+        //    ManualUpdate();
+        //    count = 0;
+        //}
     }
 
     void ManualUpdate()
     {
+
+
         if (name == "Bullets")
         {
             _text.text = Program.GameScene.Player.Ammo + "";
@@ -51,9 +69,8 @@ public class MyText : MonoBehaviour
                 _text.text = "";
                 return;
             }
-
             _text.text = Program.GameScene.EnemyManager.NextWaveAt();
-        }//
+        }
         else if (name == "Next_Wave_Title")
         {
             if (Program.GameScene.EnemyManager.ToNextLevelIsReady())
@@ -62,41 +79,44 @@ public class MyText : MonoBehaviour
                 return;
             }
         }
-
         else if (name == "Level")
         {
             _text.text = "Level " + Program.GameScene.Level;
         }
-        else if (name == "Form_Title")
+
+        Form();
+    }
+
+    void Form()
+    {
+        if (name == "Form_Title")
         {
             _text.text = "";
-            var st = PlayerPrefs.GetString("State");
+            //var st = PlayerPrefs.GetString("State");
 
-            if (st == "GameOver")
-            {
-                _text.text = "Game Over: " + PlayerPrefs.GetString("Reason");
-            }
-            else if (st == "Pass")
-            {
-                _text.text = "Level " + (PlayerPrefs.GetInt("Current") - 1) + " completed";
-            }
+            //if (st == "GameOver")
+            //{
+            //    _text.text = "Game Over: " + PlayerPrefs.GetString("Reason");
+            //}
+            //else if (st == "Pass")
+            //{
+            //    _text.text = "Level " + (PlayerPrefs.GetInt("Current") - 1) + " completed";
+            //}
+        }
+        else if (name == "Game_Over_Title")
+        {
+            _text.text = "";
+            _text.text = "Game Over: " + PlayerPrefs.GetString("Reason");
+        }
+        else if (name == "Pass_Game_Title")
+        {
+            _text.text = "";
+            _text.text = "Level " + (PlayerPrefs.GetInt("Current") - 1) + " completed";
         }
 
-
-
-
-        //    private void SaveLevelStats()
-        //{
-        //    PlayerPrefs.SetInt("Enemy", EnemyManager.Kills());
-        //    PlayerPrefs.SetInt("Generated", BuildingManager.EnergyGenerated());
-        //    PlayerPrefs.SetInt("Spent", BuildingManager.EnergySpent());
-        //    PlayerPrefs.SetFloat("Time", EnemyManager.TtlTimeOfCurrentGame());
-        //    PlayerPrefs.SetInt("Health", Player.Health);
-
-        //}
         else if (name == "Health")
         {
-            _text.text = PlayerPrefs.GetInt("Health")+"";
+            _text.text = PlayerPrefs.GetInt("Health") + "";
         }
         else if (name == "GameTime")
         {
@@ -113,14 +133,10 @@ public class MyText : MonoBehaviour
         else if (name == "E_Gen")
         {
             _text.text = PlayerPrefs.GetInt("Generated") + "";
-
-
         }
         else if (name == "Kills")
         {
             _text.text = PlayerPrefs.GetInt("Enemy") + "";
-
         }
-
     }
 }

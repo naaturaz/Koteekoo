@@ -46,7 +46,7 @@ public class Btn_Card : General {
         }
         else
         {
-            _title.text = key;
+            _title.text = Languages.ReturnString(key+".Unit.Name");
             _info.text = Languages.ReturnString(key);
         }
 

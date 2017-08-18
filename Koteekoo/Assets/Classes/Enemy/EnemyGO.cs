@@ -17,7 +17,7 @@ public class EnemyGO : Shooter
     int _leftRewards;
     AutoMoveAndRotate _rotScript;
 
-    GameObject _marker;
+    //GameObject _marker;
 
 
     GameObject _rocket;
@@ -41,7 +41,7 @@ public class EnemyGO : Shooter
 
         base.Start();
         _stump = GetChildCalled("Stump");
-        _marker = GetChildCalled("Marker");
+        //_marker = GetChildCalled("Marker");
 
         _stump.SetActive(false);
         Ammo = 200;
@@ -59,22 +59,26 @@ public class EnemyGO : Shooter
     // Update is called once per frame
     void Update()
     {
-        CheckOnReward();
-
         if (Health == 0)
         {
             Destroy(gameObject, 15);
             return;
         }
-
-        transform.LookAt(_targetPos);
+        CheckIfPaused();
         ShootEnemy();
 
+    }
 
+    void ManualUptate()
+    {
+        if (Health == 0)
+        {
+            return;
+        }
+
+        CheckOnReward();
+        transform.LookAt(_targetPos);
         _agent.destination = _targetPos;
-
-        CheckIfPaused();
-
     }
 
     private void CheckIfPaused()
@@ -95,6 +99,7 @@ public class EnemyGO : Shooter
         {
             yield return new WaitForSeconds(1); // wait
             CheckOnAgentAndTarget();
+            ManualUptate();
         }
     }
 
@@ -105,7 +110,7 @@ public class EnemyGO : Shooter
             return;
         }
 
-        if (_didTargetRocket )
+        if (_didTargetRocket)
         {
             return;
         }
@@ -137,7 +142,7 @@ public class EnemyGO : Shooter
         _targetPos = _rocket.transform.position;
         _agent.destination = _targetPos;
 
-        Debug.Log("Target Rocket");
+        //Debug.Log("Target Rocket");
         return;
     }
 
@@ -164,7 +169,7 @@ public class EnemyGO : Shooter
         if (Health == 0 && _agent.enabled)
         {
             _stump.SetActive(true);
-            _marker.SetActive(false);
+            //_marker.SetActive(false);
             _agent.enabled = false;
             Program.GameScene.EnemyManager.RemoveMeFromEnemiesList(this);
             _rotScript.enabled = true;

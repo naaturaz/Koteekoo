@@ -63,13 +63,14 @@ public class Player : Shooter
     {
         if (IsDeath())
         {
-            GameOver("Player was killed");
+            GameOver("Killed player");
             return;
         }
 
-        UpdateHitMouseOnTerrain();
+        //UpdateHitMouseOnTerrain();
+        //LookAtMousePos();
+
         Movement();
-        LookAtMousePos();
 
         Shoot();
         Jump();
@@ -77,6 +78,11 @@ public class Player : Shooter
 
         UnableRigidIfBuilding();
     }
+
+    //private void FixedUpdate()
+    //{
+    //    Movement();
+    //}
 
     private void CheckCeiling()
     {
@@ -91,7 +97,7 @@ public class Player : Shooter
         Debug.Log("Game Over");
         Application.LoadLevel("MainMenu");
         PlayerPrefs.SetString("State", "GameOver");//Clear current game 
-        PlayerPrefs.SetString("Reason", reason); 
+        PlayerPrefs.SetString("Reason", reason);
     }
 
     private void UnableRigidIfBuilding()
@@ -108,7 +114,7 @@ public class Player : Shooter
 
     private void Jump()
     {
-        if ((Input.GetKeyDown("space") ||  Input.GetAxis("Jump") != 0)
+        if ((Input.GetKeyDown("space"))
             || (_joyStickManager.JoyStickController && Input.GetKeyUp(KeyCode.Joystick1Button2))
             && !IsFalling)
         {
@@ -119,8 +125,6 @@ public class Player : Shooter
 
     void OnCollisionStay(Collision collisionInfo)
     {
-
-
         //we are on something
         IsFalling = false;
     }
@@ -133,8 +137,11 @@ public class Player : Shooter
             return;
         }
 
-        float v = Input.GetAxis("Vertical") * _speed * Time.deltaTime;
-        float h = Input.GetAxis("Horizontal") * _speed * Time.deltaTime;
+        float v = Input.GetAxis("Vertical") * .1f;
+        float h = Input.GetAxis("Horizontal") * .1f;
+
+        //float v = Input.GetAxis("Vertical") * _speed *  Mathf.Abs(Time.deltaTime);
+        //float h = Input.GetAxis("Horizontal") * _speed * Mathf.Abs(Time.deltaTime);
         transform.position += new Vector3(h, 0, v);
     }
 

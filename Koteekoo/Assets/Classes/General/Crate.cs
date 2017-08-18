@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Crate : MonoBehaviour {
+public class Crate : General {
 
 	// Use this for initialization
 	void Start () {
@@ -22,7 +22,8 @@ public class Crate : MonoBehaviour {
             Program.GameScene.BuildingManager.AddToGen(20);
 
             Program.GameScene.Player.Power += 20;
-            Destroy(gameObject);
+            //Destroy(gameObject);
+            Program.GameScene.SpawnPool.AddToPool(this);
         }
     }
 }

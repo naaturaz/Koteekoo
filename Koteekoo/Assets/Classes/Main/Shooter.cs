@@ -9,7 +9,7 @@ public class Shooter : General
     private float _fireTime;
     private float _fireRate = .2f;
     GameObject _bulletSpawn;
-    GameObject _bullet;
+    //GameObject _bullet;
     private int _health = 5;
     float _bulletForce = 1500;
 
@@ -96,16 +96,7 @@ public class Shooter : General
             }
         }
 
-        if (IsGood)
-        {
-            _bullet = (GameObject)Resources.Load("Militar/Bullet");
 
-        }
-        else
-        {
-            _bullet = (GameObject)Resources.Load("Militar/Bullet_Bad");
-
-        }
 
     }
 
@@ -132,8 +123,29 @@ public class Shooter : General
             return;
         }
 
-        GameObject bullet = Instantiate(_bullet, BulletSpawn.transform.position, BulletSpawn.transform.rotation);
-        bullet.name = "Bullet";
+        //GameObject bullet = Instantiate(_bullet, BulletSpawn.transform.position, BulletSpawn.transform.rotation);
+
+        var kind = "";
+        if (IsGood)
+        {
+            kind = "Bullet_Good";
+        }
+        else
+        {
+            kind = "Bullet_Bad";
+
+        }
+
+        var bull = Program.GameScene.SpawnPool.ReturnGeneral(kind);
+        if (bull == null)
+        {
+            Debug.Log("not :" + kind);
+            return;
+        }
+
+        GameObject bullet = bull.gameObject;
+        bullet.transform.position = _bulletSpawn.transform.position;
+
         _fireTime = Time.time + FireRate;
         bullet.GetComponent<Bullet>().Fire(BulletForce, IsGood, BulletSpawn.transform.rotation);
 
@@ -142,14 +154,11 @@ public class Shooter : General
             return;
         }
 
-        if (Time.time > _lastShoot + 0.5f)
-        {
-            Program.GameScene.SoundManager.PlaySound(0);
-            _lastShoot = Time.time;
-        }
-        
-
-
+        //if (Time.time > _lastShoot + 0.5f)
+        //{
+            Program.GameScene.SoundManager.PlaySound(0, 1, true);
+        //    _lastShoot = Time.time;
+        //}
     }
 
     protected void OnTriggerEnter(Collider other)
@@ -164,7 +173,7 @@ public class Shooter : General
         //    }
         //}
 
-        if (other.name != "Bullet")
+        if (!other.name.Contains("Bullet"))
         {
             return;
         }
@@ -175,9 +184,6 @@ public class Shooter : General
         {
             return;
         }
-
-
-
 
         if (Health > 1)
         {
