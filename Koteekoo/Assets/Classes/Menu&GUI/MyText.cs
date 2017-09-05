@@ -17,6 +17,11 @@ public class MyText : MonoBehaviour
 
 
         Form();
+
+        if (name == "Level")
+        {
+            _text.text = "Level " + Program.GameScene.Level;
+        }
     }
 
     private IEnumerator WaitAlmostASec()

@@ -116,7 +116,7 @@ public class EnemyManager : MonoBehaviour
         var enemyType = _enemiesList[UMath.GiveRandom(0, _enemiesList.Count)];
 
         var _spawnPos = _rocket.transform.position +
-            new Vector3(_xSing * 16, 0, _zSign * 16);
+            new Vector3(_xSing * 20, 0, _zSign * 20);
 
         var enemyNumb = UMath.GiveRandom(1, 3);
         var ene = (EnemyGO)General.Create("Prefab/Enemy/" + enemyType + "/" + enemyNumb, _spawnPos, enemyType + ".Enemy."+ enemyNumb);

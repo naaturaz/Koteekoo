@@ -13,11 +13,13 @@ public class SoundManager : MonoBehaviour
 
     bool _isOn = true;
 
+    float _startTime;
+
 
     // Use this for initialization
     void Start()
     {
-
+        _startTime = Time.time;
     }
 
     // Update is called once per frame
@@ -32,6 +34,11 @@ public class SoundManager : MonoBehaviour
     /// <param name="index"></param>
     public void PlaySound(int index, float vol = 1f, bool random = false)
     {
+        if (Time.time < _startTime + 1)
+        {
+            return;
+        }
+
         //debug
         if (Sounds == null || Sounds.Length == 0)
         {
@@ -39,6 +46,11 @@ public class SoundManager : MonoBehaviour
         }
 
         if (!_isOn)
+        {
+            return;
+        }
+
+        if (_audioSourceTemplate == null)
         {
             return;
         }

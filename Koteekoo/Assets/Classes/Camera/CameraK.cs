@@ -40,6 +40,8 @@ public class CameraK : MonoBehaviour
     {
         _target = _cam_Point_90_Degrees;
         Program.GameScene.SoundManager.PlaySound(5);
+        Program.GameScene.BuildingManager.DestroyCurrentIfNoFixed();
+
     }
 
     public void Peace()

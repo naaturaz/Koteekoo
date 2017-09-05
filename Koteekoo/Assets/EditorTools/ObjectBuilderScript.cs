@@ -15,10 +15,10 @@ public class ObjectBuilderScript : MonoBehaviour
 
     public void SaveTexture()
     {
-#if UNITY_EDITOR
+//#if UNITY_EDITOR
 
-        //var texture = AssetPreview.GetAssetPreview(obj);
-#endif
+//        //var texture = AssetPreview.GetAssetPreview(obj);
+//#endif
         var a = 1;
     }
 }
