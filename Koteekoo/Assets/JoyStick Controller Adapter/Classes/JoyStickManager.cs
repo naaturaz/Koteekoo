@@ -156,7 +156,8 @@ public class JoyStickManager : MonoBehaviour
     bool _isPaused;
     private void CheckIfStartPressed()
     {
-        if (Input.GetKeyUp(KeyCode.Joystick1Button7) && Application.loadedLevelName != "MainMenu")
+        if ((Input.GetKeyUp(KeyCode.Joystick1Button7) || (_isPaused && Input.GetKeyUp(KeyCode.Joystick1Button1))) 
+            && Application.loadedLevelName != "MainMenu")
         {
             _isPaused = !_isPaused;
 

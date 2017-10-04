@@ -24,6 +24,12 @@ public class TurretHead : Unit
     {
         IsGood = true;
 
+        if (name.Contains("Enemy"))
+        {
+            IsGood = false;
+            transform.parent.GetComponent<Building>().SetWasFixed(true);
+        }
+
         base.Start();
         Health = 100;
 

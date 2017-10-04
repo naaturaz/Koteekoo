@@ -10,7 +10,7 @@ public class CameraK : MonoBehaviour
     GameObject _cam_Point_90_Degrees;
     GameObject _target;
 
-    float _speed = .5f;
+    float _speed = 2f;
 
     // Use this for initialization
     void Start()
@@ -25,15 +25,8 @@ public class CameraK : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position = Vector3.MoveTowards(transform.position, _target.transform.position, _speed);
-        transform.LookAt(Program.GameScene.Player.transform.position);
-
-
-
-        //if (UMath.nearEqualByDistance(transform.position, _cam_Point_90_Degrees.transform.position, 0.1f))
-        //{
-        //    //_speed = 0.01f;
-        //}
+        transform.position = Vector3.MoveTowards(transform.position, _target.transform.position, _speed * Time.deltaTime);
+        //transform.LookAt(Program.GameScene.Player.transform.position);
     }
 
     public void Attack()
@@ -41,12 +34,12 @@ public class CameraK : MonoBehaviour
         _target = _cam_Point_90_Degrees;
         Program.GameScene.SoundManager.PlaySound(5);
         Program.GameScene.BuildingManager.DestroyCurrentIfNoFixed();
-
+        _speed = 6f;
     }
 
     public void Peace()
     {
         _target = _cam_Point_50_Degrees;
-        _speed = 0.5f;
+        _speed = 2f;
     }
 }

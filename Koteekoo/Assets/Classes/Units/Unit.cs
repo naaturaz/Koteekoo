@@ -32,7 +32,7 @@ public class Unit : Shooter
         while (true)
         {
             yield return new WaitForSeconds(nextRand); // wait
-            _enemy = Program.GameScene.EnemyManager.GiveMeClosestEnemy(transform.position);
+            _enemy = Program.GameScene.EnemyManager.GiveMeClosestEnemy(transform.position, IsGood);
             nextRand = UMath.GiveRandom(2, 3);
 
             if (_enemy!=null)

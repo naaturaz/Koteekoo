@@ -116,8 +116,7 @@ public class Building : Shooter
             return;
         }
 
-        var arr = _root.Split('/');
-        Name = arr[arr.Length - 1];
+        NameMeAndHealth();
 
         if (IsAInputBuilding(name))
         {
@@ -125,15 +124,32 @@ public class Building : Shooter
         }
 
         ChangeRotatorsToState(_hasEnergy);
+    }
+
+    void NameMeAndHealth()
+    {
+        //object that was not spawn by player
+        //so far can be:
+        //-Enemy_Tower on the enamy spawn point 
+        if (_root == null)
+        {
+            Health = 100;
+            return;
+        }
+
+        var arr = _root.Split('/');
+        Name = arr[arr.Length - 1];
 
         var index = _indexer[_name];
         Health = _builds[index].Health;
     }
 
+    static Vector3 _lastOneOfSameTypeWasPlaced;
+    static Quaternion _lastPlacedRot;
     // Update is called once per frame
     void Update()
     {
-        if (!_wasFixed)
+        if (!_wasFixed && transform.parent != Program.GameScene.Player.transform)
         {
             if (!_joyStickManager.JoyStickController)
             {
@@ -143,6 +159,15 @@ public class Building : Shooter
             {
                 transform.position = Program.GameScene.Player.transform.position + new Vector3(0, 0, 2);
             }
+
+            //so it keeps the last pos and rotation of the last object spawned. Must have been of the same type
+            if (_lastOneOfSameTypeWasPlaced != new Vector3())
+            {
+                transform.position = _lastOneOfSameTypeWasPlaced;
+                transform.rotation = _lastPlacedRot;
+            }
+            //so after this if player rotates the building not placed will too
+            transform.SetParent(Program.GameScene.Player.transform);
         }
 
         if (!_wasFixed && Time.time > _startTime + 0.3f &&
@@ -159,12 +184,26 @@ public class Building : Shooter
             OwnTower();
             RemoveCost();
             Program.GameScene.SoundManager.PlaySound(3);
+            transform.SetParent(Program.GameScene.BuildingManager.transform);
 
             if ((Input.GetKey(KeyCode.LeftShift) || Program.GameScene.JoyStickManager.JoyStickController)
                 && DoWeHavePowerToBuildThis(_name) &&
                 !Program.GameScene.EnemyManager.ThereIsAnAttackNow())
             {
+                //bz sometimes the obhject will go below in Y if collided with something. 
+                var yCorrected = new Vector3(transform.position.x, Program.GameScene.Player.transform.position.y,
+                    transform.position.z);
+
+                _lastOneOfSameTypeWasPlaced = yCorrected;
+                transform.position = yCorrected;
+
+                _lastPlacedRot = transform.rotation;
                 Program.GameScene.BuildingManager.Create(name);
+            }
+            //if not power tht old pos has to be resseted bz the player will move ard 
+            if (!DoWeHavePowerToBuildThis(_name))
+            {
+                _lastOneOfSameTypeWasPlaced = new Vector3();
             }
         }
 
@@ -183,32 +222,22 @@ public class Building : Shooter
                 }
             }
 
-
-
             Program.GameScene.SoundManager.PlaySound(3);
             Program.GameScene.JoyStickManager.DonePlacing();
             Destroy(gameObject);
+            _lastOneOfSameTypeWasPlaced = new Vector3();
         }
-
-
-        //if (Time.time > _energyStart + _energyLast && _hasEnergy)
-        //{
-        //    _hasEnergy = false;
-        //    ChangeRotatorsToState(false);
-        //}
-
-        //if (name.Contains("Solar_Panel"))
-        //{
-        //    _hasEnergy = true;
-        //}
-
-
         Production();
     }
 
     public bool WasFixed()
     {
         return _wasFixed;
+    }
+
+    public void SetWasFixed(bool a)
+    {
+        _wasFixed = a;
     }
 
     private void RemoveCost()

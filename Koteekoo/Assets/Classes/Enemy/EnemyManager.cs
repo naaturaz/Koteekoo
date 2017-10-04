@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
+    General _enemySpawnPoint;
+
     float _nextWaveAt;
     int _nextWaveEnemies;
 
@@ -98,7 +100,7 @@ public class EnemyManager : MonoBehaviour
             SpawnEnemy();
             count++;
         }
-        else if(count >= _nextWaveEnemies)
+        else if (count >= _nextWaveEnemies)
         {
             count = -1;
         }
@@ -115,19 +117,42 @@ public class EnemyManager : MonoBehaviour
 
         var enemyType = _enemiesList[UMath.GiveRandom(0, _enemiesList.Count)];
 
-        var _spawnPos = _rocket.transform.position +
+        var spawnPos = _rocket.transform.position +
             new Vector3(_xSing * 20, 0, _zSign * 20);
 
+        SpawnEnemySpawnPoint(spawnPos);
+
         var enemyNumb = UMath.GiveRandom(1, 3);
-        var ene = (EnemyGO)General.Create("Prefab/Enemy/" + enemyType + "/" + enemyNumb, _spawnPos, enemyType + ".Enemy."+ enemyNumb);
+        var ene = (EnemyGO)General.Create("Prefab/Enemy/" + enemyType + "/" + enemyNumb, spawnPos, enemyType + ".Enemy." + enemyNumb);
 
         _enemies.Add(ene);
         _enemiesTransform.Add(ene.transform);
     }
 
-
-    public Transform GiveMeClosestEnemy(Vector3 from)
+    private void SpawnEnemySpawnPoint(Vector3 spawnPos)
     {
+        if (_enemySpawnPoint == null)
+        {
+            _enemySpawnPoint = General.Create("Prefab/Enemy/Red_Circle", spawnPos
+                , "Name Prefab/Enemy/Red_Circle");
+            _enemySpawnPoint.transform.SetParent(transform);
+        }
+    }
+
+    /// <summary>
+    /// Will return closest enemy. 
+    /// If a bad is asking for a enemy will return player 
+    /// </summary>
+    /// <param name="from"></param>
+    /// <param name="isGood">if the one askign is good or not</param>
+    /// <returns></returns>
+    public Transform GiveMeClosestEnemy(Vector3 from, bool isGood)
+    {
+        if (!isGood)
+        {
+            return Program.GameScene.Player.transform;
+        }
+
         if (_enemies.Count == 0)
         {
             return null;

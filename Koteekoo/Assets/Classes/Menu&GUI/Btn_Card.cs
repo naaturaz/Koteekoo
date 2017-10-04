@@ -6,6 +6,9 @@ using UnityEngine.UI;
 
 public class Btn_Card : General {
 
+    public Color Available;
+    public Color Unavailable;
+
     Button _thumb;
     Text _title;
     Text _power;
@@ -43,11 +46,13 @@ public class Btn_Card : General {
         {
             _title.text = "No Power";
             _info.text = "More power is needed to build this";
+            _thumb.GetComponent<Image>().color = Unavailable;
         }
         else
         {
             _title.text = Languages.ReturnString(key+".Unit.Name");
             _info.text = Languages.ReturnString(key);
+            _thumb.GetComponent<Image>().color = Available;
         }
 
         _power.text = stat.Cost+"";

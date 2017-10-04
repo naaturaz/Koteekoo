@@ -163,16 +163,6 @@ public class Shooter : General
 
     protected void OnTriggerEnter(Collider other)
     {
-        //if (other.name == "Player" && Unit.IsAnUnit(name))
-        //{
-        //    if (Program.GameScene.Player.Ammo > 200)
-        //    {
-        //        Ammo += 100;
-        //        Program.GameScene.Player.Ammo -= 100;
-        //        Debug.Log("100 added to: " + name);
-        //    }
-        //}
-
         if (!other.name.Contains("Bullet"))
         {
             return;
@@ -188,19 +178,19 @@ public class Shooter : General
         if (Health > 1)
         {
             Health--;
-            //GetComponent<ParticleSystem>().Play();
-            //GetComponent<AudioSource>().PlayOneShot(bloodSplat, 0.1f);
+
+            if (name.Contains("Player"))
+            {
+                var p = (Player)this;
+                p.Hit();
+            }
         }
         else
         {
-            //GetComponent<Collider>().enabled = false;
             if (Health == 1)
             {
                 Health = 0;
-                //GetComponent<AudioSource>().PlayOneShot(deathSound, 1);
             }
-
-            //Destroy(gameObject, 60);
         }
     }
 

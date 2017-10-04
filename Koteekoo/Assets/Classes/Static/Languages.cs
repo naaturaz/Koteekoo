@@ -18,7 +18,7 @@ public class Languages
         {"Tuto.Build","Pressing 'LB'​ will bring up the building menu" },
         {"Tuto.Solar","Now​,​ in the building menu with the 'Left Stick' select 'Solar panel'. Highlight the button and then press 'A'. This building will provide you with power over time. Notice the cost and health of each unit" },
 
-        {"Tuto.Place","Now to place the building move the player and place the building in the green circle" },
+        {"Tuto.Place","Now to place the building move the player and place the building in the green circle. The building will rotate if the player does so" },
         {"Tuto.SetBuild","Set building with 'A'" },
 
         {"Tuto.CancelSolar","That solar building was set. You can move around see that a new one was spawn. Please cancel this one, to cancel: 'B'" },

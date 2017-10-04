@@ -2,9 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : Shooter
 {
+    public Image GotHit1;
+    public Image GotHit2;
+
 
     float _speed = 5;//.05    .1
     RaycastHit _hitMouseOnTerrain;
@@ -48,6 +52,9 @@ public class Player : Shooter
     // Use this for initialization
     void Start()
     {
+        GotHit1.color = new Color(0, 0, 0, 0);
+        GotHit2.color = new Color(0, 0, 0, 0);
+
         IsGood = true;
 
         _rigidBody = GetComponent<Rigidbody>();
@@ -77,6 +84,8 @@ public class Player : Shooter
         CheckCeiling();
 
         UnableRigidIfBuilding();
+
+        CheckIfNeedsToFadeOut();
     }
 
     //private void FixedUpdate()
@@ -102,6 +111,8 @@ public class Player : Shooter
 
     private void UnableRigidIfBuilding()
     {
+        return;
+
         if (Program.GameScene.BuildingManager.IsBuildingNow())
         {
             _rigidBody.isKinematic = true;
@@ -285,5 +296,45 @@ public class Player : Shooter
 
     #endregion
 
+    #region Hit and Fade
 
+    bool _isFadingOut;
+    public void Hit()
+    {
+        GotHit1.color = Color.white;
+        GotHit2.color = Color.white;
+
+    }
+
+    void CheckIfNeedsToFadeOut()
+    {
+        if (GotHit1.color == Color.white)
+        {
+            _isFadingOut = true;
+        }
+        FadeOut();
+    }
+
+    void FadeOut()
+    {
+        if (_isFadingOut)
+        {
+            GotHit1.color = ReturnFadedColorBy(GotHit1.color, -.05f);
+            GotHit2.color = ReturnFadedColorBy(GotHit2.color, -.008f);
+
+            if (GotHit1.color.a <= 0 && GotHit2.color.a <= 0)
+            {
+                _isFadingOut = false;
+            }
+        }
+    }
+
+    Color ReturnFadedColorBy(Color c, float by)
+    {
+        var colTemp = c;
+        colTemp.a += by;
+        return colTemp;
+    } 
+
+    #endregion
 }
