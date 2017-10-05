@@ -6,6 +6,8 @@ using UnityStandardAssets.Utility;
 
 public class Building : Shooter
 {
+    Transform _flare;
+
     bool _wasFixed;
     string _root;
     string _name;
@@ -66,6 +68,8 @@ public class Building : Shooter
         }
     }
 
+
+
     /// <summary>
     /// The name of this 
     /// </summary>
@@ -113,6 +117,9 @@ public class Building : Shooter
         {
             _wasFixed = true;
             Health = 50;
+            _flare = transform.GetChild(0);
+            _flare.gameObject.SetActive(false);
+            CreateHealthBar("_Build");
             return;
         }
 
@@ -124,6 +131,17 @@ public class Building : Shooter
         }
 
         ChangeRotatorsToState(_hasEnergy);
+
+
+        CreateHealthBar("_Build");
+
+        if (name.Contains("Enemy"))
+        {
+            return;
+        }
+
+        Program.GameScene.WhileBuildingSetTo(true);
+
     }
 
     void NameMeAndHealth()
@@ -180,6 +198,8 @@ public class Building : Shooter
             }
 
             _wasFixed = true;
+            Program.GameScene.WhileBuildingSetTo(false);
+
             Program.GameScene.BuildingManager.AddToAll(this);
             OwnTower();
             RemoveCost();
@@ -191,7 +211,8 @@ public class Building : Shooter
                 !Program.GameScene.EnemyManager.ThereIsAnAttackNow())
             {
                 //bz sometimes the obhject will go below in Y if collided with something. 
-                var yCorrected = new Vector3(transform.position.x, Program.GameScene.Player.transform.position.y,
+                var yCorrected = new Vector3(transform.position.x,
+                    ToAvoidWallOverLapping(Program.GameScene.Player.transform.position.y),
                     transform.position.z);
 
                 _lastOneOfSameTypeWasPlaced = yCorrected;
@@ -226,8 +247,56 @@ public class Building : Shooter
             Program.GameScene.JoyStickManager.DonePlacing();
             Destroy(gameObject);
             _lastOneOfSameTypeWasPlaced = new Vector3();
+            Program.GameScene.WhileBuildingSetTo(false);
+
         }
         Production();
+    }
+
+
+    #region Walls Overlapping
+
+    static List<Vector3> _lastWallsPos = new List<Vector3>();
+    float ToAvoidWallOverLapping(float y)
+    {
+        if (!name.Contains("Wall"))
+        {
+            return y;
+        }
+        var possibleOverlaps = HowManyCouldBeOverlappingMe();
+        _lastWallsPos.Add(transform.position);
+
+        return y - UMath.GiveRandom(.01f, .05f) * possibleOverlaps;
+    }
+
+    int HowManyCouldBeOverlappingMe()
+    {
+        int res = 0;
+        for (int i = 0; i < _lastWallsPos.Count; i++)
+        {
+            if (UMath.nearEqualByDistance(_lastWallsPos[i], transform.position, 1f))
+            {
+                res++;
+            }
+        }
+        return res;
+    }
+
+    #endregion
+
+
+
+    /// <summary>
+    /// So far only use to show when the Rocket is being hit 
+    /// </summary>
+    internal void ShowHit()
+    {
+        if (!name.Contains("Rocket"))
+        {
+            return;
+        }
+        _flare.gameObject.SetActive(true);
+        _flare.position += new Vector3(0, 0.04f, 0);
     }
 
     public bool WasFixed()
@@ -475,6 +544,7 @@ public class Building : Shooter
 
         if (Health > 1)
         {
+            ShowHit();
             Health--;
         }
         else
@@ -497,6 +567,21 @@ public class Building : Shooter
         }
     }
 
+
+    public static void ResetStatics()
+    {
+        _lastOneOfSameTypeWasPlaced = new Vector3();
+        _lastWallsPos.Clear();
+    }
+
+    internal static Vector3 ReturnStaticLastPosIfAny()
+    {
+        if (_lastOneOfSameTypeWasPlaced != new Vector3())
+        {
+            return _lastOneOfSameTypeWasPlaced;
+        }
+        return Program.GameScene.Player.transform.position + new Vector3(0, 0, 2);
+    }
 }
 
 

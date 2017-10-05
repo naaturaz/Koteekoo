@@ -29,6 +29,22 @@ public class Shooter : General
 
     static float _lastShoot;
 
+
+    HealthBar _healthBar;
+
+    public HealthBar HealthBar
+    {
+        get
+        {
+            return _healthBar;
+        }
+
+        set
+        {
+            _healthBar = value;
+        }
+    }
+
     public int Health
     {
         get
@@ -156,7 +172,7 @@ public class Shooter : General
 
         //if (Time.time > _lastShoot + 0.5f)
         //{
-            Program.GameScene.SoundManager.PlaySound(0, 1, true);
+        Program.GameScene.SoundManager.PlaySound(0, 1, true);
         //    _lastShoot = Time.time;
         //}
     }
@@ -197,6 +213,22 @@ public class Shooter : General
     internal bool IsDeath()
     {
         return _health == 0;
+    }
+
+
+    /// <summary>
+    /// Call me after health is being set up
+    /// </summary>
+    protected void CreateHealthBar(string barName = "")
+    {
+        var pos = transform.position + new Vector3(0, 1.4f, 0);
+        if (name.Contains("Rocket"))
+        {
+            pos += new Vector3(0, 0.6f, 0);
+        }
+
+        HealthBar = (HealthBar)Create("Prefab/GUI/Health_Bar" + barName, pos, "H_Bar", transform);
+        HealthBar.PassShooter(this);
     }
 
 

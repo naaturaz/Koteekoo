@@ -52,6 +52,7 @@ public class Player : Shooter
     // Use this for initialization
     void Start()
     {
+
         GotHit1.color = new Color(0, 0, 0, 0);
         GotHit2.color = new Color(0, 0, 0, 0);
 
@@ -63,6 +64,10 @@ public class Player : Shooter
         Ammo = 2000;
 
         _joyStickManager = FindObjectOfType<JoyStickManager>();
+
+
+        base.CreateHealthBar();
+
     }
 
     // Update is called once per frame
@@ -129,7 +134,7 @@ public class Player : Shooter
             || (_joyStickManager.JoyStickController && Input.GetKeyUp(KeyCode.Joystick1Button2))
             && !IsFalling)
         {
-            _rigidBody.AddForce(new Vector3(0, 6, 0), ForceMode.VelocityChange);
+            _rigidBody.AddForce(new Vector3(0, 7, 0), ForceMode.VelocityChange);
         }
         IsFalling = true;
     }
@@ -303,6 +308,7 @@ public class Player : Shooter
     {
         GotHit1.color = Color.white;
         GotHit2.color = Color.white;
+        Program.GameScene.SoundManager.PlaySound(8);
 
     }
 

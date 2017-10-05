@@ -91,11 +91,10 @@ public class SoundManager : MonoBehaviour
 
         var audioSource = Instantiate(_musicSourceTemplate);
 
-
-
         var clip = Music[index];
         audioSource.clip = clip;
         audioSource.loop = true;
+        audioSource.volume = 0.4f;
         audioSource.Play();
     }
 }

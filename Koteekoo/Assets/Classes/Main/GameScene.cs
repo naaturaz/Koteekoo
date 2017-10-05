@@ -13,8 +13,10 @@ public class GameScene
     Player _player;
     int _level;
 
+    //GUI Element 
+    GameObject _whileBuilding;
 
-    
+
 
     public Player Player
     {
@@ -245,9 +247,13 @@ public class GameScene
         if (Application.loadedLevelName == "MainMenu")
         {
             Program.GameScene.SoundManager.PlayMusic(0);
+            Building.ResetStatics();
             return;
         }
 
+        //show the while building
+        _whileBuilding = GameObject.Find("While Building");
+        _whileBuilding.SetActive(false);
 
         if (LoadSave.ThereIsALoad())
         {
@@ -264,9 +270,13 @@ public class GameScene
 
         if (Application.loadedLevelName == "Scn01")
         {
-            Program.GameScene.SoundManager.PlayMusic(1);
+            Program.GameScene.SoundManager.PlayMusic(UMath.GiveRandom(1, 6));
         }
-       
+    }
+
+    public void WhileBuildingSetTo(bool val)
+    {
+        _whileBuilding.SetActive(val);
     }
 
     private void DefinePowerAndInitValForLevel()

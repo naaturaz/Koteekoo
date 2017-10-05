@@ -46,7 +46,6 @@ public class EnemyGO : Shooter
         _stump.SetActive(false);
         Ammo = 200;
 
-        //Health = 6;
         if (name.Contains("2"))
         {
             Health = 20;
@@ -54,6 +53,8 @@ public class EnemyGO : Shooter
         }
 
         StartTargetAdquired();
+
+        CreateHealthBar();
     }
 
     // Update is called once per frame

@@ -31,11 +31,12 @@ public class TurretHead : Unit
         }
 
         base.Start();
-        Health = 100;
 
         _building = transform.parent.gameObject.GetComponent<Building>();
         _rotScript = GetComponent<AutoMoveAndRotate>();
         Health = 50;
+
+        //CreateHealthBar();
     }
 
 

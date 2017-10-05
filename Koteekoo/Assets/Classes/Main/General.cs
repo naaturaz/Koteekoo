@@ -41,6 +41,7 @@ public class General : MonoBehaviour {
         }
     }
 
+
     static public General Create(string root, Vector3 origen, string name, Transform container = null)
     {
         General obj = null;
@@ -138,4 +139,6 @@ public class General : MonoBehaviour {
         }
         return res;
     }
+
+
 }

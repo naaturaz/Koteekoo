@@ -40,8 +40,17 @@ public class BuildingManager : General
 
         _card.Hide();
         Program.GameScene.JoyStickManager.SetAsPlacingNow();
-        current = Building.CreateB("Prefab/Building/" + buildingPath, Program.GameScene.Player.HitMouseOnTerrain.point, buildingPath, transform);
-        //add to cell
+        current = Building.CreateB("Prefab/Building/" + buildingPath, ReturnInitialPosOfBuilding(),
+            buildingPath, transform);
+    }
+
+    Vector3 ReturnInitialPosOfBuilding()
+    {
+        if (!Program.GameScene.JoyStickManager.JoyStickController)
+        {
+            return Program.GameScene.Player.HitMouseOnTerrain.point;
+        }
+        return Building.ReturnStaticLastPosIfAny();
     }
 
     public void AddToAll(Building build)

@@ -7,6 +7,8 @@ public class MyText : MonoBehaviour
 {
     Text _text;
 
+
+
     // Use this for initialization
     void Start()
     {
@@ -24,11 +26,20 @@ public class MyText : MonoBehaviour
         }
     }
 
+    bool _ifFirstHappen;
+    float _waitSec = 0.01f;
     private IEnumerator WaitAlmostASec()
     {
         while (true)
         {
-            yield return new WaitForSeconds(.9f);
+            yield return new WaitForSeconds(_waitSec);
+
+            if (!_ifFirstHappen)
+            {
+                _ifFirstHappen = true;
+                _waitSec = .9f;
+            }
+
             ManualUpdate();
         }
     }
