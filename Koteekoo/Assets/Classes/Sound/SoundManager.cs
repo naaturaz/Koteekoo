@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityStandardAssets.Utility;
 
 public class SoundManager : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class SoundManager : MonoBehaviour
     public AudioClip[] Music;
 
     public AudioSource _audioSourceTemplate;
+
     public AudioSource _musicSourceTemplate;
 
     bool _isOn = true;
@@ -28,38 +30,42 @@ public class SoundManager : MonoBehaviour
 
     }
 
+
     /// <summary>
     /// All sounds will be destroy after 2 sec
     /// </summary>
     /// <param name="index"></param>
-    public void PlaySound(int index, float vol = 1f, bool random = false)
+    /// <param name="vol"></param>
+    /// <param name="random">Will randomize the pitch anbd volume</param>
+    /// <returns></returns>
+    public AudioSource PlaySound(int index, float vol = 1f, bool random = false, float pitch = 0, bool autoDestroy = true)
     {
-        if (Time.time < _startTime + 1)
+        if (Time.time < _startTime + .01f)
         {
-            return;
+            return null;
         }
 
         //debug
         if (Sounds == null || Sounds.Length == 0)
         {
-            return;
+            return null;
         }
 
         if (!_isOn)
         {
-            return;
+            return null;
         }
 
         if (_audioSourceTemplate == null)
         {
-            return;
+            return null;
         }
 
         var audioSource = Instantiate(_audioSourceTemplate);
 
         if (audioSource == null)
         {
-            return;
+            return null;
         }
 
         var clip = Sounds[index];
@@ -70,9 +76,27 @@ public class SoundManager : MonoBehaviour
             audioSource.pitch = UMath.Random(-3, 3);
             vol = UMath.Random(.4f, 1f);
         }
+        if (pitch != 0)
+        {
+            audioSource.pitch = pitch;
+        }
+        if (!autoDestroy)
+        {
+            audioSource.GetComponent<TimedObjectDestructor>().enabled = false;
+        }
 
         audioSource.volume = vol;
         audioSource.Play();
+
+        return audioSource;
+    }
+
+    public AudioSource PlaySound(AudioSource source, float vol, float pitch)
+    {
+        source.pitch = pitch;
+        source.volume = vol;
+        source.Play();
+        return source;
     }
 
 

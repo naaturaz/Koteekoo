@@ -218,4 +218,13 @@ public class EnemyManager : MonoBehaviour
     {
         return _kills;
     }
+
+    /// <summary>
+    /// Returns time from now to next wave
+    /// </summary>
+    /// <returns></returns>
+    internal int TimeToNextWave()
+    {
+        return (int)_nextWaveAt - (int)Time.time;
+    }
 }

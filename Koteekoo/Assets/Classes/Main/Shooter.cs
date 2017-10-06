@@ -170,11 +170,7 @@ public class Shooter : General
             return;
         }
 
-        //if (Time.time > _lastShoot + 0.5f)
-        //{
         Program.GameScene.SoundManager.PlaySound(0, 1, true);
-        //    _lastShoot = Time.time;
-        //}
     }
 
     protected void OnTriggerEnter(Collider other)

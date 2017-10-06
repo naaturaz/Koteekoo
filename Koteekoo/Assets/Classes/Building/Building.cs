@@ -385,6 +385,12 @@ public class Building : Shooter
         //Crate = General.Create(root, transform.position + new Vector3(0, 4, 0f), root);
 
         Crate = Program.GameScene.SpawnPool.ReturnGeneral("Solar_Panel_Crate");
+
+        //if is null is bz there are all used in the pool 
+        if (Crate == null)
+        {
+            return;
+        }
         Crate.transform.position = transform.position + new Vector3(0, 4, 0);
 
     }

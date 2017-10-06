@@ -307,7 +307,12 @@ public class GameScene
             _timeLeft--;
             _timePass++;
         }
-        else
+        else if(!EnemyManager.ThereIsAnAttackNow())
+        {
+            PassLevel();
+        }
+
+        if (TimeLeft1 < EnemyManager.TimeToNextWave() && !EnemyManager.ThereIsAnAttackNow())
         {
             PassLevel();
         }
