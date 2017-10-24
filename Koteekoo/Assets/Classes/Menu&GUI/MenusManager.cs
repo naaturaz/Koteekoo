@@ -41,7 +41,6 @@ public class MenusManager : General {
         else if (_oldState == "Pass")
         {
             _passLevelMenu.SetActive(true);
-
         }
         else
         {

@@ -24,6 +24,9 @@ public class EnemyManager : MonoBehaviour
 
     float _thisGameStartedAt;
 
+    private int _damageReceived;
+
+
     // Use this for initialization
     void Start()
     {
@@ -108,6 +111,7 @@ public class EnemyManager : MonoBehaviour
 
     List<string> _enemiesList = new List<string>() { "Person", //"Robot"
     };
+
     void SpawnEnemy()
     {
         if (Program.GameScene == null || Program.GameScene.Player == null)
@@ -159,6 +163,16 @@ public class EnemyManager : MonoBehaviour
         }
 
         return GetClosestEnemy(_enemiesTransform, from);
+    }
+
+    internal void AddDamageReceived()
+    {
+        _damageReceived++;
+    }
+
+    internal int DamageReceived()
+    {
+        return _damageReceived;
     }
 
     internal void RemoveMeFromEnemiesList(EnemyGO enemyGO)

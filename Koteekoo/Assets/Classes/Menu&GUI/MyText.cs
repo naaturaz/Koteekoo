@@ -2,7 +2,6 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityStandardAssets.Utility;
 
 public class MyText : MonoBehaviour
 {
@@ -80,6 +79,7 @@ public class MyText : MonoBehaviour
         if (_oldNumber != _newNumber)
         {
             _oldNumber += AddOrSubs();
+            CapOldNumber();
             _text.text = _oldNumber + "";
 
             ScaleBy(0.3f);
@@ -107,15 +107,26 @@ public class MyText : MonoBehaviour
         }
     }
 
+    private void CapOldNumber()
+    {
+        if (AddOrSubs() < 0 && _oldNumber < _newNumber)
+        {
+            _oldNumber = _newNumber;
+        }
+        if (AddOrSubs() > 0 && _oldNumber > _newNumber)
+        {
+            _oldNumber = _newNumber;
+        }
+    }
 
-
+    int _multiplier = 1;
     int AddOrSubs()
     {
         if (_oldNumber < _newNumber)
         {
-            return 1;
+            return 1 * _multiplier;
         }
-        return -1;
+        return -1 * _multiplier;
     }
 
     float Pitch()
@@ -205,6 +216,11 @@ public class MyText : MonoBehaviour
         {
             _text.text = "Level " + Program.GameScene.Level;
         }
+        else if (name == "Score")
+        {
+            //_text.text = Program.GameScene.Level;
+            SetNewNumber(Program.GameScene.Player.Score);
+        }
 
         Form();
 
@@ -245,7 +261,6 @@ public class MyText : MonoBehaviour
         {
             //_text.text = PlayerPrefs.GetInt("Health") + "";
             SetNewNumber(PlayerPrefs.GetInt("Health"));
-
         }
         else if (name == "GameTime")
         {
@@ -267,36 +282,61 @@ public class MyText : MonoBehaviour
             //_text.text = PlayerPrefs.GetInt("Enemy") + "";
             SetNewNumber(PlayerPrefs.GetInt("Enemy"));
         }
+        else if (name == "Final_Score")
+        {
+            var finalScore = (+
+                PlayerPrefs.GetInt("Enemy") +
+                PlayerPrefs.GetInt("Generated") + PlayerPrefs.GetInt("Spent")
+                + ((PlayerPrefs.GetInt("Health")) * PlayerPrefs.GetInt("Diamonds")));
+
+            SetNewNumber(finalScore);
+
+            if (_sound == null)
+            {
+                _sound = Program.GameScene.SoundManager.PlaySound(10);
+            }
+        }
+        else if (name == "Final_Score_Detail")
+        {
+            _text.text = PlayerPrefs.GetInt("Enemy") + " + " + PlayerPrefs.GetInt("Generated") +
+                " + " + +PlayerPrefs.GetInt("Spent") +
+                " + (" + (PlayerPrefs.GetInt("Health")) + " * " + PlayerPrefs.GetInt("Diamonds") + ") =";
+        }
+        else if (name == "Diamonds")
+        {
+            SetNewNumber(PlayerPrefs.GetInt("Diamonds"));
+        }
     }
+
 
     void SetNewNumber(int newNumb)
     {
         _newNumber = newNumb;
-        SetTimeInCourotine();
+        SetMultiplier();
     }
 
     /// <summary>
     /// How quick will call the HalfFrame Routine itself 
     /// </summary>
-    void SetTimeInCourotine()
+    void SetMultiplier()
     {
         var diff = Math.Abs(_oldNumber - _newNumber);
 
         if (diff < 151)
         {
-            _frameWait = 0.005f;
+            _multiplier = 1;
         }
         else if (diff > 150 && diff < 301)
         {
-            _frameWait = 0.002f;// 0.002f;
+            _multiplier = 5;// 0.002f;
         }
         else if (diff > 300 && diff < 1000)
         {
-            _frameWait = 0.0001f;
+            _multiplier = 10;
         }
         else
         {
-            _frameWait = 0.00001f;
+            _multiplier = 100;
         }
     }
 }

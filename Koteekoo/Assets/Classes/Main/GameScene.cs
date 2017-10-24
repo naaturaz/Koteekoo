@@ -17,7 +17,6 @@ public class GameScene
     GameObject _whileBuilding;
 
 
-
     public Player Player
     {
         get
@@ -220,6 +219,8 @@ public class GameScene
         }
     }
 
+
+
     void LoadLevel()
     {
         Level = PlayerPrefs.GetInt("Current");
@@ -340,7 +341,8 @@ public class GameScene
         PlayerPrefs.SetInt("Spent", BuildingManager.EnergySpent());
         PlayerPrefs.SetFloat("Time", EnemyManager.TtlTimeOfCurrentGame());
         PlayerPrefs.SetInt("Health", Player.Health);
-
+        PlayerPrefs.SetInt("DamageReceived", EnemyManager.DamageReceived());
+        PlayerPrefs.SetInt("Diamonds", Player.Score);
     }
 
     public string TimeLeft()

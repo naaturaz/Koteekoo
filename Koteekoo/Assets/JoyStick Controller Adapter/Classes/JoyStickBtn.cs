@@ -12,12 +12,15 @@ public class JoyStickBtn : MonoBehaviour
 {
     Button _btn;//The unity Button Attached 
     EventTrigger _eventTrigger;
+    MyBtn _myBtn;
+
 
     // Use this for initialization
     void Start()
     {
         _btn = GetComponent<Button>();
         _eventTrigger = GetComponent<EventTrigger>();
+        _myBtn = GetComponent<MyBtn>();
     }
 
     // Update is called once per frame
@@ -45,6 +48,7 @@ public class JoyStickBtn : MonoBehaviour
 
         if (selectNow)
         {
+            EventSystem.current.SetSelectedGameObject(null);
             EventSystem.current.SetSelectedGameObject(_btn.gameObject, null);
         }
         else
@@ -52,7 +56,6 @@ public class JoyStickBtn : MonoBehaviour
             EventSystem.current.SetSelectedGameObject(null);
         }
     }
-
 
     public void Action(Button btn)
     {

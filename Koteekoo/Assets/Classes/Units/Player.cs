@@ -19,6 +19,9 @@ public class Player : Shooter
 
     JoyStickManager _joyStickManager;
 
+    private int _score;
+
+
     public bool IsMouseOnTerrain { get; private set; }
 
     public RaycastHit HitMouseOnTerrain
@@ -47,6 +50,19 @@ public class Player : Shooter
         }
     }
 
+    public int Score
+    {
+        get
+        {
+            return _score;
+        }
+
+        set
+        {
+            _score = value;
+        }
+    }
+
 
 
     // Use this for initialization
@@ -68,6 +84,18 @@ public class Player : Shooter
 
         base.CreateHealthBar();
 
+    }
+
+    internal void Add1Score()
+    {
+        Program.GameScene.SoundManager.PlaySound(11);
+        Score++;
+    }
+
+    internal void Add1Life()
+    {
+        Health++;
+        Program.GameScene.SoundManager.PlaySound(6);
     }
 
     // Update is called once per frame
@@ -196,6 +224,14 @@ public class Player : Shooter
     void OnTriggerEnter(Collider other)
     {
         base.OnTriggerEnter(other);
+
+        Debug.Log("OnTriggerEnter: > "+ other.gameObject.name);
+        if ((other.gameObject.name.Contains("Prefab/Terrain") || other.gameObject.name.Contains("Cube")
+            || other.gameObject.name.Contains("Militar"))
+            && _isFalling)
+        {
+            IsFalling = false;
+        }
     }
 
 
@@ -207,6 +243,8 @@ public class Player : Shooter
         if (_hasHandOccupied)
         {
             //HandleTouchInputBuilding(collision);
+
+
             return;
         }
 
@@ -304,6 +342,7 @@ public class Player : Shooter
     #region Hit and Fade
 
     bool _isFadingOut;
+
     public void Hit()
     {
         GotHit1.color = Color.white;

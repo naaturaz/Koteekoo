@@ -18,8 +18,6 @@ public class EnemyGO : Shooter
     AutoMoveAndRotate _rotScript;
 
     //GameObject _marker;
-
-
     GameObject _rocket;
     bool _didTargetRocket;
     Vector3 _targetPos;

@@ -6,6 +6,10 @@ using UnityEngine;
 
 public class Shooter : General
 {
+
+    GameObject _canvas;
+
+
     private float _fireTime;
     private float _fireRate = .2f;
     GameObject _bulletSpawn;
@@ -31,6 +35,7 @@ public class Shooter : General
 
 
     HealthBar _healthBar;
+
 
     public HealthBar HealthBar
     {
@@ -100,6 +105,10 @@ public class Shooter : General
     protected void Start()
     {
         base.Start();
+
+        _canvas = GameObject.Find("Canvas");
+
+
         BulletSpawn = GetChildCalled("Bullet_Spawn");
         if (BulletSpawn == null)
         {
@@ -196,12 +205,22 @@ public class Shooter : General
                 var p = (Player)this;
                 p.Hit();
             }
+            else if (name.Contains("Enemy"))
+            {
+                var one = General.Create("Prefab/Crate/Diamond_Drop", transform.position, "1");
+                Program.GameScene.EnemyManager.AddDamageReceived();
+
+            }
         }
         else
         {
             if (Health == 1)
             {
                 Health = 0;
+                if (name.Contains("Enemy") && UMath.GiveRandom(1, 11) < 2)//10% chance of drop 
+                {
+                    var heart = General.Create("Prefab/Crate/Heart_Drop", transform.position, "Heart_Drop");
+                }
             }
         }
     }

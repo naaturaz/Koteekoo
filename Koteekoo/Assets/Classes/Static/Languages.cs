@@ -26,7 +26,7 @@ public class Languages
         { "Tuto.Power","You need the power to build the buildings" },
         { "Tuto.Health","This is your health" },
 
-        { "Tuto.Enemy","The enemies will try to kill you and destroy your rocket. If the rocket gets destroy​ed the is Game Over.​ In each level enemies select a random spawn location, but the subsequent waves in the ​same ​level will spawn ​in the same location" },
+        { "Tuto.Enemy","The enemies will try to kill you and destroy your rocket. If the rocket gets destroy​ed is Game Over.​ In each level enemies select a random spawn location, but the subsequent waves in the ​same ​level will spawn ​in the same location" },
 
         {"Tuto.Turret","Turrets will actively protect you and shoot enemies. ​Be aware they can​not shoot through walls. Also when a new enemy wave ​is coming the turret will face directly towards the enemies​,​ so you know the direction ​from which they are coming from " },
         { "Tuto.Wall","Walls: you can place them ​strategically to protect your rocket" },
