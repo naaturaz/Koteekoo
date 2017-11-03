@@ -178,10 +178,11 @@ public class Building : Shooter
                 transform.position = Program.GameScene.Player.transform.position + new Vector3(0, 0, 2);
             }
 
-            //so it keeps the last pos and rotation of the last object spawned. Must have been of the same type
+            //so it keeps the last pos and rotation of the last object spawned
             if (_lastOneOfSameTypeWasPlaced != new Vector3())
             {
-                transform.position = _lastOneOfSameTypeWasPlaced;
+                transform.position = new Vector3(_lastOneOfSameTypeWasPlaced.x,
+                    Program.GameScene.Player.transform.position.y, _lastOneOfSameTypeWasPlaced.z);
                 transform.rotation = _lastPlacedRot;
             }
             //so after this if player rotates the building not placed will too

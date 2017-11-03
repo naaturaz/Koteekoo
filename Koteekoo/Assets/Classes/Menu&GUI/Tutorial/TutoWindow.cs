@@ -217,6 +217,7 @@ class TutoWindow : GUIElement
         Hide();
         PlayerPrefs.SetString("Tuto", "Skip");
         gameObject.SetActive(false);
+        _currentIndex = -1;
     }
 
 
