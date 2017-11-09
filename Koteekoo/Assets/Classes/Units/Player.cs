@@ -8,7 +8,9 @@ public class Player : Shooter
 {
     public Image GotHit1;
     public Image GotHit2;
+    public Image GotHit3;
 
+    public GameObject Geometry;
 
     float _speed = 5;//.05    .1
     RaycastHit _hitMouseOnTerrain;
@@ -21,6 +23,7 @@ public class Player : Shooter
 
     private int _score;
 
+   
 
     public bool IsMouseOnTerrain { get; private set; }
 
@@ -68,9 +71,9 @@ public class Player : Shooter
     // Use this for initialization
     void Start()
     {
-
         GotHit1.color = new Color(0, 0, 0, 0);
         GotHit2.color = new Color(0, 0, 0, 0);
+        GotHit3.color = new Color(0, 0, 0, 0);
 
         IsGood = true;
 
@@ -84,12 +87,30 @@ public class Player : Shooter
 
         base.CreateHealthBar();
 
+        StartCoroutine("HalfASec");
+    }
+
+    internal void AddPower(int v)
+    {
+        Program.GameScene.BuildingManager.AddToGen(v);
+        Power += v;
+    }
+
+    private IEnumerator HalfASec()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(.15f); // wait
+            CheckIfHitLessThan3SecAgo();
+        }
     }
 
     internal void Add1Score()
     {
         Program.GameScene.SoundManager.PlaySound(11);
         Score++;
+
+        AddPower(2);
     }
 
     internal void Add1Life()
@@ -112,7 +133,11 @@ public class Player : Shooter
 
         Movement();
 
-        Shoot();
+        if (!Program.GameScene.BuildingManager.IsBuildingNow())
+        {
+            Shoot();
+        }
+
         Jump();
         CheckCeiling();
 
@@ -342,13 +367,43 @@ public class Player : Shooter
     #region Hit and Fade
 
     bool _isFadingOut;
+    
+    //if the player was hit less than 3s ago will flash and will not receive damage
+    float _hitAt;
+
 
     public void Hit()
     {
+        //shielding if was hit less thn 3 sec ago
+        if (WasHitInTheLast3Sec())
+        {
+            Health++;
+            return;
+        }
+
         GotHit1.color = Color.white;
         GotHit2.color = Color.white;
-        Program.GameScene.SoundManager.PlaySound(8);
+        GotHit3.color = Color.white;
 
+        Program.GameScene.SoundManager.PlaySound(8, 1.2f);
+        _hitAt = Time.time;
+    }
+
+    void CheckIfHitLessThan3SecAgo()
+    {
+        if (WasHitInTheLast3Sec() && Geometry.gameObject.activeSelf)
+        {
+            Geometry.gameObject.SetActive(false);
+        }
+        else if(!Geometry.gameObject.activeSelf)
+        {
+            Geometry.gameObject.SetActive(true);
+        }
+    }
+
+    bool WasHitInTheLast3Sec()
+    {
+        return _hitAt != 0 && _hitAt + 2 > Time.time;
     }
 
     void CheckIfNeedsToFadeOut()
@@ -366,8 +421,9 @@ public class Player : Shooter
         {
             GotHit1.color = ReturnFadedColorBy(GotHit1.color, -.05f);
             GotHit2.color = ReturnFadedColorBy(GotHit2.color, -.008f);
+            GotHit3.color = ReturnFadedColorBy(GotHit3.color, -.004f);
 
-            if (GotHit1.color.a <= 0 && GotHit2.color.a <= 0)
+            if (GotHit1.color.a <= 0 && GotHit2.color.a <= 0 && GotHit3.color.a <= 0)
             {
                 _isFadingOut = false;
             }

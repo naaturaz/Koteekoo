@@ -249,7 +249,7 @@ public class MyText : MonoBehaviour
         else if (name == "Game_Over_Title")
         {
             _text.text = "";
-            _text.text = "Game Over: " + PlayerPrefs.GetString("Reason");
+            _text.text = "Game Over";// + PlayerPrefs.GetString("Reason");
         }
         else if (name == "Pass_Game_Title")
         {

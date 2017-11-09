@@ -207,7 +207,7 @@ public class Shooter : General
             }
             else if (name.Contains("Enemy"))
             {
-                var one = General.Create("Prefab/Crate/Diamond_Drop", transform.position, "1");
+                var one = General.Create("Prefab/Crate/Diamond_Drop", transform.position, "Diamond_Drop");
                 Program.GameScene.EnemyManager.AddDamageReceived();
 
             }

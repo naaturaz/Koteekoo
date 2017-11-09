@@ -206,10 +206,10 @@ public class JoyStickManager : MonoBehaviour
         var bBtn = IsBuilding && Input.GetKeyUp(KeyCode.Joystick1Button1);
         if ((Input.GetKeyUp(KeyCode.Joystick1Button4) || bBtn) && Application.loadedLevelName != "MainMenu")
         {
-            if (Program.GameScene.EnemyManager.ThereIsAnAttackNow())
-            {
-                return;
-            }
+            //if (Program.GameScene.EnemyManager.ThereIsAnAttackNow())
+            //{
+            //    return;
+            //}
 
             IsBuilding = !IsBuilding;
             if (IsBuilding)
@@ -433,6 +433,8 @@ public class JoyStickManager : MonoBehaviour
     public bool ShouldStopPlayerMovement()
     {
         return IsBuilding || _isPaused;
+
+        //return _isPaused;
     }
 
     /// <summary>

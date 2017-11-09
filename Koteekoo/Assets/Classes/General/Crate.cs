@@ -39,7 +39,7 @@ public class Crate : General {
 
     void DoActionForThisCrate()
     {
-        if (name == "1")
+        if (name == "Diamond_Drop")
         {
             Program.GameScene.Player.Add1Score();
 
@@ -56,9 +56,10 @@ public class Crate : General {
     {
         if (other.gameObject.name == "Player")
         {
-            Program.GameScene.BuildingManager.AddToGen(20);
+        
 
-            Program.GameScene.Player.Power += 20;
+            Program.GameScene.Player.AddPower(20);
+
             //Destroy(gameObject);
             Program.GameScene.SpawnPool.AddToPool(this);
         }

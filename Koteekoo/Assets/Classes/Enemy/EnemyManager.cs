@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
+    //drag and drop gameObj arrows here 
+    public GameObject[] Arrows = new GameObject[4];
+
     General _enemySpawnPoint;
 
     float _nextWaveAt;
@@ -49,6 +52,30 @@ public class EnemyManager : MonoBehaviour
         _nextWaveAt = Program.GameScene.TimePass + 10 + currLevel;
 
         StartCoroutine("Wait2Sec");
+        HideAllArrowsButNeededOne();
+    }
+
+    //what arrow GameObject each direction in x and z sign will talk to 
+    Dictionary<string, int> _arrowsMap = new Dictionary<string, int>()
+    {
+        {"1,1",0 },
+        {"-1,1",1 },
+        {"-1,-1",2 },
+        {"1,-1",3 },
+    };
+    private void HideAllArrowsButNeededOne()
+    {
+        if (Arrows[0] == null)
+        {
+            return;
+        }
+
+        for (int i = 0; i < Arrows.Length; i++)
+        {
+            Arrows[i].gameObject.SetActive(false);
+        }
+        var index = _arrowsMap[_xSing + "," + _zSign];
+        Arrows[index].SetActive(true);
     }
 
     private IEnumerator Wait2Sec()

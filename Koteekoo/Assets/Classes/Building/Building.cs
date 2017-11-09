@@ -208,8 +208,9 @@ public class Building : Shooter
             transform.SetParent(Program.GameScene.BuildingManager.transform);
 
             if ((Input.GetKey(KeyCode.LeftShift) || Program.GameScene.JoyStickManager.JoyStickController)
-                && DoWeHavePowerToBuildThis(_name) &&
-                !Program.GameScene.EnemyManager.ThereIsAnAttackNow())
+                && DoWeHavePowerToBuildThis(_name) 
+                //&&            !Program.GameScene.EnemyManager.ThereIsAnAttackNow()
+                )
             {
                 //bz sometimes the obhject will go below in Y if collided with something. 
                 var yCorrected = new Vector3(transform.position.x,
