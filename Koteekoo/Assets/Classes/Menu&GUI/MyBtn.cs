@@ -12,7 +12,6 @@ public class MyBtn : MonoBehaviour
     Vector3 _iniPos;
     Btn_Card _card;
 
-    AutoMoveAndRotate _rot;
 
     // Use this for initialization
     void Start()
@@ -21,49 +20,23 @@ public class MyBtn : MonoBehaviour
         _iniPos = transform.position;
 
         _card = FindObjectOfType<Btn_Card>();
-        _rot = GetComponent<AutoMoveAndRotate>();
 
-        if (_rot == null)
-        {
-            return;
-        }
-
-        _rot.enabled = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        if (name == "Btn_To_Next_Level")
+        if (name == "Btn_To_Next_Wave")
         {
-            if (Program.GameScene.EnemyManager.ToNextLevelIsReady())
+            if (Program.GameScene.EnemyManager.ThereIsAnAttackNow() || !Program.GameScene.EnemyManager.ThereIsMoreWaves())
             {
-                Show();
-                Program.GameScene.SoundManager.PlaySound(6);
-                _rot.enabled = true;
-
+                Hide();
             }
             else
             {
-                Hide();
-
+                Show();
             }
-            return;
         }
-
-
-        //if (enable)
-        //{
-        //    _btn.interactable = true;
-        //}
-        //else
-        //{
-        //    _btn.interactable = false;
-
-        //}
-
-
     }
 
     private void Hide()

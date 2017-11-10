@@ -41,8 +41,8 @@ class TutoWindow : GUIElement
 
         { "Tuto.Cancel.SmallWall",1 },
         { "Tuto.CreatePath",0 },
-        {"Tuto.NextWave",0 },
-        {"Tuto.Time",0},
+        //{"Tuto.NextWave",0 },
+        {"Tuto.Waves",0},
         {"Tuto.Jump",0},
 
         {"Tuto.Tuto",0},

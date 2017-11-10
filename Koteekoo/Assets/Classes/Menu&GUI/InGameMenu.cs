@@ -30,11 +30,13 @@ public class InGameMenu : MonoBehaviour {
 
     public void ToNextLevelReady()
     {
-
-
         Program.GameScene.PassLevel();
-
     }
+
+    public void NextWaveReady()
+    {
+        Program.GameScene.EnemyManager.WaveReadyNow();
+    } 
 
     public void Restart()
     {

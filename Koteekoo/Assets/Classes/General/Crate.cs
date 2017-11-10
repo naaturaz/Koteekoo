@@ -9,6 +9,7 @@ public class Crate : General {
     public bool DoIReach=true;
     public float ReachSpeed = 0.1f;
     public float DistanceToReachTrue = 0.2f;
+    public bool ReachOnlyWhenNotCombat;
 
     // Use this for initialization
     void Start () {
@@ -24,7 +25,14 @@ public class Crate : General {
         }
         if (DoIReach)
         {
-            transform.position = Vector3.MoveTowards(transform.position, ReachWho.position, ReachSpeed);
+            if (ReachOnlyWhenNotCombat && Program.GameScene.EnemyManager.ThereIsAnAttackNow())
+            {
+                
+            }
+            else
+            {
+                transform.position = Vector3.MoveTowards(transform.position, ReachWho.position, ReachSpeed);
+            }
         }
         CheckIfNearObjective();
     }

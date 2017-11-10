@@ -164,7 +164,7 @@ public class Shooter : General
         var bull = Program.GameScene.SpawnPool.ReturnGeneral(kind);
         if (bull == null)
         {
-            Debug.Log("not :" + kind);
+            //Debug.Log("not :" + kind);
             return;
         }
 

@@ -425,9 +425,9 @@ public class JoyStickManager : MonoBehaviour
         }
     }
 
-    public bool ShouldPauseTime()
+    public bool ShouldPauseTheWinCondition()
     {
-        return IsBuilding || _isPaused || IsPlacingNow || IsTutorialShownNow();
+        return _isPaused || IsTutorialShownNow();
     }
 
     public bool ShouldStopPlayerMovement()
@@ -443,7 +443,7 @@ public class JoyStickManager : MonoBehaviour
     /// <returns></returns>
     internal bool IsTimePausedAndNotTutorial()
     {
-        return (IsBuilding || _isPaused || IsPlacingNow) && !IsTutorialShownNow();
+        return (_isPaused || !Program.GameScene.EnemyManager.ThereIsAnAttackNow()) && !IsTutorialShownNow();
     }
 
     bool IsTutorialShownNow()

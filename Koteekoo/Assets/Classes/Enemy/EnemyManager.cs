@@ -29,6 +29,23 @@ public class EnemyManager : MonoBehaviour
 
     private int _damageReceived;
 
+    bool _waveSpawnNow;
+    int _wavesInThisLevel;
+
+
+    public int WavesInThisLevel
+    {
+        get
+        {
+            return _wavesInThisLevel;
+        }
+
+        set
+        {
+            _wavesInThisLevel = value;
+        }
+    }
+
 
     // Use this for initialization
     void Start()
@@ -53,16 +70,20 @@ public class EnemyManager : MonoBehaviour
 
         StartCoroutine("Wait2Sec");
         HideAllArrowsButNeededOne();
+
+        WavesInThisLevel = 3 + Program.GameScene.Level;
     }
 
     //what arrow GameObject each direction in x and z sign will talk to 
+    //Quadrants mapping 
     Dictionary<string, int> _arrowsMap = new Dictionary<string, int>()
     {
-        {"1,1",0 },
-        {"-1,1",1 },
-        {"-1,-1",2 },
-        {"1,-1",3 },
+        {"1,1",0 },//NE
+        {"-1,1",1 },//NW
+        {"-1,-1",2 },//SW
+        {"1,-1",3 },//SE
     };
+    int _quadrant;
     private void HideAllArrowsButNeededOne()
     {
         if (Arrows[0] == null)
@@ -74,8 +95,18 @@ public class EnemyManager : MonoBehaviour
         {
             Arrows[i].gameObject.SetActive(false);
         }
-        var index = _arrowsMap[_xSing + "," + _zSign];
-        Arrows[index].SetActive(true);
+        _quadrant = _arrowsMap[_xSing + "," + _zSign];
+        Arrows[_quadrant].SetActive(true);
+
+    }
+
+    /// <summary>
+    /// Where the spawn quadrant is 
+    /// </summary>
+    /// <returns></returns>
+    internal int Quadrant()
+    {
+        return _quadrant;
     }
 
     private IEnumerator Wait2Sec()
@@ -89,19 +120,23 @@ public class EnemyManager : MonoBehaviour
 
     internal bool ThereIsAnAttackNow()
     {
-        return _enemies.Count > 0;
+        return _enemies.Count > 0 || CanISpawnEnemiesNow();//bz takes 1.5s to enemies actually spawn
     }
 
     // Update is called once per frame
     void Update()
     {
         //player should not be on air other wise nav weird message 
-        if (Program.GameScene.TimePass > _nextWaveAt)
+        //if (Program.GameScene.TimePass > _nextWaveAt)
+        if (_waveSpawnNow && ThereIsMoreWaves())
         {
+            _waveSpawnNow = false;
             var levlDif = Program.GameScene.Level;
 
             SetNextWave();
             _waveNumb++;
+
+            WavesInThisLevel--;
 
             //will skip a wave if there is still an attack now 
             if (ThereIsAnAttackNow())
@@ -116,6 +151,16 @@ public class EnemyManager : MonoBehaviour
         //SpawnEnemies();
     }
 
+    public void WaveReadyNow()
+    {
+        if (ThereIsAnAttackNow())
+        {
+            return;
+        }
+
+        _waveSpawnNow = true;
+    }
+
     void SetNextWave()
     {
         _nextWaveAt = Program.GameScene.TimePass + 20;
@@ -123,9 +168,12 @@ public class EnemyManager : MonoBehaviour
 
 
     int count = -1;
+
+
+
     void SpawnEnemies()
     {
-        if (count > -1 && count < _nextWaveEnemies)
+        if (CanISpawnEnemiesNow())
         {
             SpawnEnemy();
             count++;
@@ -136,8 +184,14 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
+    bool CanISpawnEnemiesNow()
+    {
+        return count > -1 && count < _nextWaveEnemies;
+    }
+
     List<string> _enemiesList = new List<string>() { "Person", //"Robot"
     };
+
 
     void SpawnEnemy()
     {
@@ -215,6 +269,11 @@ public class EnemyManager : MonoBehaviour
         {
             Program.GameScene.CameraK.Peace();
         }
+    }
+
+    internal bool ThereIsMoreWaves()
+    {
+        return WavesInThisLevel > 0;
     }
 
     Transform GetClosestEnemy(List<Transform> enemies, Vector3 from)

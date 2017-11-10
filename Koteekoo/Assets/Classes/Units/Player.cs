@@ -250,7 +250,7 @@ public class Player : Shooter
     {
         base.OnTriggerEnter(other);
 
-        Debug.Log("OnTriggerEnter: > "+ other.gameObject.name);
+        //Debug.Log("OnTriggerEnter: > "+ other.gameObject.name);
         if ((other.gameObject.name.Contains("Prefab/Terrain") || other.gameObject.name.Contains("Cube")
             || other.gameObject.name.Contains("Militar"))
             && _isFalling)

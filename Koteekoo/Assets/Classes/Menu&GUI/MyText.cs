@@ -185,11 +185,24 @@ public class MyText : MonoBehaviour
             //_text.text = Program.GameScene.Player.Power + "";
             SetNewNumber(Program.GameScene.Player.Power);
         }
-        else if (name == "Time_Left")
-        {
-            _text.text = Program.GameScene.TimeLeft();
+        //else if (name == "Time_Left")
+        //{
+        //    _text.text = Program.GameScene.TimeLeft();
 
-            if (Program.GameScene.TimeLeft1 <= 1)
+        //    if (Program.GameScene.TimeLeft1 <= 1)
+        //    {
+        //        _text.text = "This last wave!";
+        //    }
+        //}
+        else if (name == "Waves_Left")
+        {
+            _text.text = Program.GameScene.EnemyManager.WavesInThisLevel + " more waves";
+
+            if (Program.GameScene.EnemyManager.WavesInThisLevel == 1)
+            {
+                _text.text = "1 more wave";
+            }
+            else if (Program.GameScene.EnemyManager.WavesInThisLevel == 0)
             {
                 _text.text = "This last wave!";
             }

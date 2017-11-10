@@ -37,7 +37,7 @@ public class Languages
         { "Tuto.CreatePath","You can build paths with turrets and use ​them to  ambush enemies. The one shown on screen is one of infinite possiblilites" },
 
         {"Tuto.NextWave","This is the remaining time until next ​enemy ​wave. Outside of the tutorial the time won't pass if you are in building mode" },
-        {"Tuto.Time","This is the remaining time until you pass this level"},
+        {"Tuto.Waves","This is the remaining amount of enemies waves to pass this level"},
         {"Tuto.Jump","To jump press 'X' button"},
 
 

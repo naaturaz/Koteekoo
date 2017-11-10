@@ -5,12 +5,11 @@ using UnityStandardAssets.Utility;
 
 public class CameraK : MonoBehaviour
 {
-
     GameObject _cam_Point_50_Degrees;
     GameObject _cam_Point_90_Degrees;
     GameObject _target;
 
-    float _speed = 2f;
+    float _speed = 4f;
 
     // Use this for initialization
     void Start()
@@ -40,6 +39,6 @@ public class CameraK : MonoBehaviour
     public void Peace()
     {
         _target = _cam_Point_50_Degrees;
-        _speed = 2f;
+        _speed = 4f;
     }
 }

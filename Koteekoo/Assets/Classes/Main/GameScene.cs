@@ -293,30 +293,37 @@ public class GameScene
 
     public void Update()
     {
-
-    }
-
-    internal void OneSecUpdate()
-    {
-        if (JoyStickManager.ShouldPauseTime())
+        if (EnemyManager == null)
         {
             return;
         }
 
-        if (_timeLeft > 1)
+        if (JoyStickManager.ShouldPauseTheWinCondition())
         {
-            _timeLeft--;
-            _timePass++;
+            return;
         }
-        else if(!EnemyManager.ThereIsAnAttackNow())
+        if (!EnemyManager.ThereIsMoreWaves() && !EnemyManager.ThereIsAnAttackNow())
         {
             PassLevel();
         }
+    }
 
-        if (TimeLeft1 < EnemyManager.TimeToNextWave() && !EnemyManager.ThereIsAnAttackNow())
-        {
-            PassLevel();
-        }
+    internal void OneSecUpdate()
+    {
+        
+
+        //time consuming counter every 1 sec
+        //if (_timeLeft > 1)
+        //{
+        //    _timeLeft--;
+        //    _timePass++;
+        //}
+       
+
+        //if (TimeLeft1 < EnemyManager.TimeToNextWave() && !EnemyManager.ThereIsAnAttackNow())
+        //{
+        //    PassLevel();
+        //}
     }
 
     public void PassLevel()

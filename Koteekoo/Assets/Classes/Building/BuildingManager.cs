@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class BuildingManager : General
 {
+    public GameObject[] SpawnPoints = new GameObject[4];
+
     Building current;
 
     List<Building> _allBuildings = new List<Building>();
@@ -18,6 +20,8 @@ public class BuildingManager : General
     void Start()
     {
         _card = FindObjectOfType<Btn_Card>();
+
+        SpawnObstacles();
 
     }
 
@@ -35,7 +39,7 @@ public class BuildingManager : General
         {
             //negation sound
             Program.GameScene.SoundManager.PlaySound(7);
-            return;    
+            return;
         }
 
         _card.Hide();
@@ -136,10 +140,39 @@ public class BuildingManager : General
 
     public void DestroyCurrentIfNoFixed()
     {
-        if (current!=null && !current.WasFixed())
+        if (current != null && !current.WasFixed())
         {
             Destroy(current.gameObject);
         }
+    }
+
+    /// <summary>
+    /// Spawns random obstacles in the quadrant the enemies are coming from
+    /// This is to give sensation of randomness and different levels 
+    /// </summary>
+    public void SpawnObstacles()
+    {
+        int inWhichQuadrant = Program.GameScene.EnemyManager.Quadrant();
+        int howManyObstacles = Program.GameScene.Level+1;
+
+        var positions = GetAllChilds(SpawnPoints[inWhichQuadrant]);
+        if (howManyObstacles > positions.Count)
+        {
+            howManyObstacles = positions.Count - 2;
+        }
+
+        for (int i = 0; i < howManyObstacles; i++)
+        {
+            var rand = UMath.GiveRandom(0, positions.Count);
+            SpawnRandomObstacleHere(positions[rand].transform.position);
+            positions.RemoveAt(rand);
+        }
+    }
+
+    void SpawnRandomObstacleHere(Vector3 pos)
+    {
+        var randNumb = UMath.GiveRandom(0, 6);
+        var obs = General.Create("Prefab/Terrain/Obstacles/Obstacle_" + randNumb, pos, "Obstacle_" + randNumb, transform);
     }
 }
 
