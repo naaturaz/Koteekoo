@@ -38,6 +38,7 @@ public class Building : Shooter
         { "Med_Wall", 3 },
         { "Tall_Wall", 4 },
         { "Hi_Defend_Tower", 5 },
+        { "Pit", 6 },
 
     };
 
@@ -49,6 +50,7 @@ public class Building : Shooter
         new BuildStat("Med_Wall", 10, 25),
         new BuildStat("Tall_Wall", 15, 30),
         new BuildStat("Hi_Defend_Tower", 300, 18),
+        new BuildStat("Pit", 15, 20),
 
     };
 

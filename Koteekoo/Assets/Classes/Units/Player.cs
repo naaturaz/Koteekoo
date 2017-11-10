@@ -116,7 +116,7 @@ public class Player : Shooter
     internal void Add1Life()
     {
         Health++;
-        Program.GameScene.SoundManager.PlaySound(6);
+        Program.GameScene.SoundManager.PlaySound(12, .5f);
     }
 
     // Update is called once per frame

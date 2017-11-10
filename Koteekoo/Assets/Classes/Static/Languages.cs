@@ -10,10 +10,10 @@ public class Languages
 
     static Dictionary<string, string> _english = new Dictionary<string, string>()
     {
-      {"Tuto.Objective","The objective of the game is to ​resist as many enemy waves ​as ​you can and advance ​to the next level." },
+        {"Tuto.Objective","The objective of the game is to ​resist all enemy waves" },
         {"Tuto.Move","The player moves using the 'Left Stick'. Now go to the green circle with the player" },
         {"Tuto.Rotate","The player rotates using the 'Right Stick'" },
-        {"Tuto.Shoot","The player shoots with 'A' button. While ​i​n Defend mode the player will shoot automatically" },
+        {"Tuto.Shoot","When an attack is happening the player will shoot automatically" },
 
         {"Tuto.Build","Pressing 'LB'​ will bring up the building menu" },
         {"Tuto.Solar","Now​,​ in the building menu with the 'Left Stick' select 'Solar panel'. Highlight the button and then press 'A'. This building will provide you with power over time. Notice the cost and health of each unit" },
@@ -53,6 +53,7 @@ public class Languages
         { "Small_Wall","​Minimal Protection"},
         { "Med_Wall","​Medium Protection"},
         { "Tall_Wall","​Ultimate Protection"},
+        { "Pit","Pit"},
 
         //name
                 { "Defend_Tower.Unit.Name","Tower"},
@@ -61,6 +62,8 @@ public class Languages
         { "Small_Wall.Unit.Name","Small Wall"},
         { "Med_Wall.Unit.Name","Medium Wall"},
         { "Tall_Wall.Unit.Name","Tall Wall"},
+        { "Pit.Unit.Name","Pit"},
+
     };
 
 

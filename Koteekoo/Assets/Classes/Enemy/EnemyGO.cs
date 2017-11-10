@@ -49,6 +49,12 @@ public class EnemyGO : Shooter
             Health = 20;
             FireRate = 3;
         }
+        if (name.Contains("Robot"))
+        {
+            FireRate = 1;
+            Health = 7;
+
+        }
 
         StartTargetAdquired();
 

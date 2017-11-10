@@ -153,7 +153,7 @@ public class BuildingManager : General
     public void SpawnObstacles()
     {
         int inWhichQuadrant = Program.GameScene.EnemyManager.Quadrant();
-        int howManyObstacles = Program.GameScene.Level+1;
+        int howManyObstacles = Program.GameScene.Level + 2;
 
         var positions = GetAllChilds(SpawnPoints[inWhichQuadrant]);
         if (howManyObstacles > positions.Count)
@@ -172,7 +172,8 @@ public class BuildingManager : General
     void SpawnRandomObstacleHere(Vector3 pos)
     {
         var randNumb = UMath.GiveRandom(0, 6);
-        var obs = General.Create("Prefab/Terrain/Obstacles/Obstacle_" + randNumb, pos, "Obstacle_" + randNumb, transform);
+        var obs = General.Create("Prefab/Terrain/Obstacles/Obstacle_" + randNumb, pos + new Vector3(0, 2, 0),
+            "Obstacle_" + randNumb, transform);
     }
 }
 

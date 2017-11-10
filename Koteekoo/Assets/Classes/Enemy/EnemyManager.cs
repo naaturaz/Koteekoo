@@ -97,7 +97,11 @@ public class EnemyManager : MonoBehaviour
         }
         _quadrant = _arrowsMap[_xSing + "," + _zSign];
         Arrows[_quadrant].SetActive(true);
+    }
 
+    void HideArrows()
+    {
+        Arrows[_quadrant].SetActive(false);
     }
 
     /// <summary>
@@ -130,6 +134,7 @@ public class EnemyManager : MonoBehaviour
         //if (Program.GameScene.TimePass > _nextWaveAt)
         if (_waveSpawnNow && ThereIsMoreWaves())
         {
+            HideArrows();
             _waveSpawnNow = false;
             var levlDif = Program.GameScene.Level;
 
@@ -189,7 +194,8 @@ public class EnemyManager : MonoBehaviour
         return count > -1 && count < _nextWaveEnemies;
     }
 
-    List<string> _enemiesList = new List<string>() { "Person", //"Robot"
+    List<string> _enemiesList = new List<string>() { "Person",
+        "Robot"
     };
 
 

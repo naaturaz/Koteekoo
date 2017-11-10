@@ -182,6 +182,7 @@ public class Shooter : General
         Program.GameScene.SoundManager.PlaySound(0, 1, true);
     }
 
+
     protected void OnTriggerEnter(Collider other)
     {
         if (!other.name.Contains("Bullet"))
@@ -196,6 +197,11 @@ public class Shooter : General
             return;
         }
 
+        RemoveHealth();
+    }
+
+    void RemoveHealth()
+    {
         if (Health > 1)
         {
             Health--;
@@ -209,7 +215,6 @@ public class Shooter : General
             {
                 var one = General.Create("Prefab/Crate/Diamond_Drop", transform.position, "Diamond_Drop");
                 Program.GameScene.EnemyManager.AddDamageReceived();
-
             }
         }
         else
