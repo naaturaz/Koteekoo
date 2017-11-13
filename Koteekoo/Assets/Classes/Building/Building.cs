@@ -166,6 +166,7 @@ public class Building : Shooter
 
     static Vector3 _lastOneOfSameTypeWasPlaced;
     static Quaternion _lastPlacedRot;
+    static string _oldName;
     // Update is called once per frame
     void Update()
     {
@@ -178,6 +179,12 @@ public class Building : Shooter
             else
             {
                 transform.position = Program.GameScene.Player.transform.position + new Vector3(0, 0, 2);
+            }
+
+            //if is a diff buildign will get reset
+            if (_oldName != _name)
+            {
+                _lastOneOfSameTypeWasPlaced = new Vector3();
             }
 
             //so it keeps the last pos and rotation of the last object spawned
@@ -221,6 +228,7 @@ public class Building : Shooter
 
                 _lastOneOfSameTypeWasPlaced = yCorrected;
                 transform.position = yCorrected;
+                _oldName = _name;
 
                 _lastPlacedRot = transform.rotation;
                 Program.GameScene.BuildingManager.Create(name);

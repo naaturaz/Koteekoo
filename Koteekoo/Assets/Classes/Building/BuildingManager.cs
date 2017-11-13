@@ -16,19 +16,24 @@ public class BuildingManager : General
     int _energySpent;
     private Btn_Card _card;
 
+    bool _obstaclesWereSpawned;
+
     // Use this for initialization
     void Start()
     {
         _card = FindObjectOfType<Btn_Card>();
 
-        SpawnObstacles();
 
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        if (Program.GameScene != null && Program.GameScene.EnemyManager != null && !_obstaclesWereSpawned)
+        {
+            SpawnObstacles();
+            _obstaclesWereSpawned = true;
+        }
     }
 
     public void Create(string buildingPath)
