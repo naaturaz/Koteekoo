@@ -40,6 +40,8 @@ public class Languages
         {"Tuto.Waves","This is the remaining amount of enemies waves to pass this level"},
         {"Tuto.Jump","To jump press 'X' button"},
 
+        { "Tuto.Tip","You push the big boxes around. Good luck!"},
+
 
         { "Tuto.Tuto","Be creative ​in defending your rocket. Place turrets behinds walls. Have fun!!"},
 

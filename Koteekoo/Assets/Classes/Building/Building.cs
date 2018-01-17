@@ -28,6 +28,8 @@ public class Building : Shooter
     public AutoMoveAndRotate _rotator1;
     public AutoMoveAndRotate _rotator2;
 
+    static TutoWindow _tutoWindow;
+
     float _startTime;
 
     static Dictionary<string, int> _indexer = new Dictionary<string, int>()
@@ -107,6 +109,8 @@ public class Building : Shooter
         base.Start();
         _startTime = Time.time;
         _joyStickManager = FindObjectOfType<JoyStickManager>();
+        _tutoWindow = FindObjectOfType<TutoWindow>();
+
 
         IsGood = true;
 
@@ -518,10 +522,22 @@ public class Building : Shooter
     public static bool DoWeHavePowerToBuildThis(string build)
     {
         var index = _indexer[build];
+
+        //is passing tuto now . can only build Tower and Small Tower 
+        if (_tutoWindow && !_tutoWindow.IsDone())
+        {
+            if (index != 1 && index != 2)
+            {
+                return false;
+            }
+        }
+
         var cost = _builds[index].Cost;
 
         return Program.GameScene.Player.Power >= cost;
     }
+
+
 
     public static BuildStat ReturnBuildStat(string build)
     {

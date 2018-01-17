@@ -11,6 +11,7 @@ public class MyBtn : MonoBehaviour
     Button _btn;
     Vector3 _iniPos;
     Btn_Card _card;
+    TutoWindow _tutoWindow;
 
 
     // Use this for initialization
@@ -20,7 +21,7 @@ public class MyBtn : MonoBehaviour
         _iniPos = transform.position;
 
         _card = FindObjectOfType<Btn_Card>();
-
+        _tutoWindow = FindObjectOfType<TutoWindow>();
     }
 
     // Update is called once per frame
@@ -28,7 +29,8 @@ public class MyBtn : MonoBehaviour
     {
         if (name == "Btn_To_Next_Wave")
         {
-            if (Program.GameScene.EnemyManager.ThereIsAnAttackNow() || !Program.GameScene.EnemyManager.ThereIsMoreWaves())
+            if (Program.GameScene.EnemyManager.ThereIsAnAttackNow() || !Program.GameScene.EnemyManager.ThereIsMoreWaves()
+                || (_tutoWindow && !_tutoWindow.IsDone()))
             {
                 Hide();
             }

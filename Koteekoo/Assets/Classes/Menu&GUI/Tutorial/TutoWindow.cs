@@ -11,6 +11,7 @@ class TutoWindow : GUIElement
 
 
 
+
     /// <summary>
     /// To add tutorial 
     /// add the corresponding entry on Languages and 
@@ -44,6 +45,8 @@ class TutoWindow : GUIElement
         //{"Tuto.NextWave",0 },
         {"Tuto.Waves",0},
         {"Tuto.Jump",0},
+
+        {"Tuto.Tip",0},
 
         {"Tuto.Tuto",0},
 
@@ -105,7 +108,7 @@ class TutoWindow : GUIElement
             Show();
         }
 
-        CheckIfSkipped();
+        //CheckIfSkipped();
     }
 
     private void CheckIfSkipped()
@@ -230,6 +233,13 @@ class TutoWindow : GUIElement
         }
 
         return _steps.ElementAt(_currentIndex).Key == accomplishedThisEvent;
+    }
+
+
+    internal bool IsDone()
+    {
+        var state = PlayerPrefs.GetString("Tuto");
+        return _currentIndex == -1 && state == "Done";
     }
 }
 
