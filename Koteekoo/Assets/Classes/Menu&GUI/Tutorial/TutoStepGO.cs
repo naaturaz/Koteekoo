@@ -29,6 +29,10 @@ public class TutoStepGO : General
         {
             StepReached();
         }
+        if (other.name.Contains("Obstacle_3") && Program.GameScene.TutoWindow.IsCurrentStep("Tuto.Move.Block"))
+        {
+            StepReached();
+        }
     }
 
     void StepReached()

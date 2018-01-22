@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Analytics;
 
 public class JoyStickBtnY : MonoBehaviour {
 
@@ -16,6 +17,8 @@ public class JoyStickBtnY : MonoBehaviour {
     {
         if (Input.GetKeyUp(KeyCode.Joystick1Button3) && (_tutoWindow && _tutoWindow.IsDone() || !_tutoWindow))
         {
+            Analytics.CustomEvent("Y Btn", new Dictionary<string, object> { { "WaveReadyNow", "BtnClicked" }, });
+
             //fire event 
             Program.GameScene.EnemyManager.WaveReadyNow();
         }

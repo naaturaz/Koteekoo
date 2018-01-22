@@ -54,7 +54,7 @@ public class EnemyManager : MonoBehaviour
 
         _rocket = GameObject.Find("Rocket");
 
-        if (PlayerPrefs.GetString("Tuto") == "" && Program.GameScene.Level == 1)
+        if (PlayerPrefs.GetString("Tuto") == "" && (Program.GameScene ==null || Program.GameScene.Level == 1))
         {
             _xSing = 1;
             _zSign = 1;

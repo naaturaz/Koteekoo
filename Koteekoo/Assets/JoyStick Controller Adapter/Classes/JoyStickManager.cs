@@ -13,6 +13,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Analytics;
 
 /// <summary>
 /// This class will be on Scene all time handling every gameObj that will
@@ -159,6 +160,8 @@ public class JoyStickManager : MonoBehaviour
         if ((Input.GetKeyUp(KeyCode.Joystick1Button7) || (_isPaused && Input.GetKeyUp(KeyCode.Joystick1Button1))) 
             && Application.loadedLevelName != "MainMenu")
         {
+
+
             _isPaused = !_isPaused;
 
             if (_isPaused)
@@ -173,6 +176,9 @@ public class JoyStickManager : MonoBehaviour
             {
                 _inGameMenuBtns.SetActive(false);
             }
+
+            Analytics.CustomEvent("Start Pressed", new Dictionary<string, object> { { "_isPaused", _isPaused }, });
+
         }
     }
 
@@ -220,6 +226,9 @@ public class JoyStickManager : MonoBehaviour
             {
                 ForbideBuildNow();
             }
+
+            Analytics.CustomEvent("JoyStickManager.CheckIfBuildingMode", new Dictionary<string, object> { { "IsBuilding", IsBuilding }, });
+
         }
     }
 

@@ -25,10 +25,7 @@ public class MyText : MonoBehaviour
 
         Form();
 
-        if (name == "Level")
-        {
-            _text.text = "Level " + Program.GameScene.Level;
-        }
+     
     }
 
     bool _ifFirstHappen;
@@ -172,6 +169,12 @@ public class MyText : MonoBehaviour
 
     void ManualUpdate()
     {
+        if (name == "Level" && Program.GameScene != null)
+        {
+            _text.text = "Level " + Program.GameScene.Level;
+
+
+        }
         if (name == "Bullets")
         {
             _text.text = Program.GameScene.Player.Ammo + "";
@@ -262,7 +265,8 @@ public class MyText : MonoBehaviour
         else if (name == "Game_Over_Title")
         {
             _text.text = "";
-            _text.text = "Game Over";// + PlayerPrefs.GetString("Reason");
+            var reason = PlayerPrefs.GetString("Reason");
+            _text.text = "Game Over: " + reason;
         }
         else if (name == "Pass_Game_Title")
         {

@@ -13,34 +13,42 @@ public class Languages
         {"Tuto.Objective","The objective of the game is to ​resist all enemy waves" },
         {"Tuto.Move","The player moves using the 'Left Stick'. Now go to the green circle with the player" },
         {"Tuto.Rotate","The player rotates using the 'Right Stick'" },
-        {"Tuto.Shoot","When an attack is happening the player will shoot automatically" },
+
+
+
+        { "Tuto.Shoot","When an attack is happening the player will shoot automatically" },
 
         {"Tuto.Build","Pressing 'LB'​ will bring up the building menu" },
         {"Tuto.Solar","Now​,​ in the building menu with the 'Left Stick' select 'Solar panel'. Highlight the button and then press 'A'. This building will provide you with power over time. Notice the cost and health of each unit" },
 
-        {"Tuto.Place","Now to place the building move the player and place the building in the green circle. The building will rotate if the player does so" },
-        {"Tuto.SetBuild","Set building with 'A'" },
+        {"Tuto.Place","To place the Solar Panel move the player to the green circle. The Solar Panel will rotate along with the player" },
+        {"Tuto.SetBuild","Set the Solar Panel with 'A'" },
 
-        {"Tuto.CancelSolar","That solar building was set. You can move around see that a new one was spawn. Please cancel this one, to cancel: 'B'" },
+        {"Tuto.CancelSolar","That Solar Panel was placed. By moving around you can see that another was spawned. To cancel this one press 'B'" },
 
-        { "Tuto.Power","You need the power to build the buildings" },
+        { "Tuto.Power","You need power to build buildings" },
         { "Tuto.Health","This is your health" },
 
-        { "Tuto.Enemy","The enemies will try to kill you and destroy your rocket. If the rocket gets destroy​ed is Game Over.​ In each level enemies select a random spawn location, but the subsequent waves in the ​same ​level will spawn ​in the same location" },
+        { "Tuto.Enemy","The enemies will try to kill you and destroy your rocket. If the rocket gets destroy​ed Game is Over​" },
 
-        {"Tuto.Turret","Turrets will actively protect you and shoot enemies. ​Be aware they can​not shoot through walls. Also when a new enemy wave ​is coming the turret will face directly towards the enemies​,​ so you know the direction ​from which they are coming from " },
-        { "Tuto.Wall","Walls: you can place them ​strategically to protect your rocket" },
-        {"Tuto.WallArdRocket","Try to create a wall around the rocket. Use only Small Wall units. Put 10 of them around the rocket. Press 'LB' to show the building menu. Use the ones on screen for reference" },
-        {"Tuto.Cancel.SmallWall","Cancel the Small Wall unit with 'B'" },
+        {"Tuto.Turret","Turrets will actively protect you and shoot enemies. They can​not shoot through walls" },
+        { "Tuto.Wall","Walls: you can ​strategically place them to protect your rocket" },
+        {"Tuto.WallArdRocket","Try to create a wall around the rocket. Use only 'Small Wall' units. Put 10 of them around the rocket. Press 'LB' to show the building menu. Use the ones on screen for reference" },
+        {"Tuto.Cancel.SmallWall","To cancel the 'Small Wall' press 'B'" },
 
 
-        { "Tuto.CreatePath","You can build paths with turrets and use ​them to  ambush enemies. The one shown on screen is one of infinite possiblilites" },
+        { "Tuto.CreatePath","You can build paths with turrets and use ​them to ambush enemies" },
 
         {"Tuto.NextWave","This is the remaining time until next ​enemy ​wave. Outside of the tutorial the time won't pass if you are in building mode" },
         {"Tuto.Waves","This is the remaining amount of enemies waves to pass this level"},
         {"Tuto.Jump","To jump press 'X' button"},
 
-        { "Tuto.Tip","You push the big boxes around. Good luck!"},
+        { "Tuto.Restart","You can restart the game at any time by pressing 'Menu' and then selecting 'Restart'"},
+        {"Tuto.BigArrow","The Big rotating arrows show you the direction that enemies will come from" },
+
+        {"Tuto.Move.Block","Follow the yellow arrow and push the Red Cube into the circle" },
+
+        { "Tuto.Tip","You push the big boxes around to get extra protection"},
 
 
         { "Tuto.Tuto","Be creative ​in defending your rocket. Place turrets behinds walls. Have fun!!"},

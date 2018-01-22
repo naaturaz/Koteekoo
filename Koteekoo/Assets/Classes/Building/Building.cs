@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Analytics;
 using UnityStandardAssets.Utility;
 
 public class Building : Shooter
@@ -212,6 +213,9 @@ public class Building : Shooter
             }
 
             _wasFixed = true;
+
+            Analytics.CustomEvent("Building.Update", new Dictionary<string, object> { { "_wasFixed, Build Name:", _name }, });
+
             Program.GameScene.WhileBuildingSetTo(false);
 
             Program.GameScene.BuildingManager.AddToAll(this);
@@ -247,6 +251,11 @@ public class Building : Shooter
         //Cancelling 'B' btn
         if (!_wasFixed && Program.GameScene.JoyStickManager.JoyStickController && Input.GetKeyUp(KeyCode.Joystick1Button1))
         {
+            Analytics.CustomEvent("Building.Update", new Dictionary<string, object> {
+                { "Cancelling 'B' btn, Build Name:", _name },
+            });
+
+
             if (Program.GameScene.TutoWindow != null)
             {
                 if (name.Contains("Solar"))
@@ -587,7 +596,7 @@ public class Building : Shooter
             {
                 if (name == "Rocket")
                 {
-                    Program.GameScene.Player.GameOver("Rocket booom!");
+                    Program.GameScene.Player.GameOver("The Rocket was destroyed!!");
                     return;
                 }
 

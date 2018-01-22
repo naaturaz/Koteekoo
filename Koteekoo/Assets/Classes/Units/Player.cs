@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Analytics;
 using UnityEngine.UI;
 
 public class Player : Shooter
@@ -124,7 +125,7 @@ public class Player : Shooter
     {
         if (IsDeath())
         {
-            GameOver("Killed player");
+            GameOver("The Player got Killed! ");
             return;
         }
 
@@ -161,6 +162,8 @@ public class Player : Shooter
 
     public void GameOver(string reason)
     {
+        Analytics.CustomEvent("GameOver", new Dictionary<string, object> { { "reason", reason }, });
+
         Debug.Log("Game Over");
         Application.LoadLevel("MainMenu");
         PlayerPrefs.SetString("State", "GameOver");//Clear current game 
@@ -187,6 +190,9 @@ public class Player : Shooter
             || (_joyStickManager.JoyStickController && Input.GetKeyUp(KeyCode.Joystick1Button2))
             && !IsFalling)
         {
+            Analytics.CustomEvent("Player.Jump", new Dictionary<string, object> { { "Jump Now", "" }, });
+
+
             _rigidBody.AddForce(new Vector3(0, 7, 0), ForceMode.VelocityChange);
         }
         IsFalling = true;

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Analytics;
 
 public class BuildingManager : General
 {
@@ -38,6 +39,9 @@ public class BuildingManager : General
 
     public void Create(string buildingPath)
     {
+        Analytics.CustomEvent("BuildingManager.Create", new Dictionary<string, object> { { "NewBuild", buildingPath }, });
+
+
         //buildling path ex: Militar/Small_Wall
         var key = buildingPath.Split('/').ToArray()[1];
         if (!Building.DoWeHavePowerToBuildThis(key))

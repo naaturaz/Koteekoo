@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using UnityEngine.Analytics;
 using UnityEngine.UI;
 
 class TutoWindow : GUIElement
@@ -42,12 +43,13 @@ class TutoWindow : GUIElement
 
         { "Tuto.Cancel.SmallWall",1 },
         { "Tuto.CreatePath",0 },
-        //{"Tuto.NextWave",0 },
         {"Tuto.Waves",0},
         {"Tuto.Jump",0},
+        {"Tuto.Restart",0},
 
+        {"Tuto.Move.Block",1 },
+        {"Tuto.BigArrow",0 },
         {"Tuto.Tip",0},
-
         {"Tuto.Tuto",0},
 
     };
@@ -88,13 +90,16 @@ class TutoWindow : GUIElement
 
         _rectTransform = transform.GetComponent<RectTransform>();
 
-
         HideStepsGO();
-
 
         if (!string.IsNullOrEmpty(PlayerPrefs.GetString("Tuto")))
         {
             SkipTuto();
+        }
+        else
+        {
+            //so it makes sure mosy likely will have power to do everything in the Tuto
+            Program.GameScene.Player.Power = 800;
         }
     }
 
@@ -161,12 +166,23 @@ class TutoWindow : GUIElement
         }
     }
 
+    int totalPotions = 5;
+    int totalCoins = 100;
+    string weaponID = "Weapon_102";
+
+
     public void Next(string step)
     {
         if (_currentIndex == -1 || step != _steps.ElementAt(_currentIndex).Key)
         {
             return;
         }
+
+        Analytics.CustomEvent("tutoStepAchieved", new Dictionary<string, object>
+        {
+            { "step", step },
+        });
+
 
         //will hide the StepGO if not hidden already 
         if (StepsGO[_currentIndex] != null)
@@ -183,6 +199,9 @@ class TutoWindow : GUIElement
             Hide();
 
             Program.GameScene.SoundManager.PlaySound(3);
+
+            //when tuto is done the power is 200
+            Program.GameScene.Player.Power = 200;
 
             PlayerPrefs.SetString("Tuto", "Done");
             return;
