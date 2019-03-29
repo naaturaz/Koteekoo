@@ -9,7 +9,7 @@ public class CameraK : MonoBehaviour
     GameObject _cam_Point_90_Degrees;
     GameObject _target;
 
-    float _speed = 4f;
+    float _speed = 3f;
 
     // Use this for initialization
     void Start()
@@ -39,6 +39,6 @@ public class CameraK : MonoBehaviour
     public void Peace()
     {
         _target = _cam_Point_50_Degrees;
-        _speed = 4f;
+        _speed = 3f;
     }
 }

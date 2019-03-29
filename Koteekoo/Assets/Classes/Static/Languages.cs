@@ -44,14 +44,14 @@ public class Languages
         {"Tuto.Jump","To jump press 'X' button"},
 
         { "Tuto.Restart","You can restart the game at any time by pressing 'Menu' and then selecting 'Restart'"},
-        {"Tuto.BigArrow","The Big rotating arrows show you the direction that enemies will come from" },
+        {"Tuto.BigArrow","The purple arrows pointing to the rocket shows where the enemy wave will come from" },
 
         {"Tuto.Move.Block","Follow the yellow arrow and push the Red Cube into the circle" },
 
-        { "Tuto.Tip","You push the big boxes around to get extra protection"},
+        { "Tuto.Tip","Waves get harder in each level"},
 
 
-        { "Tuto.Tuto","Be creative ​in defending your rocket. Place turrets behinds walls. Have fun!!"},
+        { "Tuto.Tuto","Be creative ​in defending your rocket. Place turrets behinds walls. Have fun!! Let's see how far can you get!"},
 
 
 
@@ -66,7 +66,7 @@ public class Languages
         { "Pit","Pit"},
 
         //name
-                { "Defend_Tower.Unit.Name","Tower"},
+        { "Defend_Tower.Unit.Name","Tower"},
         { "Hi_Defend_Tower.Unit.Name","High Tower"},
         { "Solar_Panel.Unit.Name","Solar Panel"},
         { "Small_Wall.Unit.Name","Small Wall"},
@@ -76,7 +76,43 @@ public class Languages
 
     };
 
-
+    static string[] EnglishQuotes = new string[] {
+        "You are awesome",
+        "Reasons why I think you are awesome: #1, You are",
+        "Live in the present",
+        "Remember you are awesome, beautiful, kind & smart",
+        "Be here now",
+        "Keep it up",
+        "Just be happy",
+        "Heal the past, live the present, dream the future",
+        "You is kind!",
+        "You is smart!",
+        "You is important!",
+        "Life is tough, but so are you",
+        "You are unique!",
+        "You are beautiful",
+        "Don't worry be happy",
+        "Now is the time",
+        "Don't forget to smile",
+        "There is always a reason to smile",
+        "Be happy",
+        "Be bright",
+        "Be you",
+        "Smile often",
+        "Always be happy",
+        "The art of life is to live in the present moment",
+        "Live now",
+        "Here & now",
+        "Be present",
+        "Think happy, be happy",
+        "Smile",
+        "Remember to be happy",
+        "Be happy and smile",
+        "Keep on smiling",
+        "Smile again",
+        "Just smile",
+        "Keep smiling"
+    };
 
 
 
@@ -152,6 +188,16 @@ public class Languages
         return "not languages selected ";
     }
 
+    public static string ReturnAQuote(int i)
+    {
+        var rand = new System.Random();
+
+        if (i < 0 || i > EnglishQuotes.Length-1)
+            return EnglishQuotes[rand.Next(0, EnglishQuotes.Length)];
+
+        return EnglishQuotes[i];
+    }
+    
     public static void SetCurrentLang(string lang)
     {
         _currentLang = lang;

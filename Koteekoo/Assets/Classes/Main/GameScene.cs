@@ -247,7 +247,16 @@ public class GameScene
 
         if (Application.loadedLevelName == "MainMenu")
         {
-            Program.GameScene.SoundManager.PlayMusic(0);
+
+            var state = PlayerPrefs.GetString("State");
+            if(state == "Pass")
+            {
+                Program.GameScene.SoundManager.PlayMusic(0);
+            }
+            else
+            {
+                Program.GameScene.SoundManager.PlayMusic(0);
+            }
             Building.ResetStatics();
             return;
         }

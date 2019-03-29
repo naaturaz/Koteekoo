@@ -237,7 +237,10 @@ public class MyText : MonoBehaviour
             //_text.text = Program.GameScene.Level;
             SetNewNumber(Program.GameScene.Player.Score);
         }
-
+        else if (name == "Quotes")
+        {
+            _text.text = Languages.ReturnAQuote(Program.GameScene.Level-2) ;
+        }
         Form();
 
         //SetReachNewNumberIfPossible();
@@ -308,10 +311,10 @@ public class MyText : MonoBehaviour
 
             SetNewNumber(finalScore);
 
-            if (_sound == null)
-            {
-                _sound = Program.GameScene.SoundManager.PlaySound(10);
-            }
+            //if (_sound == null)
+            //{
+            //    _sound = Program.GameScene.SoundManager.PlaySound(10);
+            //}
         }
         else if (name == "Final_Score_Detail")
         {

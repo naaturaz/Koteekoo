@@ -16,7 +16,6 @@ public class MenusManager : General {
         _mainMenu = GetChildCalled("MainMenu");
         _passLevelMenu = GetChildCalled("PassLevelMenu");
         _gameOverMenu = GetChildCalled("GameOverMenu");
-
     }
 
     // Update is called once per frame
@@ -36,16 +35,15 @@ public class MenusManager : General {
         if (_oldState == "GameOver")
         {
             _gameOverMenu.SetActive(true);
-
         }
         else if (_oldState == "Pass")
         {
+            //Program.GameScene.SoundManager.PlaySound(10);
             _passLevelMenu.SetActive(true);
         }
         else
         {
             _mainMenu.SetActive(true);
-
         }
     }
 
@@ -54,14 +52,11 @@ public class MenusManager : General {
         _mainMenu.SetActive(false);
         _passLevelMenu.SetActive(false);
         _gameOverMenu.SetActive(false);
-
-
     }
 
     public void ShowMainMenu()
     {
          PlayerPrefs.SetString("State", "");
-
 
         HideAll();
         _mainMenu.SetActive(true);
