@@ -151,6 +151,7 @@ public class BuildingManager : General
     {
         if (current != null && !current.WasFixed())
         {
+            current.CheckIfIsOnTuto();
             Destroy(current.gameObject);
         }
     }

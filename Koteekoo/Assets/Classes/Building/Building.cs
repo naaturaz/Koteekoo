@@ -248,6 +248,32 @@ public class Building : Shooter
             }
         }
 
+        CancellingCurrentBuilding();
+        Production();
+    }
+
+    void CheckIfThisBuildingIsPartOfATutorialStep()
+    {
+        if (Program.GameScene.TutoWindow != null)
+        {
+            if (name.Contains("Solar"))
+            {
+                Program.GameScene.TutoWindow.Next("Tuto.CancelSolar");
+            }
+            if (name.Contains("Small_Wall"))
+            {
+                Program.GameScene.TutoWindow.Next("Tuto.Cancel.SmallWall");
+            }
+        }
+    }
+
+    internal void CheckIfIsOnTuto()
+    {
+        CheckIfThisBuildingIsPartOfATutorialStep();
+    }
+
+    void CancellingCurrentBuilding()
+    {
         //Cancelling 'B' btn
         if (!_wasFixed && Program.GameScene.JoyStickManager.JoyStickController && Input.GetKeyUp(KeyCode.Joystick1Button1))
         {
@@ -255,27 +281,14 @@ public class Building : Shooter
                 { "Cancelling 'B' btn, Build Name:", _name },
             });
 
-
-            if (Program.GameScene.TutoWindow != null)
-            {
-                if (name.Contains("Solar"))
-                {
-                    Program.GameScene.TutoWindow.Next("Tuto.CancelSolar");
-                }
-                if (name.Contains("Small_Wall"))
-                {
-                    Program.GameScene.TutoWindow.Next("Tuto.Cancel.SmallWall");
-                }
-            }
+            CheckIfThisBuildingIsPartOfATutorialStep();
 
             Program.GameScene.SoundManager.PlaySound(3);
             Program.GameScene.JoyStickManager.DonePlacing();
             Destroy(gameObject);
             _lastOneOfSameTypeWasPlaced = new Vector3();
             Program.GameScene.WhileBuildingSetTo(false);
-
         }
-        Production();
     }
 
 

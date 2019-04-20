@@ -77,10 +77,7 @@ public class JoyStickManager : MonoBehaviour
         InitJoy();
 
         HideInGameBtns();
-
     }
-
-
 
     void HideInGameBtns()
     {
@@ -145,10 +142,12 @@ public class JoyStickManager : MonoBehaviour
     bool _manualStart;
     private void InitAfterStart()
     {
-        if (!_manualStart && Time.time > _resetAt + 0.2f)
+        if (!_manualStart && Time.time > _resetAt + 0.2f)//0.2f
         {
+            bool wasSelected = SelectFirstItem();
+
+            if(wasSelected)
             _manualStart = true;
-            SelectFirstItem();
         }
     }
 
@@ -253,19 +252,30 @@ public class JoyStickManager : MonoBehaviour
         _isBuilding = false;
     }
 
-    void SelectFirstItem()
+    bool SelectFirstItem()
     {
         if (_btnsOrderVertical.Count == 0)
         {
-            return;
+            return false;
         }
+
+        UnselectAllBuildingButtons();
 
         _selectedNow = 0;
         _btnsOrderVertical[_selectedNow].Activate();
+
+        return true;
+    }
+
+    void UnselectAllBuildingButtons()
+    {
+        for (int i = 0; i < _btnsOrderVertical.Count; i++)
+        {
+            _btnsOrderVertical[i].DeActivate();
+        }
     }
 
     #endregion
-
 
     #region Placing Mode
 

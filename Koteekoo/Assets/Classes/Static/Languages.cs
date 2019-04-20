@@ -10,6 +10,7 @@ public class Languages
 
     static Dictionary<string, string> _english = new Dictionary<string, string>()
     {
+        //Tutorial
         {"Tuto.Objective","The objective of the game is to ​resist all enemy waves" },
         {"Tuto.Move","The player moves using the 'Left Stick'. Now go to the green circle with the player" },
         {"Tuto.Rotate","The player rotates using the 'Right Stick'" },
@@ -19,7 +20,7 @@ public class Languages
         { "Tuto.Shoot","When an attack is happening the player will shoot automatically" },
 
         {"Tuto.Build","Pressing 'LB'​ will bring up the building menu" },
-        {"Tuto.Solar","Now​,​ in the building menu with the 'Left Stick' select 'Solar panel'. Highlight the button and then press 'A'. This building will provide you with power over time. Notice the cost and health of each unit" },
+        {"Tuto.Solar","Now​,​ in the building menu with the 'Left Stick' select 'Solar Panel'. Highlight the button and then press 'A'. This building will provide you with power over time. Notice the cost and health of each unit" },
 
         {"Tuto.Place","To place the Solar Panel move the player to the green circle. The Solar Panel will rotate along with the player" },
         {"Tuto.SetBuild","Set the Solar Panel with 'A'" },
@@ -33,7 +34,8 @@ public class Languages
 
         {"Tuto.Turret","Turrets will actively protect you and shoot enemies. They can​not shoot through walls" },
         { "Tuto.Wall","Walls: you can ​strategically place them to protect your rocket" },
-        {"Tuto.WallArdRocket","Try to create a wall around the rocket. Use only 'Small Wall' units. Put 10 of them around the rocket. Press 'LB' to show the building menu. Use the ones on screen for reference" },
+        {"Tuto.WallArdRocket","Try to create a wall around the rocket. Use only 'Small Wall' units. Put 10 of them around the rocket. Press 'LB' to show the building menu. Use the ones on screen for reference" +
+            "\n\nUse the 'Right Stick' to rotate the building"},
         {"Tuto.Cancel.SmallWall","To cancel the 'Small Wall' press 'B'" },
 
 
@@ -49,7 +51,7 @@ public class Languages
         {"Tuto.Move.Block","Follow the yellow arrow and push the Red Cube into the circle" },
 
         { "Tuto.Tip","Waves get harder in each level"},
-
+        { "Tuto.EnemyTip","As you damage enemies, they will drop energy, loot it!"},
 
         { "Tuto.Tuto","Be creative ​in defending your rocket. Place turrets behinds walls. Have fun!! Let's see how far can you get!"},
 

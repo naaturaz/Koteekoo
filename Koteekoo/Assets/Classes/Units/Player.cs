@@ -139,7 +139,7 @@ public class Player : Shooter
             Shoot();
         }
 
-        Jump();
+        //Jump();
         CheckCeiling();
 
         UnableRigidIfBuilding();

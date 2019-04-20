@@ -47,10 +47,13 @@ public class Cell
     {
         if (PlayerPrefs.GetString("Tuto") == "" && Program.GameScene.Level == 1)
         {
-            Root = "Prefab/Terrain/Cell1";
+            Root = "Prefab/Terrain/Cell7";
         }
         else
         {
+            System.Random rand = new System.Random(2);
+
+            //Root = "Prefab/Terrain/Cell" + rand.Next(1, 10);
             Root = "Prefab/Terrain/Cell" + UMath.GiveRandom(1, 10);
         }
 

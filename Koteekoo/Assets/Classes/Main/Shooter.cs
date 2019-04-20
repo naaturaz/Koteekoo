@@ -246,6 +246,14 @@ public class Shooter : General
         {
             pos += new Vector3(0, 0.6f, 0);
         }
+        else if (name.Contains("Med_Wall"))
+        {
+            pos += new Vector3(0, 0.1f, 0);
+        }
+        else if (name.Contains("Tall_Wall"))
+        {
+            pos += new Vector3(0, 0.85f, 0);
+        }
 
         HealthBar = (HealthBar)Create("Prefab/GUI/Health_Bar" + barName, pos, "H_Bar", transform);
         HealthBar.PassShooter(this);

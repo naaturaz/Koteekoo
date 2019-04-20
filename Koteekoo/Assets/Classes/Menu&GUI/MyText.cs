@@ -185,18 +185,9 @@ public class MyText : MonoBehaviour
         }
         else if (name == "Power")
         {
-            //_text.text = Program.GameScene.Player.Power + "";
+            //var powerString = ShortFormat(Program.GameScene.Player.Power);
             SetNewNumber(Program.GameScene.Player.Power);
         }
-        //else if (name == "Time_Left")
-        //{
-        //    _text.text = Program.GameScene.TimeLeft();
-
-        //    if (Program.GameScene.TimeLeft1 <= 1)
-        //    {
-        //        _text.text = "This last wave!";
-        //    }
-        //}
         else if (name == "Waves_Left")
         {
             _text.text = Program.GameScene.EnemyManager.WavesInThisLevel + " more waves";
@@ -254,16 +245,6 @@ public class MyText : MonoBehaviour
         if (name == "Form_Title")
         {
             _text.text = "";
-            //var st = PlayerPrefs.GetString("State");
-
-            //if (st == "GameOver")
-            //{
-            //    _text.text = "Game Over: " + PlayerPrefs.GetString("Reason");
-            //}
-            //else if (st == "Pass")
-            //{
-            //    _text.text = "Level " + (PlayerPrefs.GetInt("Current") - 1) + " completed";
-            //}
         }
         else if (name == "Game_Over_Title")
         {
@@ -279,7 +260,6 @@ public class MyText : MonoBehaviour
 
         else if (name == "Health")
         {
-            //_text.text = PlayerPrefs.GetInt("Health") + "";
             SetNewNumber(PlayerPrefs.GetInt("Health"));
         }
         else if (name == "GameTime")
@@ -289,17 +269,14 @@ public class MyText : MonoBehaviour
         }
         else if (name == "E_Spent")
         {
-            //_text.text = PlayerPrefs.GetInt("Spent") + "";
             SetNewNumber(PlayerPrefs.GetInt("Spent"));
         }
         else if (name == "E_Gen")
         {
-            //_text.text = PlayerPrefs.GetInt("Generated") + "";
             SetNewNumber(PlayerPrefs.GetInt("Generated"));
         }
         else if (name == "Kills")
         {
-            //_text.text = PlayerPrefs.GetInt("Enemy") + "";
             SetNewNumber(PlayerPrefs.GetInt("Enemy"));
         }
         else if (name == "Final_Score")
@@ -310,11 +287,6 @@ public class MyText : MonoBehaviour
                 + ((PlayerPrefs.GetInt("Health")) * PlayerPrefs.GetInt("Diamonds")));
 
             SetNewNumber(finalScore);
-
-            //if (_sound == null)
-            //{
-            //    _sound = Program.GameScene.SoundManager.PlaySound(10);
-            //}
         }
         else if (name == "Final_Score_Detail")
         {
@@ -358,5 +330,24 @@ public class MyText : MonoBehaviour
         {
             _multiplier = 100;
         }
+    }
+
+    private string ShortFormat(float amt)
+    {
+        if (amt < 10)
+        {
+            return (amt.ToString("n1"));
+        }
+
+        if (amt > 1000000)
+        {
+            return (int)(amt / 1000000) + "M";
+        }
+        if (amt > 1000)
+        {
+            return (int)(amt / 1000) + "K";
+        }
+
+        return (int)amt + "";
     }
 }

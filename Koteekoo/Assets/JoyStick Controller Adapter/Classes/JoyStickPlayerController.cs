@@ -30,7 +30,7 @@ public class JoyStickPlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //x axis left stick
+        //right stick
         if (Input.GetAxis("HorizontalTurn") != 0 || Input.GetAxis("VerticalTurn") != 0)
         {
             var direction = new Vector3(Input.GetAxis("HorizontalTurn"), 0, Input.GetAxis("VerticalTurn")); // set direction
@@ -41,12 +41,11 @@ public class JoyStickPlayerController : MonoBehaviour
                 return;
             }
 
-            transform.eulerAngles = new Vector3(0, Mathf.Atan2(Input.GetAxis("VerticalTurn"), Input.GetAxis("HorizontalTurn")) * 180 / Mathf.PI, 0);
+            transform.eulerAngles = new Vector3(0, Mathf.Atan2(Input.GetAxis("VerticalTurn"), Input.GetAxis("HorizontalTurn")) * 180//180
+                / Mathf.PI, 0);
             //Debug.Log("H:" + Input.GetAxis("HorizontalTurn"));
             //Debug.Log("V:" + Input.GetAxis("VerticalTurn"));
         }
-
-
 
     }
 }

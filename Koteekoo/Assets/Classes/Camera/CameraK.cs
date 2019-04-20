@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityStandardAssets.Utility;
+﻿using UnityEngine;
 
 public class CameraK : MonoBehaviour
 {
@@ -9,7 +6,7 @@ public class CameraK : MonoBehaviour
     GameObject _cam_Point_90_Degrees;
     GameObject _target;
 
-    float _speed = 3f;
+    float _speed = 6f;
 
     // Use this for initialization
     void Start()
@@ -33,12 +30,12 @@ public class CameraK : MonoBehaviour
         _target = _cam_Point_90_Degrees;
         Program.GameScene.SoundManager.PlaySound(5);
         Program.GameScene.BuildingManager.DestroyCurrentIfNoFixed();
-        _speed = 6f;
+        _speed = 7f;
     }
 
     public void Peace()
     {
         _target = _cam_Point_50_Degrees;
-        _speed = 3f;
+        _speed = 6f;
     }
 }

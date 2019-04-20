@@ -44,12 +44,13 @@ class TutoWindow : GUIElement
         { "Tuto.Cancel.SmallWall",1 },
         { "Tuto.CreatePath",0 },
         {"Tuto.Waves",0},
-        {"Tuto.Jump",0},
+        //{"Tuto.Jump",0},
         {"Tuto.Restart",0},
 
-        {"Tuto.Move.Block",1 },
+        //{"Tuto.Move.Block",1 },
         {"Tuto.BigArrow",0 },
         {"Tuto.Tip",0},
+        {"Tuto.EnemyTip",0},
         {"Tuto.Tuto",0},
 
     };
