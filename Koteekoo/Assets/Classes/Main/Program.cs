@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Microsoft.Xbox.Services;
+using Microsoft.Xbox.Services.Client;
 
 public class Program : General
 {
@@ -21,16 +23,8 @@ public class Program : General
         }
     }
 
-
-
-    private void Awake()
-    {
-
-    }
-
-
-    // Use this for initialization
-    void Start()
+// Use this for initialization
+void Start()
     {
         Application.targetFrameRate = 60;
 
